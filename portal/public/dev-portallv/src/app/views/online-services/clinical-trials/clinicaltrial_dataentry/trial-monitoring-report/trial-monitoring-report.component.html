@@ -1,0 +1,56 @@
+<form enctype="multipart/form-data" [formGroup]="clinicaltrialMonitoringReportdetailsfrm">
+<div class="row wizard-content">
+    <div class="col-lg-12">
+      <label class="col-lg-12">Describe the Safety and Monitoring Plan for each site</label>
+        <textarea (input)="adjustTextAreaHeight($event)" formControlName="safety_monitoring_plan" 
+        class="custom-textarea" placeholder="Describe the Safety and Monitoring Plan for each site"
+        ></textarea>
+    </div>
+    <div class="col-lg-12">
+        <label class="col-lg-12">Describe the system to be used to detect, record, assign causality and the actions for adverse events.</label>
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="system_used"   placeholder=" System used assign causality and the actions for adverse events" class="custom-textarea" >
+        </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Describe the actions to be taken following reports of Serious Adverse Events.</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="action_seriousadverse_event" class="custom-textarea" >
+      </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Describe the composition and remit of the Data Safety Monitoring Board or similar body.  Include conditions for Pause- or Stop- rules</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="safety_monitoring_board" class="custom-textarea" >
+      </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Describe Data Management Process</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="data_management_process" class="custom-textarea" >
+      </textarea>
+    </div>
+      <div class="col-lg-12">
+      <label class="col-lg-12">When will Interim Reports be submitted?</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="interim_report_date" class="custom-textarea" >
+      </textarea>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Final Report - Estimated due-date?</label>
+      <dx-date-box
+        [type]="'date'"
+        [formControlName]="'estimated_due_report_date'"
+       >
+      </dx-date-box>
+    </div>
+  <div class="col-lg-4 form-group" style="margin:1px;">
+
+  </div>
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>
+

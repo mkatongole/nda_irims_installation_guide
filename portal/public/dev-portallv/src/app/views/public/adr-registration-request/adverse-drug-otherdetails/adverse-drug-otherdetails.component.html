@@ -1,0 +1,965 @@
+
+  <div class="accordion" id="productInfo">
+    <div class="card">
+      <div class="card-header" id="headingR">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#medical_history"
+          aria-expanded="false" aria-controls="medical_history">
+          Medical History
+        </button>
+      </div>
+      <div id="medical_history" class="collapse" aria-labelledby="headingR" data-parent="#productInfo">
+        <div class="card-body no-padding">
+          <div class='no-padding'>
+            <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onMedicalHistoryPreparing($event)"
+              [dataSource]="medicalHistoryData" keyExpr="id">
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-search-panel [visible]="true">
+              </dxo-search-panel>
+              <dxo-paging [enabled]="true">
+              </dxo-paging>
+              <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditConcomittantDrugsDetails(data)" 
+                    type="success" icon="edit">
+                  </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteClinicalConcomittantDetails(data)" 
+                    type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+              <dxi-column dataField="relevant_history" caption="Relevant History(MedDRA)"></dxi-column>
+              <dxi-column dataField="continueing"></dxi-column>
+              <dxi-column dataField="start_date"></dxi-column>
+              <dxi-column dataField="end_date"></dxi-column>
+              <dxi-column dataField="start_date"></dxi-column>
+              <dxi-column dataField="family_history"></dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-headerdefined" id="headingM">
+
+        <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#releventa_history"
+          aria-expanded="false" aria-controls="releventa_history">
+          Drug History
+        </button>
+      </div>
+      <div id="releventa_history" class="collapse show" aria-labelledby="headingM" data-parent="#productInfo">
+        <div class="card-body no-padding">
+          <div class="no-padding">
+            <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onDrugHistoryPreparing($event)"
+              [dataSource]="drugHistoryData" keyExpr="id">
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-search-panel [visible]="true">
+              </dxo-search-panel>
+              <dxo-paging [enabled]="true">
+              </dxo-paging>
+              <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+                [allowSorting]="false" cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                  <dx-button text="Edit" (click)="funcEditRelevantHistoryDetails(data)" 
+                    type="success" icon="edit">
+                  </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeleteClinicalrelevantDetails(data)" 
+                    type="danger" icon="delete">
+                  </dx-button> 
+                </div>
+              </dxi-column>
+              <dxi-column dataField="previous_medication"></dxi-column>
+              <dxi-column dataField="previous_medication_whodrug"caption="Previous Medication(WHODrug)"></dxi-column>
+              <dxi-column dataField="indication_meddra"caption="ndication MedDRA"></dxi-column>
+              <dxi-column dataField="reaction_meddra"caption="Reaction MedDRA"></dxi-column>
+              <dxi-column dataField="start_date"></dxi-column>
+              <dxi-column dataField="end_date"></dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="card">
+    <div class="card-headerdefined" id="headingTwo">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#reaction"
+        aria-expanded="false" aria-controls="reaction">
+       Reaction
+      </button>
+    </div>
+    <div id="reaction" class="collapse show" aria-labelledby="headingTwo" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onReactionPreparing($event)"
+            [dataSource]="drugreactionData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditInvestigationsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteClinicalInvestigationsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="reaction_event_medra"caption="Reaction /Event(MedDRA)"></dxi-column>
+            <dxi-column dataField="reaction_event"></dxi-column>
+            <dxi-column dataField="onset_date"></dxi-column>
+            <dxi-column dataField="onset_time"></dxi-column>
+            <dxi-column dataField="end_date"></dxi-column>
+            <dxi-column dataField="end_time"></dxi-column>
+            <dxi-column dataField="aefi_category"caption="AEFI Category"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#drug_information"
+        aria-expanded="false" aria-controls="drug_information">
+        Drugs Information
+      </button>
+    </div>
+    <div id="drug_information" class="collapse" aria-labelledby="headingThree" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class='no-padding'>
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onDrugsPreparing($event)"
+            [dataSource]="drugInformationData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+
+            
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+            [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+              <dx-button text="Edit" (click)="funcEditSuspectedDrugsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+              <dx-button text="Delete" (click)="funcDeleteClinicalDrugDetails(data)" 
+                  type="danger" icon="delete">
+              </dx-button> 
+            </div>
+          </dxi-column>
+            <dxi-column dataField="brand_name"></dxi-column>
+            <dxi-column dataField="start_date"></dxi-column>
+            <dxi-column dataField="end_date"></dxi-column>
+            <dxi-column dataField="expiry_date"></dxi-column>
+            <dxi-column dataField="use_reasons"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-headerdefined" id="headingOne">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#test_procedure"
+        aria-expanded="false" aria-controls="test_procedure">
+        Test Procedure
+      </button>
+    </div>
+    <div id="test_procedure" class="collapse show" aria-labelledby="headingOne" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onTestPreparing($event)"
+            [dataSource]="testProcedureData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditLaboratoryTestDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteClinicalLabTestDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="tes_name_medra"caption="Test Name(MedDRA)"></dxi-column>
+            <dxi-column dataField="test_name"></dxi-column>
+            <dxi-column dataField="test_logic"caption="Test Results"></dxi-column>
+            <dxi-column dataField="test_date"></dxi-column>
+            <dxi-column dataField="result"></dxi-column>
+            <dxi-column dataField="normal_low_value"></dxi-column>
+            <dxi-column dataField="normal_high_value"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Medical History Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="medicalHistoryWinVisible">
+<div *dxTemplate="let data of 'content'">
+<dx-scroll-view>
+  <div class="col-lg-12" style="background:#fff;">
+    <form enctype="multipart/form-data" role="form" [formGroup]="medicalHistoryDetailsFrm"
+      (ngSubmit)="onsaveSuspectedDrugDetails()">
+      <div class="row">
+
+        <div class="col-lg-12">
+          <label class="control-label">Relevant History(MedDRA)</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="relevant_history"  
+            placeholder="Relevant History(MedDRA)" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Continuing</label>
+          <dx-select-box  [dataSource]="confirmationData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="continueing_id">
+          </dx-select-box> 
+        </div> 
+        <div class="col-lg-6">
+          <label class="control-label">Family history</label>
+          <dx-select-box  [dataSource]="confirmationData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="is_family_history_id">
+          </dx-select-box> 
+        </div> 
+        <div class="col-lg-6">
+            <label class="control-label">Start date</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="start_date">
+            </dx-date-box>
+          </div>      
+          <div class="col-lg-6">
+            <label class="control-label">End date</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="end_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Medical comments</label>
+             <textarea  (input)="adjustTextAreaHeight($event)" formControlName="remark"   placeholder="Medical comments" class="custom-textarea" >
+            </textarea>
+          </div>
+        <div class=" col-md-12 col-lg-12 col-xl-12">
+
+            <input type="hidden"  formControlName="id"/>
+        </div>
+        <div class="col-lg-12 btn-margin-5">
+           <button type="submit" (submit)="onsaveSuspectedDrugDetails()" [disabled]="!medicalHistoryDetailsFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+ <dx-popup class="popup" [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Drug History Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDrugHistoryWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="drugHistorydetailsfrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeLaboratoryDetails()">
+      <div class="row" style="background: #fff;">
+
+        <div class="col-lg-12">
+          <label class="control-label">Previous Medication</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="previous_medication"  
+            placeholder="Previous Medication" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Previous Medication(WHODrug)</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="previous_medication_whodrug"  
+            placeholder="Previous Medication(WHODrug)" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Indication MedDRA</label>
+          <dx-text-box 
+            formControlName="indication_meddra"
+            placeholder="Indication MedDRA" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Reaction MedDRA</label>
+          <dx-text-box 
+            formControlName="reaction_meddra"
+            placeholder="Reaction MedDRA" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+            <label class="control-label">Start date</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="start_date">
+            </dx-date-box>
+          </div>      
+          <div class="col-lg-6">
+            <label class="control-label">End date</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="end_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeLaboratoryDetails()" 
+            [disabled]="!drugHistorydetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Reactions Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isReactionDrugWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="drugReactiondetailsfrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeInvestigationsDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-12">
+          <label class="control-label">Reaction /Event(MedDRA)</label>
+          <dx-text-box 
+            formControlName="reaction_event_medra"
+            placeholder="Reaction /Event(MedDRA)" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Reaction / event as reported by initial reporter</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="reaction_event"  
+            placeholder="Reaction / event as reported by initial reporter" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Onset date</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="onset_date">
+          </dx-date-box>
+          </div>
+        <div class="col-lg-6">
+          <label class="control-label">Onset Time</label>
+          <dx-date-box
+            [value]="now"
+            formControlName="onset_time"
+            type="time"
+            [inputAttr]="{ 'aria-label': 'Time' }"
+          >
+          </dx-date-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">End date</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="end_date">
+          </dx-date-box>
+          </div>
+        <div class="col-lg-16">
+          <label class="control-label">Time</label>
+          <dx-date-box
+            [value]="now"
+            formControlName="end_time"
+            type="time"
+            [inputAttr]="{ 'aria-label': 'Time' }"
+          >
+          </dx-date-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Outcome</label>
+          <dx-select-box  [dataSource]="outcomeData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="adr_outcome_id">
+          </dx-select-box> 
+        </div> 
+        <div class="col-lg-6">
+          <label class="control-label">Medical confirmation by healthcare professional</label>
+          <dx-select-box  [dataSource]="confirmationData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="confirmation_by_healthcare_id">
+          </dx-select-box> 
+        </div>
+       <div class="col-lg-6">
+          <label class="control-label">Serious</label>
+          <dx-select-box  [dataSource]="confirmationData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" (onValueChanged)="onSeriousness($event)" formControlName="is_serious_id">
+          </dx-select-box> 
+        </div>
+        <div class="col-lg-6">
+            <label class="control-label">Seriousness</label>
+            <dx-tag-box
+                [items]="medicalConfirmationData"
+                formControlName="seriousness_id"
+                placeholder="Seriousness"
+                valueExpr="id"
+                [readOnly]="is_readOnly"
+                [showSelectionControls]="true"
+                applyValueMode="useButtons"
+                displayExpr="name">
+            </dx-tag-box>
+    
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">AEFI category</label>
+          <dx-select-box  [dataSource]="aefiCategoryData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="aefi_category_id">
+          </dx-select-box> 
+        </div>
+
+        <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeInvestigationsDetails()" 
+            [disabled]="!drugReactiondetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+ 
+
+  <dx-popup class="popup" [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Drug Information Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDrugInformationWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="isdrugInformationdetailsfrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeInvestigationsDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-6">
+          <label class="control-label">Report Category</label>
+          <dx-select-box  [dataSource]="reportCategoryData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="report_category_id">
+          </dx-select-box> 
+        </div> 
+        <div class="col-lg-6">
+          <label class="control-label">Report type</label>
+          <dx-select-box  
+            [dataSource]="reportTypeData" valueExpr="id"
+            displayExpr="name" placeholder="Report type"
+            [searchEnabled]="true" formControlName="report_type_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Drug Role</label>
+          <dx-select-box  
+            [dataSource]="drugRoleData" valueExpr="id"
+            displayExpr="name" placeholder="Drug Role"
+            [searchEnabled]="true" formControlName="drug_role_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Drug Name (WHODrug)</label>
+          <dx-text-box 
+            formControlName="who_drug_name"
+            placeholder="Drug Name (WHODrug)" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Drug Name as Reported</label>
+          <dx-text-box 
+            formControlName="brand_name"
+            placeholder="Drug Name as Reported" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">MAH</label>
+          <dx-text-box 
+            formControlName="mah_holder"
+            placeholder="MAH" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Strength</label>
+          <dx-text-box 
+            formControlName="strength"
+            placeholder="e.g., 125mg/250mg | 30%/70%" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Indication</label>
+          <dx-text-box 
+            formControlName="indication"
+            placeholder="Indication" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Suspected Ingredient</label>
+          <dx-select-box  
+            [dataSource]="suspectedIngredientData" valueExpr="id"
+            displayExpr="name" placeholder="Suspected Ingredient"
+            [searchEnabled]="true" formControlName="suspected_ingredient_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">When did you start taking/using the medicine/vaccine/device?</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="start_date">
+          </dx-date-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">When did you stop taking/using the medicine/vaccine/device?</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="end_date">
+          </dx-date-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Expiry date of the medicine/vaccine/device</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="expiry_date">
+          </dx-date-box>
+        </div>
+          <div class="col-lg-12">
+            <label class="control-label">Manufacturer(Name and Any Other details)</label>
+             <textarea  (input)="adjustTextAreaHeight($event)" formControlName="manufacturer_name"   placeholder="Manufacturer(Name and Any Other details)" class="custom-textarea" >
+            </textarea>
+          </div>
+
+       <div class="col-lg-12">
+          <label class="control-label">Reason for Use</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="use_reasons"  
+            placeholder="Reason for Use" class="custom-textarea">
+          </textarea>
+        </div>
+       <div class="col-lg-12">
+          <label class="control-label">Comments / Any other Additions</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="remarks"  
+            placeholder="Comments / Any other Additions" class="custom-textarea">
+          </textarea>
+        </div>
+
+        <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeInvestigationsDetails()" 
+            [disabled]="!isdrugInformationdetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Test Procedure" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isTestProcedureWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="testProcedurefrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeInvestigationsDetails()">
+      <div class="row" style="background: #fff;">
+       <div class="col-lg-6">
+          <label class="control-label">Test date</label>
+          <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="test_date">
+          </dx-date-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Test Name(MedDRA)</label>
+          <dx-text-box 
+            formControlName="tes_name_medra"
+            placeholder="Test Name(MedDRA)" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Test Name</label>
+          <dx-text-box 
+            formControlName="test_name"
+            placeholder="Test Name" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+
+        <div class="col-lg-6">
+          <label class="control-label">Test result</label>
+          <dx-select-box  [dataSource]="testResultData" valueExpr="id" displayExpr="name" 
+             [searchEnabled]="true" formControlName="test_logic_id">
+          </dx-select-box> 
+        </div> 
+
+        <div class="col-lg-6">
+          <label class="control-label">No of Test</label>
+          <dx-number-box 
+            formControlName="no_of_tests"
+            placeholder="No of Test" [showClearButton]="true">
+          </dx-number-box >
+        </div>
+
+        <div class="col-lg-6">
+          <label class="control-label">SI Unit</label>
+          <dx-select-box  
+            [dataSource]="siUnitData" valueExpr="id"
+            displayExpr="name" placeholder="SI Unit"
+            [searchEnabled]="true" formControlName="test_si_unit_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Test result (code)</label>
+          <dx-select-box  
+            [dataSource]="testResultCodeData" valueExpr="id"
+            displayExpr="name" placeholder="Test result (code)"
+            [searchEnabled]="true" formControlName="test_result_code_id">
+          </dx-select-box>
+        </div>
+       <div class="col-lg-12">
+          <label class="control-label">Result</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="result"  
+            placeholder="Result" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Normal low value</label>
+          <dx-number-box 
+            formControlName="normal_low_value"
+            placeholder="Normal low value" [showClearButton]="true">
+          </dx-number-box >
+        </div>
+       <div class="col-lg-6">
+           <label class="control-label">SI Unit</label>
+              <dx-select-box  
+                [dataSource]="siUnitData" valueExpr="id"
+                displayExpr="name" placeholder="SI Unit"
+                [searchEnabled]="true" formControlName="lowvalue_si_unit_id">
+              </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Normal High value</label>
+          <dx-number-box 
+            formControlName="normal_high_value"
+            placeholder="Normal High value" [showClearButton]="true">
+          </dx-number-box >
+        </div>
+       <div class="col-lg-6">
+           <label class="control-label">SI Unit</label>
+              <dx-select-box  
+                [dataSource]="siUnitData" valueExpr="id"
+                displayExpr="name" placeholder="SI Unit"
+                [searchEnabled]="true" formControlName="highvalue_si_unit_id">
+              </dx-select-box>
+        </div>
+
+       <div class="col-lg-12">
+            <label class="control-label">Comments by initial reporter</label>
+            <textarea  (input)="adjustTextAreaHeight($event)" formControlName="remarks"  
+              placeholder="Comments by initial reporter" class="custom-textarea">
+            </textarea>
+          </div>
+        <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeInvestigationsDetails()" 
+            [disabled]="!testProcedurefrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(40)" [height]="450" [showTitle]="true" title="preview Registered Products"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationsDetails">
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+  <dx-scroll-view>
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [columnHidingEnabled]="false"  [dataSource]="registeredProductsData" keyExpr="id" >
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+  
+      <dxo-export [enabled]="true" fileName="registeredProducts" [allowExportSelectedData]="true"></dxo-export>
+  
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]=100 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-menu [items]="contextMenu" displayExpr="text" orientation="horizontal" [hideSubmenuOnMouseLeave]="false"
+            (onItemClick)="prodApplicationActionColClick($event,d)" submenuDirection="rightToTop">
+          </dx-menu>
+        </div>
+      </dxi-column>
+
+      <dxi-column  [groupIndex]="0"  dataField="section_name" caption="Product Category/Type"></dxi-column>
+      <dxi-column dataField="brand_name"></dxi-column>
+      <dxi-column dataField="common_name"></dxi-column>
+      <dxi-column dataField="classification_name"></dxi-column>
+      <dxi-column dataField="certificate_no"></dxi-column>
+      <dxi-column dataField="expiry_date"></dxi-column>
+      <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+      <dxi-column dataField="local_agent" caption="Local Agent"></dxi-column>
+      <dxi-column dataField="registration_status" caption="Registration Status"></dxi-column>
+      <dxi-column dataField="validity_status" caption="Validity Status"></dxi-column>
+    
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+  </dx-scroll-view>
+</div>
+
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Registered Product Applications" [dragEnabled]="false"
+[closeOnOutsideClick]="false" [(visible)]="isRegisteredProductsWinshow">
+<div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" [remoteOperations]='true' [dataSource]="registeredProductsData" keyExpr="id" >
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+
+        <dxo-export [enabled]="true" fileName="registeredProducts" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+           
+            <dx-button
+            text="Select"
+            type="success"
+            icon="fa fa-edit"  [disabled]="isReadOnly"
+            [elementAttr]="{  class: 'pull-left' }"
+            (onClick)="funSelectRegisteredProdcustsApp(data)">
+        </dx-button>
+
+          </div>
+      </dxi-column>
+        <dxi-column dataField="brand_name"></dxi-column>
+        <dxi-column dataField="common_name"></dxi-column>
+        <dxi-column dataField="classification_name"></dxi-column>
+        <dxi-column dataField="certificate_no"></dxi-column>
+        <dxi-column dataField="expiry_date"></dxi-column>
+        <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+        <dxi-column dataField="local_agent"></dxi-column>
+        
+      <dxo-paging [pageSize]="50"></dxo-paging>
+      </dx-data-grid>
+    </dx-scroll-view>
+</div>
+</dx-popup>
+
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Manufacturing Site Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufacturerSitePopupVisible">
+<div *dxTemplate="let data of 'content'">
+<dx-scroll-view>
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"   (onToolbarPreparing)="onManufacturerPreparing($event)" [dataSource]="manufacturersSiteData" [remoteOperations]='true'   keyExpr="id">
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-search-panel [visible]="true">
+              </dxo-search-panel>
+              <dxo-paging [enabled]="true">
+              </dxo-paging>
+              <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                  <div *dxTemplate="let data of 'cellTemplate'">
+                              
+                      <dx-button
+                      text="Select Manufacturer"
+                      type="success"
+                      icon="fa fa-edit"  [disabled]="isReadOnly"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (click)="funcSelectManufacturer(data)">
+                  </dx-button>
+                  </div>
+              </dxi-column>
+              <dxi-column dataField="manufacturer_name"></dxi-column>
+              <dxi-column dataField="country"></dxi-column>
+              <dxi-column dataField="region"></dxi-column>
+              <dxi-column dataField="district"></dxi-column>
+              <dxi-column dataField="physical_address"></dxi-column>
+              <dxi-column dataField="postal_address"></dxi-column>
+              <dxi-column dataField="email_address"></dxi-column>
+            
+              
+          <dxo-paging [pageSize]="50"></dxo-paging>
+    </dx-data-grid>
+  </dx-scroll-view>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(65)" [height]=620 [showTitle]="true" title="New Manufacturer" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="isnewmanufacturerModalShow">
+
+<div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <div class="col-lg-12">
+        <form enctype="multipart/form-data" role="form" [formGroup]="manufacturerFrm" (ngSubmit)="onAddManufacturerDetails()">
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+                    <label class="control-label">Manufacturer Site Name</label>
+                    <dx-text-box formControlName="name">
+                    </dx-text-box>
+
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label class="control-label">Country</label>
+
+                    <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                    </dx-select-box>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="ti" class="control-label">Region/City</label>
+
+                    <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                    </dx-select-box>
+
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="ti" class="control-label">District(Optional)</label>
+
+                    <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id">
+                    </dx-select-box>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="ti" class="control-label">Email Address</label>
+                    <dx-text-box formControlName="email_address" placeholder="Email Address">
+                    </dx-text-box>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="ti" class="control-label">Postal Address</label>
+                    <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+                    </dx-text-box>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="ti" class="control-label">Telephone No</label>
+
+                    <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+                    </dx-text-box>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                    <label class="control-label col-lg-12">Mobile No</label>
+
+                    <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+                    </dx-text-box>
+                </div>
+                <div class="col-lg-12">
+                  <label class="control-label">Physical Address</label>
+
+                  <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+                  </dx-text-area>
+              </div>
+                <div class="col-lg-12 btn-margin-5">
+                    <br />
+                    <button type="submit" (submit)="onAddManufacturerDetails()" [disabled]="!manufacturerFrm.valid" class="btn btn-primary"><i
+                      class="fa fa-user"></i> Save Manufacturer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="500" [showTitle]="true" title="Add Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductCommonNameModal">
+
+  <div *dxTemplate="let data of 'content'" >
+        <form [formGroup]="addProductParamsdetailsfrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericDetails()">
+            <div class="col-lg-12">
+              <label class="control-label">Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+            <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+            <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+
+            <div class="col-lg-12">
+                <dx-button
+                    text="Save Details"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveNewGenericDetails()">
+                </dx-button>
+              </div>
+          </form>
+  </div>
+</dx-popup>
+
+
+
+
+<dx-popup class="popup" [width]="funcpopWidth(60)" [height]="500" [showTitle]="true" title="Investigations Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isInvestigationalWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="investigationsdetailsfrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeInvestigationsDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Investigations (Imaging, ECG, etc)</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="investigations"  
+            placeholder="Investigations (Imaging, ECG, etc)" class="custom-textarea">
+          </textarea>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Results (comment on normalcy)</label>
+           <textarea  (input)="adjustTextAreaHeight($event)" formControlName="results"  
+            placeholder="Results (comment on normalcy)"class="custom-textarea">
+          </textarea>
+        </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeInvestigationsDetails()" 
+            [disabled]="!investigationsdetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+
+
+
+
+
+
+
+
+

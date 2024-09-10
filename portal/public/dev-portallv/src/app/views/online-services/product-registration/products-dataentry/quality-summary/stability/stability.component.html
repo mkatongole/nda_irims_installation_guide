@@ -1,0 +1,262 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="heading33">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#stability_summary"
+        aria-expanded="false" aria-controls="stability_summary">
+       2.3.S.7.1 Stability Summary and Conclusions (name, manufacturer)
+      </button>
+    </div>
+    <div id="stability_summary" class="collapse show" aria-labelledby="heading33" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onStabilitySummaryPreparing($event)"
+            [dataSource]="stabilitySummaryData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="longterm_testing_parameter"></dxi-column>
+            <dxi-column dataField="summry_stress_testing"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading34">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#post_approval"
+        aria-expanded="false" aria-controls="post_approval">
+    2.3.S.7.2 Post-approval Stability Protocol and Stability Commitment (name, manufacturer)    
+    </button>
+    </div>
+    <div id="post_approval" class="collapse" aria-labelledby="heading34" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onPostApprovalStabilityPreparing($event)"
+            [dataSource]="postApprovalStabilityData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="protocol_primary_batches"></dxi-column>
+            <dxi-column dataField="protocol_commitment_batches"></dxi-column>
+            <dxi-column dataField="protocol_ongoing_batches"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading09">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#stability_data"
+        aria-expanded="false" aria-controls="stability_data">
+    2.3.S.7.3 Stability Data (name, manufacturer) 
+    </button>
+    </div>
+    <div id="stability_data" class="collapse" aria-labelledby="heading09" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onStabilityDataPreparing($event)"
+            [dataSource]="StabilityDta" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="summary_analytical_procedure"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Stability Summary and Conclusions (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isStabilitySummaryWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="stabilitySummaryDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveStabilitySummaryDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a)  Summary of stress testing (e.g. heat, humidity, oxidation, photolysis, acid/base): and results: </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="summry_stress_testing"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Summary of accelerated and long-term testing parameters (e.g. studies conducted): 
+            </label>
+            <dx-html-editor height="250"  formControlName="longterm_testing_parameter">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveStabilitySummaryDetails()" 
+            [disabled]="!stabilitySummaryDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Post-approval Stability Protocol and Stability Commitment (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isPostApprovalWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="postApprovalDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSavePostApprovalStabilityDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Stability protocol for Primary stability batches (e.g. storage conditions (including tolerances), batch numbers and batch sizes, tests and acceptance criteria, testing frequency, container closure system(s)):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="protocol_primary_batches"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Stability protocol for Commitment batches (e.g. storage conditions (including tolerances), batch numbers (if known) and batch sizes, tests and acceptance criteria, testing frequency, container closure system(s)):  </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="protocol_commitment_batches"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(c)  Stability protocol for Ongoing batches (e.g. storage conditions (including tolerances), batch sizes and annual allocation, tests and acceptance criteria, testing frequency, container closure system(s)):  </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="protocol_ongoing_batches"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSavePostApprovalStabilityDetails()" 
+            [disabled]="!postApprovalDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Stability Data" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isStabilityDataWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="stabilitydataDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveStabilityDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a)The actual stability results should be provided in Module 3.</label>
+            <textarea  [readOnly]="true" (input)="adjustTextAreaHeight($event)"formControlName="module_3"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Summary of analytical procedures and validation information for those procedures not previously summarized in 2.3.S.4 (e.g. analytical procedures used only for stability studies):   </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="summary_analytical_procedure"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveStabilityDetails()" 
+            [disabled]="!stabilitydataDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+

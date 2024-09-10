@@ -1,0 +1,137 @@
+<div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">{{title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active"> {{process_title}}</li>
+  
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  
+  <div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+    <div class="row">
+      <div class="col-lg-3">
+        <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+          Tracking No: <i> {{tracking_no}}</i> </label>
+      </div>
+      <div class="col-lg-2">
+        <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+          Status:<i> {{status_name}}</i> </label>
+      </div>
+  
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 div-nopadding">
+
+      <div *ngIf="status_id !== 8 && status_id !== 6   && status_id !== 14">
+        <wizard style="background: #fff !important; height: 100% !important;">
+          <wizard-step stepTitle="Application Details" class="wizardStep-height"navigationSymbol="1">
+            <app-adverse-drug-details 
+            [sub_module_id] ="sub_module_id"
+            [module_id] ="module_id"  
+            [application_code] ="application_code" 
+            [section_id] ="section_id"  
+            [reg_clinical_trial_id] ="reg_clinical_trial_id"
+            [regions] ="regions" 
+            [countries] ="countries"
+            [districts] ="districts" 
+            [is_readonly] ="is_readonly"
+            (docClinicalSectionsEvent)="doc_section_id=$event"
+            >
+            </app-adverse-drug-details>
+            <div class="col-lg-12 div-footer">
+              
+              <button class="btn btn-primary pull-right" style="margin:5px;" 
+              nextStep type="button"><i class="fa fa-angle-double-right"></i>
+                &nbsp;Next</button>
+              <dx-button
+                  text="Save Application && Next Step"
+                  type="default"
+                  icon="fa fa-save"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onSavedApplication()">
+              </dx-button>
+
+          </div>
+          </wizard-step>
+          <wizard-step stepTitle="Reporting Details" class="wizardStep-height"navigationSymbol="2">
+              <app-adverse-drug-otherdetails 
+              [clinicalSitesDetailsData] ="clinicalSitesDetailsData"
+              [sub_module_id] ="sub_module_id"  
+              [module_id] ="module_id" 
+              [application_code] ="application_code"  
+              [commonNameData] ="commonNameData"
+              [dosageFormData] ="dosageFormData" 
+              [siUnitsData] ="siUnitsData"
+              [clinicalProductCategoryData] ="clinicalProductCategoryData" 
+              [manufacturersData] ="manufacturersData"
+              (routeOfAdminData)="routeOfAdminData"
+              [application_id] ="application_id" 
+              [investigatorCategoryData] ="investigatorCategoryData"
+              >
+              </app-adverse-drug-otherdetails>
+             <div class="col-lg-12 div-footer">
+      
+              <button class="btn btn-primary pull-right" style="margin:5px;" 
+              nextStep type="button"><i class="fa fa-angle-double-right"></i>
+                &nbsp;Next Documents</button>
+
+          </div>
+          </wizard-step>
+
+            <wizard-step stepTitle="Supporting Documents" class="wizardStep-height navigable" navigationSymbol="3">
+                <div class="row wizard-content">
+                  <app-publicapp-documents
+                    [sub_module_id] ="sub_module_id"  
+                    [module_id] ="module_id" 
+                    [application_code] ="application_code"  
+                    [query_ref_id] ="query_ref_id"
+                    [premise_type_id] ="premise_type_id" 
+                    [prodclass_category_id] ="prodclass_category_id"
+                    [document_type_id] ="document_type_id" 
+              >
+                </app-publicapp-documents>
+                </div>
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                  <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Previous
+                   </button>
+                  <button class="btn btn-primary pull-right" style="margin:5px;" 
+                  nextStep type="button"><i class="fa fa-angle-double-right"></i>
+                  &nbsp;Next</button>
+                </div>             
+          </wizard-step>
+          <wizard-step stepTitle="Completion & Submission">
+           <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProductApplicationSubmit()">
+              <div class="col-lg-12">
+                <b><label>Declaration and Disclaimer</label></b>
+                <ul>
+                </ul>
+              </div>  
+              <div class="col-lg-12">
+                <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newProductTermscheckbox($event)">
+                </dx-check-box>
+              </div>
+                    
+              <div class="wizard-divbottom">
+                <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                             
+                <button class="btn btn-primary" type="button" [disabled]="!checkProductsSubmission" (click)="onProductApplicationSubmit()">Submit Application</button>
+              </div>
+            </form>
+          </wizard-step>
+        </wizard>
+  
+      </div>
+    </div>
+  </div>
+  
+
+
+
+  
+ 
+ 
+

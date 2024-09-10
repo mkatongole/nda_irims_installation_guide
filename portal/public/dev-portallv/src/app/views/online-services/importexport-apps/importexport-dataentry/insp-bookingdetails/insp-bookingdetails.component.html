@@ -1,0 +1,374 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="applicationGeneraldetailsfrm" >
+  <div class="row  wizard-content wizard-contentfieldset">
+    <fieldset  class="row  col-lg-12">
+      <legend class="contentfieldset">Application Details</legend>
+      <div class="col-lg-4">
+        <label>Declaration Type</label>
+        <dx-select-box [dataSource]="productappTypeDta" valueExpr="id" 
+          displayExpr="name" [searchEnabled]="true" [readOnly]="true"
+          placeholder="Select Licence Application Type"
+          formControlName="td_application_type_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Shipment Category</label>
+        <dx-select-box [dataSource]="shipmentCategoryData" valueExpr="id" 
+          displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Shipment Category"[readOnly]="true"
+          formControlName="shipment_category_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Shipment Mode</label>
+        <dx-select-box [dataSource]="modeOfTransportData" [readOnly]= "true"
+          valueExpr="id" displayExpr="name"
+          placeholder="Select Mode of Transport" (onSelectionChanged)="onShipmentSelect($event)" [searchEnabled]="true" formControlName="mode_oftransport_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Location of Goods</label>
+        <dx-text-box formControlName="goods_location"[readOnly]="true" placeholder="Location of Goods" [readOnly]="true"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4" >
+        <label >Expected Date of Arrival/Depature</label> 
+        <dx-date-box dateSerializationFormat="yyyy-MM-dd'T'HH:mm:ssZ" formControlName="shipment_date" [readOnly]="true"placeholder="Date">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Custom Declaration Number</label>
+        <dx-text-box formControlName="custom_declaration_no" placeholder="Custom Clearance Number"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4 input-group">
+        <div class="col-lg-8">
+          <label class="control-label">Clearing Agent</label>
+          <dx-text-box  formControlName="agent_name" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+            <input type="hidden" readOnly=true name="clearing_agent_id" formControlName="clearing_agent_id" />
+        </div>
+        <div class="col-lg-4">
+          <dx-button 
+            [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:32px  
+              !important;"  text="Search Agent" type="default" (onClick)="onsearchClearingAgent()">
+            <i class="fa fa-search"></i>Search
+          </dx-button>
+      </div> 
+    </div>
+    <div class="col-lg-4">
+      <label>Proposed Inspection Date</label>
+      <dx-date-box
+        dateSerializationFormat="yyyy-MM-dd"
+        formControlName="proposed_inspection_date"
+        placeholder="Proposed Inspection Date"
+        [showClearButton]="true"
+        [disabledDates]="disableSundays"
+      >
+      </dx-date-box>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="control-label">Proposed Inspection Time Slot</label>
+      <dx-date-box
+        [type]="'time'"
+        [(value)]="selectedMeetingTime"
+        (onValueChanged)="validateMeetingTime($event)"
+        [formControlName]="'proposed_inspection_time'"
+        [showClearButton]="true"
+        [pickerType]="'rollers'"
+        [displayFormat]="'shortTime'"
+      >
+      </dx-date-box>
+      <div *ngIf="isInvalidMeetingTime" class="warning-message">
+        Meeting time must be between 9:00 AM and 5:00 PM.
+      </div>
+    </div>
+    <div class="col-lg-4 input-group">
+        <div class="col-lg-8">
+          <label class="control-label">Consignee</label>
+          <dx-text-box  formControlName="consignee_name" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+            <input type="hidden" readOnly=true name="consignee_id" formControlName="consignee_id" />
+        </div>
+        <div class="col-lg-4">
+          <dx-button [disabled]="true" 
+            [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:32px  
+            !important;"  text="Search Consignee Person" type="default" (onClick)="onsearchConsignee()">
+            <i class="fa fa-search"></i>Search
+          </dx-button>
+        </div> 
+      </div>
+
+    <div class="col-lg-4">
+      <label>Technical Declaration No.</label>
+      <dx-text-box formControlName="technical_declaration_no"[readOnly]="true" 
+        placeholder="Technical Declaration No." [readOnly]="true"
+        [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label>Technical Declaration Submission Date</label>
+      <dx-date-box dateSerializationFormat = "yyyy-MM-dd"  formControlName="submission_date" placeholder="Shipment Date" [showClearButton]="true" [readOnly]="true">
+      </dx-date-box>
+    </div>
+
+    <div class="col-lg-4">
+      <label>Exit Date </label>
+      <dx-date-box dateSerializationFormat = "yyyy-MM-dd"  formControlName="exit_date" placeholder="Exit Date " [showClearButton]="true" [readOnly]="true">
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+        <label>Consignment Status</label>
+        <dx-select-box [dataSource]="ConsignmentStatusData" [readOnly]= "true"
+          valueExpr="id" displayExpr="name"
+          placeholder="Consignment Status"  [searchEnabled]="true" formControlName="consignment_status_id">
+        </dx-select-box>
+      </div>
+    </fieldset>
+    <div class="col-lg-12">
+      <input type="hidden" value={{module_id}} formControlName="module_id" />
+      
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+    </div>
+  </div>
+  </form>
+  <!-- pop ups -->
+  
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Clearing Agent Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isclearingAgentSearchWinVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [height]="500"  (onToolbarPreparing)="onClearingAgentPreparing($event)" [wordWrapEnabled]="true"  [remoteOperations]='true'
+      [dataSource]="clearingAentData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+        
+            <dx-button text="Select Details" (click)="funcSelectClearingAgent(data)"
+          type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+        </div>
+      </dxi-column>
+      <dxi-column dataField="name"></dxi-column>
+      <dxi-column dataField="country"></dxi-column>
+      <dxi-column dataField="tin_no"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column dataField="email_address"></dxi-column>
+      <dxi-column dataField="telephone_no"></dxi-column>
+    
+      <dxo-paging [pageSize]="50"></dxo-paging> 
+    </dx-data-grid>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" 
+title="Clearing Agent Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isclearingAgentAddWinVisible">
+  <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+    <div class="col-lg-12">
+    
+      <form enctype="multipart/form-data" role="form" [formGroup]="permitClearingAgentFrm"
+        (ngSubmit)="onsaveimportClearingAgent()">
+
+        <div class="row">
+
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+
+            <label class="control-label">Name</label>
+            <dx-text-box formControlName="name">
+            </dx-text-box>
+
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label class="control-label">Country</label>
+
+            <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+              (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">Province/Region/City</label>
+
+            <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+              (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+            </dx-select-box>
+
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">District(Optional)</label>
+
+            <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+              [searchEnabled]="true" formControlName="district_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">Email Address</label>
+            <dx-text-box formControlName="email_address" placeholder="Email Address">
+            </dx-text-box>
+          </div>
+
+
+      <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+        <label for="ti" class="control-label">Telephone No</label>
+
+        <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Physical Address</label>
+        <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+            </dx-text-area>
+          </div>
+
+          <div class="col-lg-12 btn-margin-5">
+            <br />
+            <button type="submit" (submit)="onsaveimportClearingAgent()" [disabled]="!permitClearingAgentFrm.valid"
+              class="btn btn-primary"><i class="fa fa-user"></i> Save  Details</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="{{consignee_sendertitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isconsigneeSearchWinVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [height]="500"  (onToolbarPreparing)="onsenderreceivePreparing($event)" [wordWrapEnabled]="true"  [remoteOperations]='true'
+      [dataSource]="consigneeReceiverData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+        
+            <dx-button text="Select {{consignor_title}} Details" (click)="funcSelectReceiverSender(data)"
+          type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+        </div>
+      </dxi-column>
+      <dxi-column dataField="name"></dxi-column>
+      <dxi-column dataField="country"></dxi-column>
+      <dxi-column dataField="tin_no"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column dataField="email_address"></dxi-column>
+      <dxi-column dataField="telephone_no"></dxi-column>
+    
+      <dxo-paging [pageSize]="50"></dxo-paging> 
+    </dx-data-grid>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{consignee_sendertitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issenderreceiverAddWinVisible">
+  <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+    <div class="col-lg-12">
+    
+      <form enctype="multipart/form-data" role="form" [formGroup]="permitReceiverSenderFrm"
+        (ngSubmit)="onsavePermitReceiverSender()">
+
+        <div class="row">
+
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+
+            <label class="control-label">Name</label>
+            <dx-text-box formControlName="name">
+            </dx-text-box>
+
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label class="control-label">Country</label>
+
+            <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+              (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">Province/Region/City</label>
+
+            <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+              (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+            </dx-select-box>
+
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">District(Optional)</label>
+
+            <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+              [searchEnabled]="true" formControlName="district_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">Email Address</label>
+            <dx-text-box formControlName="email_address" placeholder="Email Address">
+            </dx-text-box>
+          </div>
+
+          <!-- <div class="col-lg-4" *ngIf="has_registred_outlet">
+        <label>Validity Period</label>
+        <dx-date-box  formControlName="validity_period">
+        </dx-date-box>
+      </div> -->
+
+      <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+        <label for="ti" class="control-label">Telephone No</label>
+
+        <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+        </dx-text-box>
+      </div>
+
+          <div class="col-xs-12 col-md-5 col-lg-12 col-xl-5 ">
+            <label  class="control-label">Validity Period</label>
+            <dx-date-box dateSerializationFormat = "yyyy-MM-dd" [max]="maxDate" formControlName="validity_period" placeholder="Validity Period" [showClearButton]="true">
+            </dx-date-box>
+          </div>
+        
+         
+          
+          <div class="col-lg-12">
+            <label class="control-label">Physical Address</label>
+
+            <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+            </dx-text-area>
+          </div>
+
+          
+       
+          <div class="col-lg-12 btn-margin-5">
+            <br />
+            <button type="submit" (submit)="onsavePermitReceiverSender()" [disabled]="!permitReceiverSenderFrm.valid"
+              class="btn btn-primary"><i class="fa fa-user"></i> Save {{consignee_sendertitle}} Details</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>

@@ -1,0 +1,446 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="headingY">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#excipient_control"
+        aria-expanded="false" aria-controls="excipient_control">
+        2.3.P.4.1 Specifications  
+      </button>
+    </div>
+    <div id="excipient_control" class="collapse show" aria-labelledby="headingY" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onExcipientControl($event)"
+            [dataSource]="excipientControlData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="specifications_summary"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingNM">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#analysis"
+        aria-expanded="false" aria-controls="analysis">
+        2.3.P.4.2 Analytical Procedures       
+      </button>
+    </div>
+    <div id="analysis" class="collapse" aria-labelledby="headingNM" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onAnalyticalPreparing($event)"
+            [dataSource]="analyticsData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="analytical_procedure"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-header" id="headingG">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#validation_procedure"
+        aria-expanded="false" aria-controls="validation_procedure">
+        2.3.P.4.3 Validation of Analytical Procedures       
+    </button>
+    </div>
+    <div id="validation_procedure" class="collapse" aria-labelledby="headingG" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onValidationPreparing($event)"
+            [dataSource]="validityData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="validation_analytical_procedures"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-header" id="headingv">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#justification"
+        aria-expanded="false" aria-controls="justification">
+        2.3.P.4.4 Justification of Specifications      
+     </button>
+    </div>
+    <div id="justification" class="collapse" aria-labelledby="headingv" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onJustificationPreparing($event)"
+            [dataSource]="justSpecificData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="justification_test"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-header" id="headingL">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#human_excipient"
+        aria-expanded="false" aria-controls="human_excipient">
+        2.3.P.4.5 Excipients of Human or Animal Origin 
+      </button>
+    </div>
+    <div id="human_excipient" class="collapse" aria-labelledby="headingL" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onHumanAnimalPreparing($event)"
+            [dataSource]="animalHumanData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="letter_attestation"></dxi-column>
+            <dxi-column dataField="tse_compliance"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-header" id="headingQW">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#novel_excipients"
+        aria-expanded="false" aria-controls="novel_excipients">
+        2.3.P.4.6  Novel Excipients  
+      </button>
+    </div>
+    <div id="novel_excipients" class="collapse" aria-labelledby="headingQW" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onNovelExcipientPreparing($event)"
+            [dataSource]="novelExcipientData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="manufacturing_process"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title=" Control of Excipients " [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="excipientControlWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="excipientControlFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveExcipientControlDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-12" >
+            <label class="control-label">(a)  Summary of the specifications for officially recognized compendial excipients which include supplementary tests not included in the officially recognized compendial 
+            </label>
+            <dx-html-editor height="250"  formControlName="specifications_summary">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12" >
+            <dx-text-box [readOnly]= "true" formControlName="manufacturer" placeholder="Stage" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveExcipientControlDetails()" 
+            [disabled]="!excipientControlFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Analytical Procedures" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="analyticalProcedureWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="analyticalProcedureFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveAnalyticalProcedureDetails()">
+      <div class="row" style="background: #fff;">
+         <div class="col-lg-12" >
+            <label class="control-label">(a) Summary of the analytical procedures for supplementary tests:
+          </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="analytical_procedure"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveAnalyticalProcedureDetails()" [disabled]="!analyticalProcedureFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+ <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Validation Procedures" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="validationProcedureWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="validationProcedureFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveValidationProcedureDetails()">
+      <div class="row" style="background: #fff;">
+         <div class="col-lg-12" >
+            <label class="control-label">(a) Summary of the validation information for the analytical procedures for supplementary tests (where applicable):
+            </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="validation_analytical_procedures"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveValidationProcedureDetails()" [disabled]="!validationProcedureFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Justification of Specifications " [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="justificationSpecificWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="justificationFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveJusificationDetails()">
+      <div class="row" style="background: #fff;">
+         <div class="col-lg-12" >
+            <label class="control-label">(a) Justification of the specifications (e.g. evolution of tests, analytical procedures and acceptance criteria, exclusion of certain tests, differences from officially recognized compendial standard(s)):
+            </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="justification_test"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveJusificationDetails()" [disabled]="!justificationFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Excipients of Human or Animal Origin  " [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="humanAnimalWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="humanAnimalFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveHumanAnimalOriginDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-12" >
+            <label class="control-label">(a) For FPPs using excipients without risk of transmitting agents of animal spongiform encephalopathies, a letter of attestation confirming this can be found in:
+            </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="letter_attestation"  class="custom-textarea">
+            </textarea>
+        </div>
+        <div class="col-lg-12" >
+            <label class="control-label">CEP(s) demonstrating TSE-compliance can be found in: (page and volume):
+            </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="tse_compliance"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveHumanAnimalOriginDetails()" [disabled]="!humanAnimalFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Novel Excipients" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="novelExcipientsWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="novelExcipientsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNovelExcipientDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) For excipient(s) used for the first time in an FPP or by a new route of administration, full details of manufacture, characterization and controls, 
+            </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="novel_excipients"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveNovelExcipientDetails()" [disabled]="!novelExcipientsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>

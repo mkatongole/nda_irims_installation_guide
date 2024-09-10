@@ -1,0 +1,144 @@
+/**
+ * Created by Kip on 11/22/2018.
+ */
+Ext.define('Admin.view.premiseregistration.views.grids.PreInspectionDrugShopSelectionGrid', {
+    extend: 'Ext.grid.Panel',
+    controller: 'premiseregistrationvctr',
+    xtype: 'preinspectiondrugshopselectiongrid',
+    cls: 'dashboard-todo-list',
+    autoScroll: true,
+    autoHeight: true,
+    frame: true,
+    height: 550,
+    width: '100%',
+    viewConfig: {
+        deferEmptyText: false,
+        emptyText: 'Nothing to display',
+        getRowClass: function (record, rowIndex, rowParams, store) {
+            var is_enabled = record.get('is_enabled');
+            if (is_enabled == 0 || is_enabled === 0) {
+                return 'invalid-row';
+            }
+        }
+    },
+    tbar: [
+        {
+            xtype: 'tbspacer',
+            width: 20
+        },
+        {
+            xtype: 'displayfield',
+            value: 'Double click to select!!',
+            fieldStyle: {
+                'color': 'green'
+            }
+        },
+        {
+            xtype: 'hiddenfield',
+            name: 'region_id'
+        },{
+            xtype: 'hiddenfield',
+            name: 'district_id'
+        }
+    ],
+    bbar: [{
+        xtype: 'pagingtoolbar',
+        width: '100%',
+        displayInfo: true,
+        displayMsg: 'Showing {0} - {1} of {2} total records',
+        emptyMsg: 'No Records',
+        beforeLoad: function () {
+            var store = this.getStore(),
+                grid = this.up('grid'),
+                region_id = grid.down('hiddenfield[name=region_id]').getValue();
+                district_id = grid.down('hiddenfield[name=district_id]').getValue();
+            store.getProxy().extraParams = {
+                district_id: district_id,
+                region_id: region_id,
+            };
+        }
+    }],
+    /* features: [{
+         ftype: 'searching',
+         minChars: 2,
+         mode: 'local'
+     }],*/
+    plugins: [{
+        ptype: 'filterfield'
+    }],
+    listeners: {
+        beforerender: {
+            fn: 'setPremiseRegGridsStore',
+            config: {
+                pageSize: 10000,
+                remoteFilter: true,
+                proxy: {
+                    url: 'premiseregistration/getDrugShopPreInspectionList',
+					reader: {
+                        type: 'json',
+                        totalProperty: 'totalCount',
+                        rootProperty: 'results'
+                    }
+                }
+            },
+            isLoad: true
+        }
+    },
+    columns: [{
+        xtype: 'gridcolumn',
+        dataIndex: 'name',
+        text: 'DrugShop Name',
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    }, {
+        xtype: 'gridcolumn',
+        dataIndex: 'applicant_name',
+        text: 'Applicant Name',
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    }, {
+        xtype: 'gridcolumn',
+        dataIndex: 'premise_reg_no',
+        text: 'Registration No',
+        hidden:true,
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    },  {
+        xtype: 'gridcolumn',
+        dataIndex: 'tracking_no',
+        text: 'Tracking No',
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    }, {
+        xtype: 'gridcolumn',
+        dataIndex: 'permit_no',
+        hidden:true,
+        text: 'Pre Inspection Ref No',
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    }, {
+        xtype: 'gridcolumn',
+        dataIndex: 'physical_address',
+        text: 'Physical Address',
+        flex: 1,
+        filter: {
+            xtype: 'textfield'
+        }
+    }, {
+        xtype: 'gridcolumn',
+        dataIndex: 'postal_address',
+        hidden:true,
+        text: 'Postal Address',
+        flex: 1
+    }]
+});

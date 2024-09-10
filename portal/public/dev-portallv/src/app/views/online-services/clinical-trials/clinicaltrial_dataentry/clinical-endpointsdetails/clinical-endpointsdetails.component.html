@@ -1,0 +1,94 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="clinicaltrialEndpointGeneraldetailsfrm">
+<div class="row wizard-content">
+  <div class="col-lg-4">
+    <label class="control-label">Total number of Participants to be enrolled in Uganda</label>
+    <dx-text-box formControlName="enrolled_uganda_no"  [readOnly]="true"  placeholder="Total number to be enrolled in Uganda" [showClearButton]="true">
+    </dx-text-box>
+  </div> 
+  <div class="col-lg-4">
+    <label class="control-label">Total number of Participants to be enrolled, worldwide</label>
+    <dx-text-box formControlName="enrolled_worldwide_no"  [readOnly]="is_readonly"  placeholder="Total number to be enrolled, worldwide" [showClearButton]="true">
+    </dx-text-box>
+  </div>
+  <div class="col-lg-4">
+    <label class="control-label">Number of trial sites in Uganda</label>
+    <dx-text-box formControlName="sites_no"  [readOnly]="is_readonly"  placeholder="Number of trial sites in Uganda" [showClearButton]="true">
+    </dx-text-box>
+  </div>
+   <div class="col-lg-4">
+    <label class="control-label">Intended numbers of participants at each site</label>
+    <dx-text-box formControlName="intended_no"  [readOnly]="is_readonly"  placeholder="Intended numbers of participants at each site" [showClearButton]="true">
+    </dx-text-box>
+  </div>
+  <div class="col-lg-4">
+    <label class="control-label">Expected Study Start Date</label>
+    <dx-date-box   [readOnly]="is_readonly"   formControlName="study_start_date">
+    </dx-date-box>
+
+  </div>
+  <div class="col-lg-4 ">
+    <label class="control-label col-lg-12">First enrolment to Final Report (month)</label>
+      <dx-number-box formControlName="first_final_duration"  [readOnly]="is_readonly"  placeholder="First enrolment to Final Report" [showClearButton]="true">
+      </dx-number-box>
+  </div>
+  <div class="col-lg-4 ">
+    <label class="control-label"><br>Individual Participants Screening period (Days)</label>
+    <dx-number-box formControlName="screening_period"  [readOnly]="is_readonly"  placeholder="Individual Participants Screening period" [showClearButton]="true">
+    </dx-number-box>
+  </div>
+  <div class="col-lg-4 input-group">
+    <div class="col-lg-6 ">
+      <label class="control-label">Individual Participants Intervention period</label>
+      <dx-number-box formControlName="intervention_period"  [readOnly]="is_readonly"  placeholder="Individual Participants Intervention period" [showClearButton]="true">
+      </dx-number-box>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label"><br>Intervention duration</label>
+      <dx-select-box [dataSource]="durationDescData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+      placeholder="Intervention duration" [searchEnabled]="true"
+      formControlName="intervention_duration">
+      </dx-select-box>
+    </div>
+  </div> 
+  <div class="col-lg-4 input-group">
+    <div class="col-lg-6 ">
+      <label class="control-label"><br>Individual Participants Follow-up period</label>
+      <dx-number-box formControlName="follow_up_period"  [readOnly]="is_readonly"  placeholder="Individual Participants Follow-up period" [showClearButton]="true">
+      </dx-number-box>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label"><br>Follow-up duration</label>
+      <dx-select-box [dataSource]="durationDescData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+      placeholder="Follow-up duration" [searchEnabled]="true"
+      formControlName="follow_up_duration">
+      </dx-select-box>
+    </div>
+  </div>      
+
+  <div class="col-lg-4 input-group">
+    <div class="col-lg-6 ">
+      <label class="control-label"><br>Study Duration</label>
+      <dx-number-box formControlName="study_duration"  [readOnly]="is_readonly"  placeholder="Study Duration" [showClearButton]="true">
+      </dx-number-box>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label"><br>Duration Description</label>
+      <dx-select-box [dataSource]="durationDescData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+      placeholder="Duration Description" [searchEnabled]="true"
+      formControlName="duration_desc">
+      </dx-select-box>
+    </div>
+  </div>  
+  <div class="col-lg-4 form-group" style="margin:1px;">
+  </div>
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>

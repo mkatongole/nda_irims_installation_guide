@@ -1,0 +1,361 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="clinicaltrialSaeReportingdetailsfrm">
+
+  <div class="row wizard-content">
+      <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">Report Details</legend>
+          <div class="col-lg-4">
+            <label class="control-label">Source of the Report</label>
+              <dx-select-box  
+                [dataSource]="reportsourceData" valueExpr="id"
+                displayExpr="name" placeholder="Source of the Report"
+                [searchEnabled]="true" formControlName="sourceofpsur_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Report Category</label>
+              <dx-select-box  
+                [dataSource]="reportCategoryData" valueExpr="id"
+                displayExpr="name" placeholder="Report Category"
+                [searchEnabled]="true" formControlName="report_category_id">
+                </dx-select-box>
+          </div>
+
+          <div class="col-lg-4">
+            <label class="control-label">Report type</label>
+              <dx-select-box  
+                [dataSource]="reportTypeData" valueExpr="id"
+                displayExpr="name" placeholder="Report type"
+                [searchEnabled]="true" formControlName="report_type_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Initial received date(NDA)</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="initial_receive_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Date of report</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="report_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Received from</label>
+              <dx-select-box  
+                [dataSource]="receivedFromData" valueExpr="id"
+                displayExpr="name" placeholder="Report type"
+                [searchEnabled]="true" formControlName="adr_reporter_category_id">
+                </dx-select-box>
+          </div>
+      </fieldset>
+      <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">Patient Details</legend>
+          <div class="col-lg-4">
+            <label class="control-label">Product Type</label>
+              <dx-select-box  
+                [dataSource]="productTypeData" valueExpr="id"(onValueChanged)="onClinicalTrialProductChange($event)"
+                displayExpr="name" placeholder="Product Type"
+                [searchEnabled]="true" formControlName="adr_type_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-4" *ngIf="is_vaterinary">
+            <label class="control-label">Animal Species</label>
+              <dx-text-box 
+                  formControlName="species"
+                  placeholder="Animal Species" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_vaterinary">
+            <label class="control-label">Animal Breed</label>
+              <dx-text-box 
+                formControlName="breed"
+                placeholder="Animal Species" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_vaterinary">
+            <label class="control-label">Animal Status</label>
+              <dx-select-box 
+                [dataSource]="animalStatusData" valueExpr="id"
+                displayExpr="name" placeholder="Animal Status"
+                [searchEnabled]="true" formControlName="animal_status_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_vaterinary">
+            <label class="control-label">Contact with treated animal</label>
+              <dx-select-box 
+                [dataSource]="animalContactData" valueExpr="id"
+                displayExpr="name" placeholder="Contact with treated animal"
+                [searchEnabled]="true" formControlName="humanvet_contact_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="!is_vaterinary">
+            <label class="control-label">Patient Name/Initials</label>
+              <dx-text-box  
+                formControlName="patient_name"
+                placeholder="Patient Initials" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4"*ngIf="!is_vaterinary">
+            <label class="control-label">Patient Title</label>
+              <dx-select-box  
+                [dataSource]="titleData" valueExpr="id"
+                displayExpr="name" placeholder="Patient Title"
+                [searchEnabled]="true" formControlName="title_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label for="ti" class="control-label">Gender/Sex</label>
+              <dx-select-box 
+                [dataSource]="sexData" valueExpr="id"(onValueChanged)="onClinicalTrialGenderChange($event)"
+                displayExpr="name" placeholder="Gender/Sex"
+                [searchEnabled]="true"
+                formControlName="gender_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label for="ti" class="control-label">Operator of the device</label>
+              <dx-select-box 
+                [dataSource]="operatordeviceData" valueExpr="id"
+                displayExpr="name" placeholder="Operator of the device"
+                [searchEnabled]="true"
+                formControlName="device_operator_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label class="control-label">Name of local supplier</label>
+              <dx-text-box  
+                formControlName="local_supplier"
+                placeholder="Name of local supplier" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+         <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label class="control-label">Software Version(if Applicable)</label>
+              <dx-text-box  
+                formControlName="software_version"
+                placeholder="Software Version(if Applicable)" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+
+         <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label class="control-label">Catalogue number</label>
+              <dx-text-box  
+                formControlName="catalogue_number"
+                placeholder="Catalogue number" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+
+         <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label class="control-label">Serial number</label>
+              <dx-text-box  
+                formControlName="serial_number"
+                placeholder="Serial number" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+
+         <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label class="control-label">Model number</label>
+              <dx-text-box  
+                formControlName="model_number"
+                placeholder="Model number" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+
+          <div class="col-lg-4"*ngIf="is_medicaldevices">
+            <label for="ti" class="control-label">Current location of device</label>
+              <dx-select-box 
+                [dataSource]="locationdeviceData" valueExpr="id"
+                displayExpr="name" placeholder="Current location of device"
+                [searchEnabled]="true"
+                formControlName="device_location_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_female">
+            <label class="control-label">Date of last menstruation</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="last_menstruation_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_female">
+            <label for="ti" class="control-label">Is Patient Pregnant?</label>
+              <dx-select-box 
+                [dataSource]="confirmationData" valueExpr="id"
+                displayExpr="name" placeholder="Is Patient Pregnant?"
+                [searchEnabled]="true"
+                formControlName="is_pregnant">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4"*ngIf="is_female">
+            <label for="ti" class="control-label">Is Patient Lactating?</label>
+              <dx-select-box 
+                [dataSource]="confirmationData" valueExpr="id"
+                displayExpr="name" placeholder="Is Patient Lactating?"
+                [searchEnabled]="true"
+                formControlName="is_lactating">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Date Of Birth</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="date_of_birth">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Age (Year)</label>
+            <dx-number-box  formControlName="patient_age">
+            </dx-number-box>
+          </div>
+          <div class="col-lg-4">
+            <label for="ti" class="control-label">Age group</label>
+              <dx-select-box 
+                [dataSource]="ageGroupData" valueExpr="id"
+                displayExpr="name" placeholder="Age group"
+                [searchEnabled]="true"
+                formControlName="age_group_id">
+              </dx-select-box>
+          </div>
+
+          <div class="col-lg-4">
+            <label class="control-label">Body weight (kg)</label>
+            <dx-number-box  formControlName="patient_weight">
+            </dx-number-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Body height (cm)</label>
+            <dx-number-box  formControlName="patient_height">
+            </dx-number-box>
+          </div>
+            <div class="col-lg-4">
+            <label class="control-label">BMI</label>
+            <dx-text-box  formControlName="bmi">
+            </dx-text-box>
+          </div>
+      </fieldset>
+      
+    <div class="col-lg-12">
+      <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+      <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+      <input type="hidden"  formControlName="section_id" />      
+      <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+      
+    </div>
+  </div> 
+  </form>
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Patient Information"
+    [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="patientInitialPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-data-grid class="table row-border hover" [remoteOperations]='true'  [allowColumnResizing]="true" 
+        [columnHidingEnabled]="true" 
+        [dataSource]="patientData" (onToolbarPreparing)="onPatientDetailPreparing($event)" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>  
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" 
+          [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <a (click)="funcSelectPatient(data)" class="action-btn"><i class="fa fa-edit"></i>Select Patient Details</a>&nbsp;
+          </div>
+        </dxi-column>
+        <dxi-column dataField="product_type"></dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+        <dxi-column dataField="country"></dxi-column>
+        <dxi-column dataField="dateof_birth"></dxi-column>
+        <dxi-column dataField="age"></dxi-column>
+        <dxi-column dataField="sex"></dxi-column>
+        <dxi-column dataField="animal_status"></dxi-column>
+        <dxi-column dataField="animal_contact"></dxi-column>
+        <dxi-column dataField="species"></dxi-column>
+        <dxi-column dataField="breed"></dxi-column>         
+      </dx-data-grid>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="Patient Information"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="patientDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+ <dx-scroll-view> 
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="patientInformationFrm"
+      (ngSubmit)="onsavePatientInformation()">
+      <div class="row">
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <label class="control-label">Product Type</label>
+              <dx-select-box  
+                [dataSource]="productTypeData" valueExpr="id"(onValueChanged)="onClinicalTrialProductChange($event)"
+                displayExpr="name" placeholder="Product Type"
+                [searchEnabled]="true" formControlName="adr_type_id">
+              </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6" *ngIf="is_vaterinary">
+            <label class="control-label">Animal Species</label>
+              <dx-text-box  
+                  formControlName="species"
+                  placeholder="Animal Species" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6"*ngIf="is_vaterinary">
+            <label class="control-label">Animal Breed</label>
+              <dx-text-box  
+                formControlName="breed"
+                placeholder="Animal Species" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6"*ngIf="is_vaterinary">
+            <label class="control-label">Animal Status</label>
+              <dx-select-box  
+                [dataSource]="animalStatusData" valueExpr="id"
+                displayExpr="name" placeholder="Animal Status"
+                [searchEnabled]="true" formControlName="animal_status_id">
+              </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6"*ngIf="is_vaterinary">
+            <label class="control-label">Contact with treated animal</label>
+              <dx-select-box  
+                [dataSource]="animalContactData" valueExpr="id"
+                displayExpr="name" placeholder="Contact with treated animal"
+                [searchEnabled]="true" formControlName="humanvet_contact_id">
+              </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6" *ngIf="!is_vaterinary">
+            <label class="control-label">Name</label>
+              <dx-text-box formControlName="name">
+            </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6" *ngIf="!is_vaterinary">
+            <label class="control-label">Date Of Birth</label>
+            <dx-date-box  [displayFormat]="'dd/MM/yy'" formControlName="dateof_birth">
+            </dx-date-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <label class="control-label">Age (Year)</label>
+            <dx-number-box  formControlName="age">
+            </dx-number-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="ti" class="control-label">Sex</label>
+              <dx-select-box 
+                [dataSource]="sexData" valueExpr="id"
+                displayExpr="name" 
+                [searchEnabled]="true"
+                formControlName="sex_id">
+              </dx-select-box>
+          </div>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsavePatientInformation()" [disabled]="!patientInformationFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+
+

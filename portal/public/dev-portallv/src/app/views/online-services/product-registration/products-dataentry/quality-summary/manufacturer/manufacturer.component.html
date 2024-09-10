@@ -1,0 +1,525 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="heading8">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#name_manufacturer"
+        aria-expanded="false" aria-controls="name_manufacturer">
+        2.3.S.2.1 Manufacturer(s) (name, manufacturer)
+      </button>
+    </div>
+    <div id="name_manufacturer" class="collapse show" aria-labelledby="heading8" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onNameManufacturerPreparing($event)"
+            [dataSource]="nameManufacturerData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="manufacturer"></dxi-column>
+            <dxi-column dataField="responsibility"></dxi-column>
+            <dxi-column dataField="cep_number"></dxi-column>
+            <dxi-column dataField="description_process"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-headerdefined" id="headingQ">
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#description_manufacturer"
+        aria-expanded="false" aria-controls="description_manufacturer">
+        2.3.S.2.2 Description of Manufacturing Process and Process Controls 
+      </button>
+    </div>
+    <div id="description_manufacturer" class="collapse show" aria-labelledby="headingQ" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onManufacturingProcessPreparing($event)"
+            [dataSource]="ManufacturerProcessData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="description_process"></dxi-column>
+            <dxi-column dataField="manufacturering_process"></dxi-column>
+            <dxi-column dataField="alternative_process_use"></dxi-column>
+            <dxi-column dataField="processes_step_justification"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading9">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#control_materials"
+        aria-expanded="false" aria-controls="control_materials">
+        2.3.S.2.3 Control of Materials (name, manufacturer)
+      </button>
+    </div>
+    <div id="control_materials" class="collapse" aria-labelledby="heading9" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onControlMaterialsPreparing($event)"
+            [dataSource]="controlMaterialsData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="starting_material"></dxi-column>
+            <dxi-column dataField="test_method"></dxi-column>
+            <dxi-column dataField="acceptance_criteria"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading10">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#critical_control"
+        aria-expanded="false" aria-controls="critical_control">
+        2.3.S.2.4 Controls of Critical Steps and Intermediates (name, manufacturer)
+      </button>
+    </div>
+    <div id="critical_control" class="collapse" aria-labelledby="heading10" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onCriticalControlPreparing($event)"
+            [dataSource]="criticalControlData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="starting_material"></dxi-column>
+            <dxi-column dataField="test_method"></dxi-column>
+            <dxi-column dataField="acceptance_criteria"></dxi-column>
+            <dxi-column dataField="summary_performed"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading10">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#process_validation"
+        aria-expanded="false" aria-controls="process_validation">
+        2.3.S.2.5 Process Validation and/or Evaluation (name, manufacturer)
+      </button>
+    </div>
+    <div id="process_validation" class="collapse" aria-labelledby="heading10" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onProcessValidationPreparing($event)"
+            [dataSource]="processData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="process_validation"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading13">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#manufacturing_process_dev"
+        aria-expanded="false" aria-controls="manufacturing_process_dev">
+        2.3.S.2.6 Manufacturing Process Development (name, manufacturer)
+      </button>
+    </div>
+    <div id="manufacturing_process_dev" class="collapse" aria-labelledby="heading13" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onManProcessDevPreparing($event)"
+            [dataSource]="manprocessData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="manufacturing_process_development"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Manufacturer(s) (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isManufactureNameDetailsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="manufacturingNameDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveManufacturingDetails()">
+      <div class="row" style="background: #fff;">
+        <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">(a)Name, address and responsibility (e.g. fabrication, packaging, labelling, testing, storage) of each manufacturer, including contractors and each proposed production site or facility involved in these activities:</legend>
+          <div class="col-lg-12" >
+            <label class="control-label">Name and address (including block(s)/unit(s))</label>
+            <textarea  [readOnly]= "true" (input)="adjustTextAreaHeight($event)"formControlName="manufacturer" placeholder="Name and address (including block(s)/unit(s))" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">Responsibility </label>
+            <textarea   (input)="adjustTextAreaHeight($event)"formControlName="responsibility" placeholder="Responsibility" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">APIMF/CEP number (if applicable)</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="cep_number" placeholder="APIMF/CEP number (if applicable)" class="custom-textarea">
+            </textarea>
+          </div>
+        </fieldset>
+        <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">(b)Manufacturing authorization for the production of API(s) and, where available, certificate of GMP compliance (GMP information should be provided in Module 1): </legend>
+        </fieldset>
+      </div>
+      <div class="col-lg-6 form-group " >
+          <input type="hidden" name="id"  formControlName = "id"/>
+      </div>
+          
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveManufacturingDetails()" [disabled]="!manufacturingNameDetailsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" 
+    title="Description of Manufacturing Process" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="isManufactureProcessDetailsWinshow">
+    <div *dxTemplate="let data of 'content'" class="row">
+      <dx-scroll-view>
+      <form [formGroup]="manufacturingProcessDetailsFrm" enctype="multipart/form-data" role="form" 
+        (ngSubmit)="onSaveManufacturingProcessDetails()">
+        <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Description of Manufacturing Process and Process Controls (name, manufacturer)
+            </label>
+            <dx-html-editor height="250"  formControlName="description_process">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Brief narrative description of the manufacturing process(es):  </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="manufacturering_process" placeholder="Brief narrative description of the manufacturing process(es)" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(c) Alternate processes and explanation of their use:  </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="alternative_process_use" placeholder="Alternate processes and explanation of their us" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(d) Reprocessing steps and justification</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="processes_step_justification" placeholder="Reprocessing steps and justification" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>  
+          <div class="col-lg-12">
+            <button type="submit" (submit)="onSaveManufacturingProcessDetails()" [disabled]="!manufacturingProcessDetailsFrm.valid"
+              class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+            </button>
+          </div>
+        </div>
+      </form>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Control of Materials (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isControlMaterialsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="controlMaterialsDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveControlMaterialsDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Summary of the quality and controls of the starting materials used in the manufacture of the API: </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="summary_quality_control" placeholder="Summary of the quality and controls of the starting materials used in the manufacture of the API: " class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">Step/starting material</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="starting_material" placeholder="Step/starting material" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">Test(s)/method(s)</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="test_method" placeholder="Test(s)/method(s)" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">Acceptance criteria</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="acceptance_criteria" placeholder="Acceptance criteria" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Name and manufacturing site address of starting material manufacturer(s):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="manufacturing_site_address" placeholder="(b)  Name and manufacturing site address of starting material manufacturer(s):" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(c) Where the API(s) and the starting materials and reagents used to manufacture the API(s) are without risk of transmitting agents of animal spongiform encephalopathies, a letter of attestation confirming this can be found in:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="lette_of_attestation" placeholder="Where the API(s) and the starting materials and reagents used to manufacture the API(s) are without risk of transmitting agents of animal spongiform encephalopathies, a letter of attestation confirming this can be found in:" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveControlMaterialsDetails()" 
+            [disabled]="!controlMaterialsDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+ <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Process Validation" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isProcessValidationWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="processValidationDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveProcessValidationDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Description of process validation and/or evaluation studies (e.g. for aseptic processing and sterilization): 
+          </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="process_validation" placeholder="Description of process validation and/or evaluation studies (e.g. for aseptic  processing and sterilization): 
+            " class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveProcessValidationDetails()" 
+            [disabled]="!processValidationDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Manufacturing Process Development" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isManProcessDevWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="manprocessDevDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveManProcessDev()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">Description and discussion of the significant changes made to the manufacturing process and/or manufacturing site of the API used in producing comparative bioavailability or biowaiver, stability, scale-up, pilot and, if available, production scale batches:  
+          </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="manufacturing_process_development" placeholder="Description and discussion of the significant changes made to the manufacturing process and/or manufacturing site of the API used in producing comparative bioavailability or biowaiver, stability, scale-up, pilot and, if available, production scale batches: 
+            " class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveManProcessDev()" 
+            [disabled]="!manprocessDevDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Controls of Critical Steps and Intermediates (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isControlCriticalWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="criticalControlDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveCriticalControlDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Summary of the controls performed at critical steps of the manufacturing process and on intermediates:  </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="summary_performed" placeholder="Summary of the controls performed at critical steps of the manufacturing process and on intermediates"class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">Step/starting material</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="starting_material" placeholder="Step/starting material" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">Test(s)/method(s)</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="test_method" placeholder="Test(s)/method(s)" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">Acceptance criteria</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="acceptance_criteria" placeholder="Acceptance criteria" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveCriticalControlDetails()" 
+            [disabled]="!criticalControlDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+

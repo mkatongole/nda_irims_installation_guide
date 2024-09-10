@@ -1,0 +1,602 @@
+<div class="row wizard-content">
+  <dx-data-grid [dataSource]="permitsDrugsProductsDetails" (onToolbarPreparing)="onPermitProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+    [showBorders]="true">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+      [allowSorting]="false" cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+
+        <dx-menu (onItemClick)="permitProductsActionColClick($event,data)" [items]="permitProductMenuItems">
+
+        </dx-menu>
+      </div>
+    </dxi-column>
+    
+    <dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+    <dxi-column dataField="controlled_drugssubstances" caption="Controlled substance salt"></dxi-column>
+    <dxi-column dataField="controlleddrugs_basesalt"  caption="Controlled substance Base"></dxi-column>
+    <dxi-column dataField="drugs_schedule" caption="Controlled substance Schedule"></dxi-column>
+    <dxi-column dataField="controlleddrug_type"caption="Type of controlled Drug"></dxi-column>
+    <dxi-column dataField="quantity"caption="Quantity authorised"></dxi-column>
+    <dxi-column dataField="strength_asgrams" caption="Strength"></dxi-column>
+    <dxi-column dataField="controlleddrug_base" caption="Amount of base in Grams"></dxi-column>
+    <dxi-column dataField="pack_size"caption="Pack Size"></dxi-column> 
+    <dxi-column dataField="unit_price"></dxi-column>
+    <dxi-column dataField="total_value" caption="FOB Value"></dxi-column>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-summary>
+      <dxi-total-item
+          column="total_value"
+          summaryType="sum">
+      </dxi-total-item>
+    </dxo-summary>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+  </dx-data-grid>
+</div>
+
+
+ <dx-popup class="popup"  [width]="funcpopWidth(80)" height="650" [showTitle]="true" title=" Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+      <dx-tab-panel (onItemClick)="onPermitsProductsTabCLick($event)">
+        <dxi-item title="Products Details" icon="rowfield">
+          <div *dxTemplate>
+            <div class="row col-lg-12">
+              <form role="form" class="row" enctype="multipart/form-data" role="form" 
+                [formGroup]="permitProductsFrm"(ngSubmit)="onsavePermitProductdetails()">
+                <div class="col-lg-12 row row-no-margin ">
+                  <div class="col-lg-4 input-group" *ngIf =" is_registered == 1">
+                    <div class="col-lg-10  ">
+                      <label class="control-label">Market Authorisation No</label>
+                      <dx-text-box placeholder="Market Authorisation No" [readOnly]="[1, 2, 3, 4, 5, 6, 7,8, 11, 16].includes(product_category_id)"  formControlName="product_registration_no">
+                      </dx-text-box>
+                    </div>
+                    <div class="col-lg-2">
+                      <dx-button [elementAttr]="{ class: 'pull-left'}" style="margin-top:32px!important;" type="success" (click)="onSearchRegisteredProductApplication()" >
+                        <i class="fa fa-search"></i>Search
+                      </dx-button>
+                    </div>
+                </div>
+                <div class="col-lg-4 input-group">
+                  <div class="col-lg-10  ">
+                    <label class="control-label">Brand Name</label>
+                    <dx-text-box formControlName="brand_name" [showClearButton]="true" 
+                    [readOnly]="[1, 2, 3, 4, 5, 6, 7,8, 11, 16].includes(product_category_id)">
+                    </dx-text-box>
+                  </div>
+                  <div class="col-lg-2">
+                    <dx-button [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:32px  !important;" type="default"[disabled]="is_registered ==1 || sub_module_id ==115" (click)="onSearchUnRegisteredRegisteredProductApplication()" ><i class="fa fa-search"></i>Search
+                    </dx-button>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 input-group"*ngIf = "product_category_id == 9 && sub_module_id == 60">
+                    <div class="col-lg-10  ">
+                    <label class="control-label">GMDN Code</label>
+                    <dx-text-box [readOnly]="true" 
+                      formControlName="gmdn_code"
+                      placeholder="GMDN Code" [showClearButton]="true">
+                    </dx-text-box>
+                      <input type="hidden" name="gmdn_id" value="gmdn_id" formControlName="gmdn_id" />
+                  </div>
+                  <div class="col-lg-2">
+                    <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" 
+                      style="margin-top:30px  !important;"  text="Search Code"  
+                      type="default" (onClick)="onSearchGmdnCodeData()">
+                      <i class="fa fa-search"></i>Search
+                    </dx-button>
+                  </div>  
+                </div> 
+                <div class="col-lg-4" *ngIf = "product_category_id == 9   && sub_module_id == 60">
+                  <label class="control-label">GMDN Term Name</label>
+                  <dx-text-box formControlName="gmdn_term"[readOnly]="true"  placeholder="GMDN Term Name" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+
+                <div class="col-lg-4" *ngIf = "product_category_id == 9   && sub_module_id == 60">
+                  <label class="control-label">GMDN Term Definition</label>
+                  <dx-text-box formControlName="gmdn_descriptor"[readOnly]="true"  placeholder="GMDN Term Definition" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-4"*ngIf = "product_category_id == 9 && sub_module_id == 60">
+                  <label class="control-label">Medical Device Class Type</label>
+                  <dx-select-box [dataSource]="devicesTypeData" valueExpr="id" displayExpr="name" [searchEnabled]="true"  
+                  placeholder="Medical Device Class Type"  formControlName="medical_device_class_type">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4"*ngIf = "product_category_id !== 9">
+                  <label class="control-label">Generic Name</label>
+                  <dx-select-box [dataSource]="commonNameData" valueExpr="id" displayExpr="description" [searchEnabled]="true" formControlName="common_name_id"[readOnly]="product_category_id !== 10"
+                    (onValueChanged)="onGetNarcoticPopUp($event)">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4 input-group" >
+                  <div class="col-lg-10">
+                    <label class="control-label">Manufacturer</label>
+                    <dx-text-box  formControlName="manufacturer_name" [readOnly]=true [showClearButton]="true">
+            
+                    </dx-text-box>
+                  </div>   
+                  <div class="col-lg-2">
+                    <dx-button [disabled]="[1, 2, 3, 4, 5, 6, 7,8, 11, 16].includes(product_category_id)"[elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:32px !important;"  text="Search Manufacturing Details"  type="default" (onClick)="funcSearchManufacturingSite()">
+                          <i class="fa fa-search"></i>Search Details
+                    </dx-button>
+                  </div>
+                </div> 
+
+                <div class="col-lg-4" *ngIf = "sub_module_id == 60">
+                  <label class="control-label">Product Category</label>
+                  <dx-select-box [dataSource]="classcategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"  formControlName="class_category">
+                  </dx-select-box>
+                </div>
+
+                <div class="col-lg-4" *ngIf = "product_category_id !== 9">
+                  <label class="control-label">Active Ingredient</label>
+                  <dx-select-box [dataSource]="ingredientsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"  
+                  placeholder="Ingredients" [readOnly]="product_category_id !== 10" formControlName="ingredient_id">
+                  </dx-select-box>
+                </div>
+
+
+                <div class="col-lg-4" *ngIf = "product_category_id !== 9">
+                  <label>Product Strength</label>
+                  <dx-text-box placeholder="product strength" [readOnly]="product_category_id !== 10"  formControlName="product_strength">
+                  </dx-text-box>
+                </div>                  
+                <div class="col-lg-4"*ngIf = "product_category_id !== 9">
+                  <label>Units of Strength</label>
+                  <dx-select-box [dataSource]="siUnitsData"[readOnly]="product_category_id !== 10" valueExpr="id" placeholder="units of strength"
+                    displayExpr="name" formControlName="si_unit_id" [searchEnabled]="true">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4" *ngIf = "business_type_id == 5  && sub_module_id == 60">
+                  <label class="control-label">Item/Product</label>
+                  <dx-text-box formControlName="name_of_material" placeholder="Item/Product">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-4"*ngIf="sub_module_id == 60">
+                  <label class="control-label">Country of Origin</label>
+                  <dx-tag-box
+                    [items]="countries"  
+                    valueExpr="id" 
+                    displayExpr="name" 
+                    [searchEnabled]="true"
+                    (onSelectionChanged)="onSelectcountryOrigin($event)"
+                    [readOnly]="[1, 2, 3, 4, 5, 6, 7,8, 11, 16].includes(product_category_id)"
+                    [showSelectionControls]="true"
+                    applyValueMode="useButtons"
+                    placeholder="Country of Origin" 
+                    formControlName="manufacturing_country_id">
+                  </dx-tag-box>
+                </div>
+                <div class="col-lg-4" *ngIf="[1, 2, 3, 4, 5, 6, 7, 11, 16].includes(product_category_id)">
+                  <label>Actual Product to be Imported</label>
+                  <dx-select-box [dataSource]="productImportedData" valueExpr="id" placeholder="Actual Product to be Imported"  displayExpr="name"  
+                  [searchEnabled]="true" formControlName="imported_product_id">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4"*ngIf = "product_category_id !== 9">
+                  <label>Standard</label>
+                  <dx-select-box [dataSource]="specificationData" valueExpr="id" displayExpr="name" 
+                    [readOnly]="true" [searchEnabled]="product_category_id !== 10"
+                    placeholder="Quality Standard" formControlName="specification_type_id">
+                  </dx-select-box>
+                </div> 
+                <div class="col-lg-4"*ngIf = "(is_registered == 1 && product_category_id ==8)">
+                  <label>Pack Size</label>
+                  <dx-select-box [dataSource]="packSizeData" valueExpr="id" displayExpr="pack_size"
+                   [searchEnabled]="true" (onSelectionChanged)="onPackSizeCboSelect($event)"
+                    placeholder="Pack Size" formControlName="pack_size">
+                  </dx-select-box>
+                </div> 
+                <div class="col-lg-4"*ngIf = "(is_registered == 2 && product_category_id !==9)">
+                  <label>Pack Size</label>
+                  <dx-text-box placeholder="Pack Size" [readOnly]= "product_category_id ==8" formControlName="pack_size" >
+                  </dx-text-box>
+                </div> 
+
+               <div class="col-lg-4"*ngIf = "(is_registered == 1 && [1, 2, 3, 4, 5, 6, 7, 11, 16].includes(product_category_id) )">
+                  <label>Pack Size</label>
+                  <dx-text-box placeholder="Pack Size" formControlName="pack_size" >
+                  </dx-text-box>
+                </div> 
+                <div class="col-lg-4"*ngIf ="(is_registered == 2 && product_category_id ==9)">
+                  <label>Pack Size</label>
+                  <dx-text-box placeholder="Pack Size" formControlName="pack_size" >
+                  </dx-text-box>
+                </div> 
+                <div class="col-lg-4"*ngIf ="(is_registered == 1 && product_category_id ==9)">
+                  <label>Pack Size</label>
+                  <dx-text-box placeholder="Pack Size" formControlName="pack_size" >
+                  </dx-text-box>
+                </div> 
+                <div class="col-lg-4" *ngIf = "(sub_module_id == 60 && product_category_id !==9)">
+                  <label>Number of Units Per  Packs </label>
+                  <dx-text-box placeholder="Number of units per pack" [readOnly]="product_category_id ==8"formControlName="no_of_units" >
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-4" *ngIf = "product_category_id == 9">
+                  <label>Number of Units Per  Packs </label>
+                  <dx-text-box placeholder="Number of units per pack" formControlName="no_of_units" >
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-4" *ngIf = "sub_module_id == 60">
+                  <label>Number of packs</label>
+                  <dx-text-box placeholder="Number of packs"   formControlName="no_of_packs">
+                  </dx-text-box>
+                </div>
+
+                <div class="col-lg-4" *ngIf = "sub_module_id == 60">
+                  <label>Price (Per Pack) (FOB)</label>
+                  <dx-text-box placeholder="Price (Per Pack) (FOB)"formControlName="pack_price">
+                  </dx-text-box>
+                </div>
+
+                <div class="col-lg-4" *ngIf = "sub_module_id == 60">
+                  <label>Price (Per Unit) (FOB)</label>
+                  <dx-text-box placeholder="Price (Per Unit) (FOB)"[readOnly]="true"formControlName="unit_price">
+                  </dx-text-box>
+                </div>
+
+                <div class="col-lg-4"*ngIf = "is_registered !== 1 && product_category_id !==9">
+                    <label>Units for Quantity</label>
+                    <dx-select-box [dataSource]="quantityUnitsData" valueExpr="id" displayExpr="name" 
+                      [searchEnabled]="true"[readOnly]="product_category_id ==8"
+                      placeholder="Units for Quantity" formControlName="units_for_quantity">
+                    </dx-select-box>
+                </div> 
+                
+                <div class="col-lg-4"*ngIf = "is_registered !== 2 && product_category_id !==9">
+                    <label>Units for Quantity</label>
+                    <dx-select-box [dataSource]="quantityUnitsData" valueExpr="id" displayExpr="name" 
+                      [searchEnabled]="true"[readOnly]="product_category_id ==8"
+                      placeholder="Units for Quantity" formControlName="units_for_quantity">
+                    </dx-select-box>
+                </div> 
+                <div class="col-lg-4"*ngIf = "is_registered == 2 && product_category_id ==9">
+                    <label>Units for Quantity</label>
+                    <dx-select-box [dataSource]="quantityData" valueExpr="id" displayExpr="name" 
+                      [searchEnabled]="true"
+                      placeholder="Units for Quantity" formControlName="units_for_quantity">
+                    </dx-select-box>
+                </div> 
+                <div class="col-lg-4"*ngIf = "is_registered == 1 && product_category_id ==9">
+                    <label>Units for Quantity</label>
+                    <dx-select-box [dataSource]="quantityData" valueExpr="id" displayExpr="name" 
+                      [searchEnabled]="true"
+                      placeholder="Units for Quantity" formControlName="units_for_quantity">
+                    </dx-select-box>
+                </div> 
+                <div class="col-lg-4" *ngIf="sub_module_id == 60">
+                  <label >Total Price (Pack) (FOB) </label>
+                  <dx-text-box placeholder="Total Price (Pack) (FOB) " [readOnly]="true"
+                    formControlName="total_value">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-4" *ngIf = " sub_module_id == 60">
+                  <label >Total Number Units </label>
+                  <dx-text-box placeholder="Total Number Units " [readOnly]="true" formControlName="total_units">
+                  </dx-text-box>
+                </div>
+
+                <div class="col-lg-4" *ngIf="sub_module_id == 60">
+                  <label>Currency</label>
+                  <dx-select-box [dataSource]="currencyData" valueExpr="id" placeholder="currency" 
+                    displayExpr="name"
+                    [searchEnabled]="true" formControlName="currency_id">
+                  </dx-select-box> 
+                </div>
+               <div class="col-lg-4">
+                    <label>HS Code</label>
+                    <dx-select-box [dataSource]="hsCodeData" valueExpr="id" displayExpr="name" 
+                      [searchEnabled]="true"(onSelectionChanged)="onHsCodeCboSelect($event)"
+                      placeholder="HS Code" formControlName="hs_code_id">
+                    </dx-select-box>
+                </div> 
+                <div class="col-lg-4 ">
+                  <label for="ti" class="control-label">HSC Code Description </label>
+                  <dx-text-box formControlName="hs_code_description" readOnly= true [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+            <fieldset class="col-lg-12 row">
+              <legend  class="contentfieldset">Controlled Drugs Details</legend>
+                <div class="col-lg-4 ">
+                  <label>Controlled Substance Salt</label>
+                  <dx-select-box [dataSource]="controlledDrugsBaseSaltData" valueExpr="id" placeholder="Select Controlled Substance Salt" (onSelectionChanged)="funcChangecontrolledDrugsBaseSaltData($event)"
+                      displayExpr="name" formControlName="controlleddrugs_basesalt_id" [searchEnabled]="true">
+                  </dx-select-box>
+                </div>
+                 <div class="col-lg-4 ">
+                    <label>Controlled Drugs Substance</label>
+                    <dx-select-box [dataSource]="controlDrugsSubstanceData" valueExpr="id" placeholder="Select Controlled Drugs Substance"
+                      displayExpr="name" formControlName="controlled_drugssubstances_id" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Controlled Substance Schedule</label>
+                    <dx-text-box placeholder="Controlled Substance Schedule" [readOnly]= "true" 
+                      formControlName="substance_schedule">
+                    </dx-text-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Conversion Factor(%)</label>
+                    <dx-text-box placeholder="Conversion Factor(%)" [readOnly]= "true" 
+                    (onValueChanged)="baseStrengthCalculation()"  formControlName="drugs_content">
+                    </dx-text-box>
+                  </div>
+                  <div class="col-lg-4 ">
+                  <label>Narcotic/Precusor/Psychotropic</label>
+                    <dx-select-box [dataSource]="controlledDrugsTypesData" valueExpr="id" placeholder="Select Controlled Drug Type"   
+                      displayExpr="name" formControlName="controlleddrugs_type_id" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                  <div class="col-lg-4">
+                    <label>Total Number Units</label>
+                    <dx-number-box placeholder="Total Number Units" 
+                    (onValueChanged)="baseStrengthCalculation()"   
+                    formControlName="quantity">
+                    </dx-number-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Unit Type</label>
+                    <dx-select-box [dataSource]="siUnitsTypeData" valueExpr="id" placeholder="Select Unit Type"(onSelectionChanged)="onContainerTypeDetails($event)"
+                       displayExpr="name" formControlName="drugspackaging_type_id" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                  <div class="col-lg-4  row" style="margin-left: 5px !important;padding:0px !important;" *ngIf="is_container_type_vial">
+                    <div class="col-lg-6">
+                      <label>Quantity/Volume </label>
+                      <dx-text-box [readOnly]="packaging_readOnly" placeholder="Quantity/Volume Per"  (onValueChanged)="baseStrengthCalculation()" formControlName="quantity_per_volume">
+                      </dx-text-box>
+                    </div>
+                    <div class="col-lg-6">
+                       <label>Unit of Quantity/Volume</label>
+                        <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="UnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                           displayExpr="name" formControlName="unit_id" [searchEnabled]="true">
+                        </dx-select-box>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Controlled Substance salt label strength</label>
+                    <dx-number-box placeholder="Controlled Substance salt label strength"  (onValueChanged)="funcChangeProductStrength($event)"   formControlName="strength">
+                    </dx-number-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Controlled Substance salt label strength units</label>
+                    <dx-select-box [dataSource]="gramsBaseSiUnitData" valueExpr="id" placeholder="Controlled Substance salt label strength units"
+                      displayExpr="name" (onSelectionChanged) ="funcChangeProductStrengthUnits($event)"  formControlName="gramsbasesiunit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Controlled Substance salt label strength units</label>
+                    <dx-number-box placeholder="Strength(g)" 
+                    (onValueChanged)="baseStrengthCalculation()"   [readOnly]= "true"  formControlName="strength_asgrams">
+                    </dx-number-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Base in Grams</label>
+                    <dx-number-box placeholder="Base(g)" [readOnly]= "true"    formControlName="controlleddrug_base">
+                    </dx-number-box>
+                  </div>
+                  <div class="col-lg-4"*ngIf="product_category_id !== 9">
+                    <label>Dosage Form</label>
+                    <dx-select-box [dataSource]="dosageFormsData" valueExpr="id" placeholder="Select Product Dosage Form"
+                      displayExpr="name" [readOnly]="is_registered == 1" formControlName="dosage_form_id" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-4">
+                    <label>Purpose of Drug Use</label>
+                    <dx-text-box placeholder="Purpose of Drug Use"formControlName="purpose_of_drugsuse">
+                    </dx-text-box>
+                  </div>
+                </fieldset>
+                  <div class="col-lg-12 ">
+                    <input type="hidden" formControlName="id" />
+                    <input type="hidden" formControlName="product_id" />
+                    <input type="hidden" formControlName="manufacturer_id"/>
+                    <input type="hidden" formControlName="product_origin_id"/>
+                    <input type="hidden" formControlName="conversion_unit" />
+                  </div>
+                <div>
+                <dx-button text="Save Products Details" 
+                  (onClick)="onsavePermitProductdetails()" type="success" icon="save"
+                  [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </dxi-item>
+  </dx-tab-panel>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Registered Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isRegisteredproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  
+      [columnHidingEnabled]="true" [height]="500"  [remoteOperations]='true' 
+      [remoteOperations]="true"
+      [dataSource]="manSiteRegisteredProductsData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+      <dxo-paging [enabled]="true"></dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false"
+       [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <a class="action-btn" (click)="funcSelectProductDetails(data)"><i class="fa fa-edit"></i>Select Product Details</a>&nbsp;
+        </div>
+      <dxo-paging [pageSize]="50"></dxo-paging> 
+      </dxi-column>
+      <dxi-column [width]="140" dataField="product_registration_no" caption="Reference Number"></dxi-column>
+      <dxi-column  dataField="brand_name"></dxi-column>
+      <dxi-column  dataField="product_origin"></dxi-column>
+      <dxi-column   dataField="common_name"></dxi-column>
+      <dxi-column dataField="applicant_name"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column dataField="dosage_form"></dxi-column>
+      <dxi-column dataField="product_type"></dxi-column>
+      <dxi-column dataField="manufacturing_site"></dxi-column> 
+                
+    </dx-data-grid>
+  </div>
+</dx-popup>
+  
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Permits Products" [dragEnabled]="false"
+[closeOnOutsideClick]="false" [(visible)]="isManufacturingSiteProductsDetails">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="row no-padding">
+    <div class="col-lg-12 ">
+      <dx-data-grid [dataSource]="registeredProductsData"  [height]="500" [remoteOperations]='true' 
+        (onToolbarPreparing)="onRegisteredProductGridToolbar($event)" [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false"
+        [allowSorting]="false" cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <a (click)="funcSelectRegisteredProduct(data)"  class="action-btn" ><i class="fa fa-check"></i>Select Product</a>&nbsp;
+        </div>
+      </dxi-column>
+        <dxi-column dataField="brand_name" caption="Brand Name/Device Name"></dxi-column>
+        <dxi-column dataField="certificate_no" caption="Market Authorisation No."></dxi-column>
+        <dxi-column dataField="common_name" caption="Common Name/INN Name/API"></dxi-column>
+        <dxi-column dataField="product_strength" caption="Product Strength"></dxi-column>
+        <dxi-column dataField="registration_status"  caption="Product Registration Status"></dxi-column>
+        <dxi-column dataField="validity_status"  caption="Registration Validity Status"></dxi-column>
+      <dxo-paging [pageSize]="25"></dxo-paging> 
+        <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+      </dx-data-grid>
+    </div>
+    
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Manufacturing Site Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufacturerSitePopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+      <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true" [wordWrapEnabled]="true"   [columnHidingEnabled]="true"   (onToolbarPreparing)="onManufacturerPreparing($event)" [dataSource]="manufacturersData" [remoteOperations]='true'   keyExpr="id">
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="true">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        
+                        <dx-button text="Select Manufacturer" (click)="funcSelectManufacturer(data)"
+                        type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                      </dx-button>
+                    </div>
+                </dxi-column>
+                <dxi-column dataField="manufacturer_name"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+                <dxi-column dataField="region"></dxi-column>
+                <dxi-column dataField="district"></dxi-column>
+                <dxi-column dataField="physical_address"></dxi-column>
+                <dxi-column dataField="postal_address"></dxi-column>
+                <dxi-column dataField="email_address"></dxi-column>
+              
+            <dxo-paging [pageSize]="50"></dxo-paging>
+      </dx-data-grid>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" height="600" [showTitle]="true" title="Unregistered Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isUnRegisteredProductsDetails">
+  <div *dxTemplate="let data of 'content'">
+        <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" height="500"  [remoteOperations]='true' 
+        [remoteOperations]="true"
+                  [dataSource]="UnRegisteredProductsData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <a class="action-btn" (click)="funcSelectUnRegisteredProductDetails(data)"><i class="fa fa-edit"></i>Select Product Details</a>&nbsp;
+                    </div>
+                    <dxo-paging [pageSize]="50"></dxo-paging> 
+                  </dxi-column>
+                  <dxi-column  dataField="proprietary_name"caption="Brand Name"></dxi-column>
+                  <dxi-column  dataField="dosage_form"></dxi-column>
+                  <dxi-column  dataField="generic_name"></dxi-column>
+                  <dxi-column  dataField="pack_size"></dxi-column>
+                  <dxi-column  dataField="no_of_units"></dxi-column>
+                  <dxi-column  dataField="country_of_origin"></dxi-column>
+                
+        </dx-data-grid>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="GMDN Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="gmdnCodeWinshow">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [height]="450"   [remoteOperations]='true'  [dataSource]="gmdnCodeData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="120" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+     <a (click)="funcSelectgmdn(data)" class="action-btn"><i class="fa fa-edit"></i>Select</a>&nbsp;
+                      </div>
+                    </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="code" caption="GMDN Code"></dxi-column>
+    <dxi-column dataField="description"></dxi-column>
+
+  </dx-data-grid>
+</div>
+</dx-popup>

@@ -1,0 +1,36 @@
+<form enctype="multipart/form-data" [formGroup]="ClinicaltrialRenewalSummaryfrm">
+<div class="row wizard-content">
+  <fieldset class="col-lg-12 row">
+    <legend  class="contentfieldset">Details of regulatory approvals</legend>
+    <div class="col-lg-4">
+      <label class="control-label">Dates of most recent approval period by Research Ethics Committee </label>
+        <dx-date-box formControlName="date_of_approved_research">
+        </dx-date-box>
+    </div>
+
+       <div class="col-lg-4">
+      <label class="control-label"><br>Date of most recent approval period by UNCST  </label>
+        <dx-date-box formControlName="date_of_approved_uncst">
+        </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label"><br>Dates of most recent approval period by NDA </label>
+        <dx-date-box formControlName="date_of_approval">
+        </dx-date-box>
+    </div>
+  <div class="col-lg-4 form-group" style="margin:1px;">
+  </div>
+</fieldset>
+
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>
+

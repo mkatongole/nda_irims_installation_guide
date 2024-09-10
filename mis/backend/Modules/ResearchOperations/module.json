@@ -1,0 +1,11 @@
+{
+    "name": "ResearchOperations",
+    "alias": "researchoperations",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ResearchOperations\\Providers\\ResearchOperationsServiceProvider"
+    ],
+    "files": []
+}

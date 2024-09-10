@@ -1,0 +1,263 @@
+
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onIMPhandlingproductsPreparing($event)"
+  [dataSource]="clinicaltrailHandlingProdData" keyExpr="id">
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-search-panel [visible]="true">
+  </dxo-search-panel>
+  <dxo-paging [enabled]="true">
+  </dxo-paging>
+  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+  </dxo-pager>
+  <dxo-export [enabled]="true" fileName="IMP Products" [allowExportSelectedData]="true"></dxo-export>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+  cellTemplate="cellTemplate">
+  <div *dxTemplate="let data of 'cellTemplate'">
+    <dx-button
+    text="Edit"
+    type="success"
+    icon="fa fa-edit"  [disabled]="isReadOnly"
+    [elementAttr]="{  class: 'pull-left' }"
+    (onClick)="funcEditIMPHandlingDetails(data)">
+</dx-button>
+<dx-button
+text="Del"
+type="danger"
+icon="fa fa-trash"  [disabled]="isReadOnly"
+[elementAttr]="{  class: 'pull-left' }"
+(onClick)="funcDeleteOtherDetails(data, 'tra_clinicaltrial_producthandling')">
+</dx-button>
+
+    </div>
+</dxi-column> 
+    <dxi-column dataField="investigator_name"></dxi-column>
+    <dxi-column dataField="shipping_delivery_distribution"></dxi-column>
+    <dxi-column dataField="storage_requirements_arrangements"></dxi-column>
+    <dxi-column dataField="container_type"></dxi-column>
+    <dxi-column dataField="primary_container" caption ="Container"></dxi-column>
+    <dxi-column dataField="container_materials"></dxi-column>
+    <dxi-column dataField="no_of_units"></dxi-column>
+    <dxi-column dataField="no_of_packs"></dxi-column>
+    <dxi-column dataField="si_units"></dxi-column> 
+</dx-data-grid>
+
+<dx-popup class="popup"  [width]="funcpopWidth(85)" [height]="550" [showTitle]="true" title="Details of Handling Trial Medicines"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="IMPHandlingProductDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12" style="background:#fff;">
+    <form enctype="multipart/form-data" role="form" [formGroup]="iMPHandlingProductDetailsFrm"
+      (ngSubmit)="onsaveiMPHandlingProductDetailsDetails()">
+      <div class="row">
+      <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <label class="control-label">Generic Name</label>
+        <dx-select-box [dataSource]="clinicalProductGenericData" valueExpr="id" displayExpr="generic_name"  
+         [searchEnabled]="true" formControlName="common_name_id">
+        </dx-select-box>
+      </div>
+      <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <label class="control-label">Responsible study staff</label>
+        <dx-text-box [readOnly] = true formControlName="investigator_name">
+        </dx-text-box>
+          <input type="hidden" formControlName="investigator_id"/>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4"> 
+          <button (click)="onClinicalTrialAllinvestigators()" class="btn btn-success" 
+            type="button"><i
+            class="fa fa-search"></i></button>
+      </div>
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Packaging and Labelling of the medical products</legend>
+         <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4" >
+        <label class="control-label">Container Type</label>
+            <dx-select-box [dataSource]="containerTypeData" valueExpr="id" displayExpr="name"  [searchEnabled]="true" placeholder=" Container type" formControlName="container_type_id">
+            </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label class="control-label">Container</label>
+
+          <dx-select-box [dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder=" Container" formControlName="container_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label class="control-label">Container Material</label>
+
+          <dx-select-box [dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Container Materials" formControlName="container_material_id">
+          </dx-select-box>
+        </div>
+      </fieldset>
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Estimates of quantities of each medication (presentation) </legend>
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label class="control-label col-lg-12">No of Units</label>
+          
+          <dx-text-box formControlName="no_of_units" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label class="control-label col-lg-12">No of Pack</label>
+          <dx-text-box formControlName="no_of_packs" [showClearButton]="true">
+          </dx-text-box>
+        </div> 
+        <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+          <label class="control-label">SI Unit</label>
+            <dx-select-box [dataSource]="siUnitsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="SI Unit" formControlName="si_unit_id">
+          </dx-select-box>
+        </div> 
+      </fieldset>
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Other IMP Handling Details</legend>
+        <div class=" col-lg-12">
+          <label class="control-label">Shipping, delivery and distribution of trial medicines</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="shipping_delivery_distribution"  placeholder="Shipping, delivery and distribution of trial medicines" class="custom-textarea">
+            </textarea>
+        </div>
+        <div class=" col-lg-12">
+          <label class="control-label">Details of storage requirements and arrangements for cold-chain maintenance where necessary and monitoring during distribution</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="storage_requirements_arrangements"   class="custom-textarea">
+          </textarea>
+        </div>
+        <div class=" col-lg-12">
+          <label class="control-label">Details of dispensing trial medicines and Waste disposal procedures</label>
+          <textarea  (input)="adjustTextAreaHeight($event)"  
+            formControlName="dispensing_trial_medicines"placeholder="Details of dispensing trial medicines and Waste disposal procedures" class="custom-textarea">
+          </textarea> 
+            <input type="hidden" formControlName="registered_product_id"/>
+            <input type="hidden" name="registration_date" formControlName="registration_date" />
+            <input type="hidden" name="registration_no" formControlName="registration_no" />
+            <input type="hidden"  formControlName="id"/>
+        </div>
+      </fieldset>
+        <div class="col-lg-12 btn-margin-5">
+           <button type="submit" (submit)="onsaveiMPHandlingProductDetailsDetails()" [disabled]="!iMPHandlingProductDetailsFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{sponsor_investigatortitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isSponsorInvestigatorSearchWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onSponsorInvestigatorPreparing($event)"
+    [dataSource]="sponsorInvestigatorData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="CLincial Trial" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+    cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <a (click)="funcSelectSponsorInvestigator(data)" class="action-btn" ><i class="fa fa-edit"></i>Select</a>&nbsp;
+    </div>
+  </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="contact_person"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="district"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+   
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="{{sponsor_investigatortitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issponsorInvestigatorAddWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="sponsorInvestigatorFrm"
+      (ngSubmit)="onsaveSponsorInvestigator()">
+
+      <div class="row">
+
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Name</label>
+          <dx-text-box formControlName="name">
+          </dx-text-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6"[hidden]="true">
+
+            <label class="control-label">Contact Person</label>
+            <dx-text-box formControlName="contact_person">
+            </dx-text-box>
+  
+          </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Country</label>
+
+          <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+            (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Region/City</label>
+
+          <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+            (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">District(Optional)</label>
+
+          <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+            [searchEnabled]="true" formControlName="district_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Email Address</label>
+          <dx-text-box formControlName="email" placeholder="Email Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6"[hidden]="true">
+          <label for="ti" class="control-label">Postal Address</label>
+          <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Telephone No</label>
+
+          <dx-text-box formControlName="telephone" placeholder="Telephone No">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label col-lg-12">Mobile No</label>
+
+          <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+
+          <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+          </dx-text-area>
+        </div>
+        
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveSponsorInvestigator()" [disabled]="!sponsorInvestigatorFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save {{consignee_sendertitle}} Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+

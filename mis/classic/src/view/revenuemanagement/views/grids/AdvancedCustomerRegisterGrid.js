@@ -1,0 +1,165 @@
+
+Ext.define('Admin.view.RevenueManagement.views.grids.AdvancedCustomerRegisterGrid', {
+    extend: 'Ext.grid.Panel',
+    controller: 'revenuemanagementvctr',
+    xtype: 'advancedCustomerRegisterGrid',
+    autoScroll: true,
+    //autoHeight: true,
+    height: Ext.Element.getViewportHeight() - 118,
+    width: '100%',
+    viewConfig: {
+        deferEmptyText: false,
+        emptyText: 'No Applications Found',
+    },
+
+    tbar:[
+        {
+            xtype: 'displayfield',
+            value: 'Double click to view more details!!',
+            hidden: true,
+            fieldStyle: {
+                'color':'green'
+            }
+        },
+        {
+            xtype:'hiddenfield',
+            name:'active_application_code'
+        }
+    ],
+
+    bbar: [{
+        xtype: 'pagingtoolbar',
+        width: '80%',
+        displayInfo: true,
+        displayMsg: 'Showing {0} - {1} of {2} total records',
+        emptyMsg: 'No Records',
+        beforeLoad: function(){
+          
+        }
+    }],
+
+    selModel:{
+        selType: 'checkboxmodel',
+        mode: 'MULTI'
+    },
+    features: [{
+        ftype: 'searching',
+        minChars: 2,
+        mode: 'local'
+    }],
+    
+    listeners: {
+        beforerender: {
+            fn: 'setGridStore',
+            config: {
+                pageSize: 10000,
+                storeId: 'advancedCustomerGridStr',
+                proxy: {
+                    url: 'revenuemanagement/getApprovedAdvancedCustomersApplications'
+                }
+            },
+            isLoad: true
+        },
+        afterrender: function () {
+            var grid = this,
+                sm = grid.getSelectionModel();
+            grid.store.on('load', function (store, records, options) {
+                Ext.each(records, function (record) {
+                    var rowIndex = store.indexOf(record);
+                    if (record.data.inspection_id) {
+                        sm.select(rowIndex, true);
+                    }
+                });
+            });
+        },
+    },
+    columns: [
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'tracking_no',
+        text: 'Tracking Number',
+        flex: 1
+    },
+
+     {
+        xtype: 'gridcolumn',
+        dataIndex: 'name',
+        text: 'Customer Name',
+        flex: 1
+    },
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'email',
+        text: 'Customer Email',
+        flex: 1
+    },
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'contact_person',
+        text: 'Contact Person',
+        flex: 1
+    },
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'contact_person_email',
+        text: 'Contact Person Email',
+        flex: 1
+    },
+ 
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'reason',
+        text: 'Reason/Justification',
+        flex: 1
+    },
+    {
+        xtype: 'gridcolumn',
+        dataIndex: 'application_status',
+        text: 'Status',
+        flex: 1
+    },
+    {
+        xtype: 'gridcolumn',
+        dataIndex:'approval_decision_id',
+        text: 'Approve status',
+        flex: 1,
+        renderer: function (value, metaData) {
+            if (value == 1) {
+                metaData.tdStyle = 'color:white;background-color:green';
+                return "Approved";
+            }else if(value == 2){
+                metaData.tdStyle = 'color:white;background-color:red';
+                return "Not Approved";
+            }else{
+                metaData.tdStyle = 'color:white;background-color:gray';
+                return "Pending";
+            }         
+        }
+    },
+    {
+        text: 'Options',
+        xtype: 'widgetcolumn',
+        width: 90,
+        widget: {
+            width: 75,
+            textAlign: 'left',
+            xtype: 'splitbutton',
+            iconCls: 'x-fa fa-th-list',
+            ui: 'gray',
+            menu: {
+                xtype: 'menu',
+                items: [
+                    {
+		                text: 'View Customer Details',
+		                iconCls: 'fa fa-eye',
+		                name: 'more_app_details',
+		                ui: 'soft-blue',
+		                isReadOnly: true,
+		                handler: 'showAdvancedCustomerRegisterMoreDetails'
+		            },
+                ]
+            }
+        }
+    }
+]
+});

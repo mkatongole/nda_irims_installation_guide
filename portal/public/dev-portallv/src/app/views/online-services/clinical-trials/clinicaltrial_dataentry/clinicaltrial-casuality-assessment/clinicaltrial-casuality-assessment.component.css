@@ -1,0 +1,55 @@
+/* Add styles for the custom-textarea class */
+.custom-textarea {
+  border: 1px solid #ccc; /* Match the border style of dx-text-area */
+  padding: 10px; /* Match the padding of dx-text-area */
+  font-size: 14px; /* Match the font size of dx-text-area */
+  line-height: 1.4; /* Match the line height of dx-text-area */
+  width: 100%; /* Match the width of the parent container */
+  height: auto; /* Allow the textarea to grow in height as needed */
+  resize: none; /* Disable textarea resizing */
+  background-color: #fff; /* Match the background color of dx-text-area */
+  border-radius: 2px; /* Match the border-radius of dx-text-area */
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; /* Match transition effects of dx-text-area */
+}
+
+.custom-textarea:focus {
+  border-color: #4CAF50 !important; /* Change border color to indicate success */
+  outline: 0; /* Remove the outline */
+}
+/* Add the success border color when the field is clicked */
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  margin: 5px; 
+}
+
+.checkbox-item .dx-checkbox {
+  border-radius: 3px;
+  padding: 5px;
+  max-width: 100%; /* Set a maximum width to allow text to wrap when necessary */
+}
+
+.toolbar-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.save-button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  margin-right: 10px;
+}
+
+.save-button:hover {
+  background-color: #e6e6e6;
+}
+
+
+

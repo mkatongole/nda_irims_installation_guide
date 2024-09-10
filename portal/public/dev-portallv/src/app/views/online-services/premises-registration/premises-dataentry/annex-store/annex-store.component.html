@@ -1,0 +1,134 @@
+
+ <div class=" wizard-content">
+    <dx-data-grid class="table row-border hover" [dataSource]="premExternalStoreData" keyExpr="id" (onToolbarPreparing)="onPremisesExternalToolbar($event,'')">
+        
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="premExternalStoreData" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditExternalStoreDetails(data)" 
+                    type="success" icon="edit">
+                    </dx-button> 
+                <dx-button text="Delete" [disabled]= "is_readonly" (click)="funcDeleteExternalStoreDetails(data)" 
+                    type="danger" icon="delete">
+                </dx-button> 
+            </div>
+        </dxi-column>
+        <dxi-column dataField="country" caption="country"></dxi-column>
+        <dxi-column dataField="districts" caption="districts"></dxi-column>
+        <dxi-column dataField="region" caption="region"></dxi-column>
+        <dxi-column dataField="village"></dxi-column>
+        <dxi-column dataField="street"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="latitude"></dxi-column>
+        <dxi-column dataField="longitude"></dxi-column>
+    </dx-data-grid>
+</div>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="External Store Location" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isExternalPopupVisible">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <dx-scroll-view></dx-scroll-view>
+        <div class="col-lg-12">
+            <form role="form" enctype="multipart/form-data" role="form" 
+                [formGroup]="premisesExternalStoreDetailsfrm" class="col-lg-12" (ngSubmit)="onSavePremisesExternalStore()">
+                <div class="col-lg-12 row">
+                    <div class="col-lg-4">
+                      <label class="control-label">Country</label>
+                      <dx-select-box [readOnly]= "is_readonly" [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                      </dx-select-box>
+                    </div>
+                    <div class="col-lg-4">
+                      <label for="ti" class="control-label">District</label>
+                      <dx-select-box [readOnly]= "is_readonly" [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+                      </dx-select-box>
+                    </div>
+                    <div class="col-lg-4">
+                      <label for="ti" class="control-label">Region</label>
+                      <dx-select-box [readOnly]= "is_readonly" [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                      </dx-select-box>
+                   </div>
+
+                    <div class="col-lg-4">
+                    <label for="ti" class="control-label">County/Division</label>
+                      <dx-select-box [readOnly]= "is_readonly" [dataSource]="countyData" valueExpr="id" 
+                         placeholder="Select County/Division" displayExpr="name" [searchEnabled]="true" formControlName="county_id" (onSelectionChanged)="oCountyCboSelect($event)" >
+                      </dx-select-box>
+                    </div> 
+                    <div class="col-lg-4">
+                      <label for="ti" class="control-label">Sub-County</label>
+                        <dx-select-box [readOnly]="is_readonly" [dataSource]="subCountyData" valueExpr="id" 
+                          placeholder="Select Sub-County" displayExpr="name" [searchEnabled]="true" formControlName="sub_county_id"(onSelectionChanged)="onSubCountyCboSelect($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <label for="ti" class="control-label">Parishes</label>
+                        <dx-select-box [readOnly]="is_readonly" [dataSource]="perishData" valueExpr="id" 
+                          placeholder="Select Parish" displayExpr="name" [searchEnabled]="true" formControlName="parish_id" (onSelectionChanged)="onParishesCboSelect($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <label for="ti" class="control-label">Village</label>
+                        <dx-select-box [readOnly]="is_readonly" [dataSource]="villageData" valueExpr="id" 
+                          placeholder="Select Village" displayExpr="name" [searchEnabled]="true" formControlName="village">
+                        </dx-select-box>
+                    </div> 
+                    <div class="col-lg-4">
+                        <label for="ti" class="control-label">Street/Road</label>
+                        <dx-text-box  [readOnly]= "is_readonly" formControlName="street" placeholder="Road/Street" [showClearButton]="true">
+                        </dx-text-box>
+                    </div>
+                  
+                  <div class="col-lg-12">
+                      <label class="control-label">Physical Address</label>
+
+                      <dx-text-area [readOnly]= "is_readonly" [height]="60" formControlName="physical_address" placeholder="Physical Address">
+                      </dx-text-area>
+                  </div>
+                 <div class="col-lg-8 row form-group">
+                      <label class="control-label col-lg-12">Geo-Location</label>
+                      <div class="col-lg-6">
+                          <dx-text-box  [readOnly]= "is_readonly" formControlName="latitude" placeholder="Latitude" [showClearButton]="true">
+                          </dx-text-box>
+                      </div>
+                      <div class="col-lg-6">
+
+                          <dx-text-box  [readOnly]= "is_readonly" formControlName="longitude" placeholder="Latitude" [showClearButton]="true">
+                          </dx-text-box>
+                      </div>
+                      <div class="col-lg-6">
+                          <dx-button
+                            text="Add Location"
+                            type="success"
+                            [disabled]="is_readonly"
+                            icon="fa fa-plus"
+                            [elementAttr]="{  class: 'pull-left' }"
+                            (click)="captureLocation()">
+                          </dx-button>
+                      </div>
+                  </div>
+                    <div class="col-lg-12">
+                        <input type="hidden" formControlName="id" />
+                    </div>
+                </div>
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                    <dx-button text="Save Store Location" 
+                        [disabled]="!premisesExternalStoreDetailsfrm.valid" (onClick)="onSavePremisesExternalStore()" type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                    </dx-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dx-popup>
+
+
+ 
+

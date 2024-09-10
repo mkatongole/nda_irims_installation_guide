@@ -1,0 +1,113 @@
+<div  style="min-height: 35px;text-align:left; margin-top: 10px;padding-top: 5px; font-weight: bold;">
+  <h5 class="strong">Product Information Details(Fill all the information on the Tabs)</h5>
+</div>
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="headingD">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#copacked_products"
+        aria-expanded="false" aria-controls="copacked_products">
+        Product Details for Co-Packed Products </button>
+    </div>
+    <div id="copacked_products" class="collapse show" aria-labelledby="headingD" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onProdCopackedPreparing($event)"
+            [dataSource]="drugscopackedData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditCopackedDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteCopackedDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="generic_name"></dxi-column>
+            <dxi-column dataField="atc_code"></dxi-column>
+            <dxi-column dataField="atc_code_descriptor"></dxi-column>
+            <dxi-column dataField="therapeutic_groups"></dxi-column>
+            <dxi-column dataField="dosage_form"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Co Packed Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isCopackedDetailsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="productcopackedDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveProductCopackedDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-6">
+          <label for="ti" class="control-label">Generic ATC Name</label>
+          <dx-select-box [dataSource]="commonNameData" [readOnly]= "isReadOnly"  valueExpr="id" 
+            displayExpr="description" [searchEnabled]="true"
+            placeholder="Select Generic ATC Name"   (onSelectionChanged)="onATCCboSelect($event)" formControlName="common_name_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label for="ti" class="control-label">ATC Code</label>
+          <dx-select-box [dataSource]="ATCCodesData"   valueExpr="id" displayExpr="name" 
+            [searchEnabled]="true"
+            placeholder="Select ATC Code" formControlName="atc_code_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6 ">
+          <label for="ti" class="control-label">ATC Description(Optional)</label>
+          <dx-text-box formControlName="atc_code_description" readOnly= true [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6 ">
+          <label for="ti" class="control-label">Therapeutic Group</label>
+          <dx-select-box [dataSource]="therapeuticGroupData" valueExpr="id" displayExpr="name" 
+            [searchEnabled]="true" [readOnly]= "isReadOnly" 
+            placeholder="Select Therapeutic Group" formControlName="therapeutic_group">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">Dosage Form</label>
+          <dx-select-box [dataSource]="dosageFormsData" [readOnly]= "isReadOnly"
+            valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Strength  Dosage Form" formControlName="dosage_form_id">
+          </dx-select-box>
+        </div>
+<!--         <div class="col-lg-6">
+          <label class="control-label">Product Strength</label>
+          <dx-text-box formControlName="product_strength" placeholder="Product Strength"  [readOnly]= "isReadOnly" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+          <label class="control-label">SI Unit</label>
+          <dx-select-box [dataSource]="siUnitsData" valueExpr="id" displayExpr="name" 
+            [searchEnabled]="true"
+            placeholder="SI Unit" formControlName="si_unit_id">
+          </dx-select-box>
+        </div> -->
+        <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveProductCopackedDetails()" [disabled]="!productcopackedDetailsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+ 

@@ -1,0 +1,7 @@
+/* Add this CSS to your component's CSS file or global styles */
+
+.breadcrumb-link:hover {
+  color: blue; /* Change the text color when hovered */
+  text-decoration: underline; /* Add underline when hovered */
+  cursor: pointer; /* Change the cursor to a pointer when hovered */
+}

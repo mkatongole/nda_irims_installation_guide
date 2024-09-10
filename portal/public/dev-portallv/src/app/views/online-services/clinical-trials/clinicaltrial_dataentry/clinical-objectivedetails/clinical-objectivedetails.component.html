@@ -1,0 +1,59 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="clinicaltrialObjectiveGeneraldetailsfrm">
+
+<div class="row wizard-content">
+<fieldset class="col-lg-12 row">
+  <legend  class="contentfieldset">Rationale for this Clinical Trial</legend>
+  <div class="col-lg-12">
+        <label class="col-lg-12">Rationale of the Study</label>
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="purpose_of_trial"   placeholder=" Rationale of the Study" class="custom-textarea" >
+        </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Study Design</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="trial_design"   placeholder="Study Design" class="custom-textarea" >
+      </textarea>
+    </div>
+</fieldset>
+<fieldset class="col-lg-12 row">
+  <legend  class="contentfieldset">Background and Objectives</legend>
+    <div class=" col-lg-12">
+      <label class="control-label">Brief summary describing the background and objectives of trial</label>
+  
+     <textarea  (input)="adjustTextAreaHeight($event)"formControlName="clinicaltrial_description"   placeholder="Brief summary describing the background and objectives of trial" class="custom-textarea">
+      </textarea>
+    </div>
+
+    <div class=" col-lg-12">
+      <label class="control-label">Primary Objective</label>
+  
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="clinicaltrialprimary_objective"   placeholder="Primary Objective" class="custom-textarea">
+      </textarea>
+    </div>
+    <div class=" col-lg-12">
+      <label class="control-label">Secondary Objective</label>
+  
+      <textarea  (input)="adjustTextAreaHeight($event)"  formControlName="clinicaltrialsecondary_objective"   placeholder="Secondary Objective" class="custom-textarea">
+      </textarea>
+    </div>
+    <div class=" col-lg-12" >
+      <label class="control-label">Exploratory/Tertiary Objective</label>
+  
+      <textarea  (input)="adjustTextAreaHeight($event)"  formControlName="explorator_objective"  placeholder="Exploratory/Tertiary  objectives " class="custom-textarea">
+      </textarea>
+    </div>   
+  </fieldset>
+
+  <div class="col-lg-4 form-group" style="margin:1px;">
+
+  </div>
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>

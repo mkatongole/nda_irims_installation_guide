@@ -1,0 +1,22 @@
+.margin-div{
+  margin: 1px !important;
+}
+
+.contentfieldset{
+  width: 100% !important;
+  background-color:  #c6ecd9;
+  padding:10px 0 !important;
+  padding-left: 5px;
+}
+ .mandatory-label::before {
+  content: "*"; 
+  color: red; 
+  margin-left: 4px;
+}
+
+.mandatory-label {
+  font-weight: bold;
+  content: "*";
+  color: red; 
+  margin-left: 4px;
+}

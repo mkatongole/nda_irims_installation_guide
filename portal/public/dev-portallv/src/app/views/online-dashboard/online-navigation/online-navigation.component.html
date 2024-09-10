@@ -1,0 +1,73 @@
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                  <div id="chart">
+                    <dx-chart
+                      [dataSource]="chartData"
+                      title="Application Status Count"
+                      [customizePoint]="customizePoint"
+                      [customizeLabel]="customizeLabel"
+                    >
+                      <dxi-series
+                        valueField="count"
+                        argumentField="status"
+                        type="line"
+                      >      
+                      <dxo-point hoverMode="allArgumentPoints"></dxo-point>
+                             
+                      </dxi-series>
+                      <dxo-common-series-settings
+                        argumentField="status"
+                        [type]="'line'" hoverMode="includePoints"
+                      ></dxo-common-series-settings>
+                      <dxo-margin [bottom]="20"></dxo-margin>
+                      <dxo-common-axis-settings>
+                        <dxo-grid [visible]="true"></dxo-grid>
+                      </dxo-common-axis-settings>
+                      <dxo-legend verticalAlignment="top" horizontalAlignment="right"    
+                       hoverMode="excludePoints">
+
+                      </dxo-legend>
+                      <dxo-argument-axis [allowDecimals]="false">
+                        <dxo-label>
+                          <dxo-format type="fixedPoint" precision="0"></dxo-format>
+                        </dxo-label>
+                      </dxo-argument-axis>
+                      <dxo-export [enabled]="true"></dxo-export>
+                      <dxo-tooltip [enabled]="true"></dxo-tooltip>
+                    </dx-chart>
+                  </div>
+
+                  </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+               <dx-pie-chart id="pie" 
+                 title="Application Status Distribution"
+               [dataSource]="pieChartData" 
+               [palette]="customPalette"
+                colorField="color"
+               [customizePoint]="customizePoint">
+                  <dxi-series argumentField="status" valueField="count">
+                    <dxo-label [visible]="true" [customizeText]="customizeLabel">
+                      <dxo-connector [visible]="true"></dxo-connector>
+                    </dxo-label>
+                  </dxi-series>
+                  <dxo-export [enabled]="true"></dxo-export>
+                </dx-pie-chart>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,26 @@
+.wizard-contentfieldset{
+
+  margin: 5px !important;
+}
+.contentfieldset{
+
+  background-color: #ccc;
+  padding:10px 0 !important;
+
+}
+
+.dx-validation-message {
+  display: none;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.warning-message {
+  animation: blink 1s infinite; /* Adjust the duration as needed */
+  color: red; /* Set the text color to red for a danger effect */
+  font-weight: bold; /* Optionally, make the text bold */
+
+}

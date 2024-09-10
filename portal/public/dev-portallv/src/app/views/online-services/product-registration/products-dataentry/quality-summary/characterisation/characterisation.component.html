@@ -1,0 +1,234 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="heading11">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#elucidation_manufacturer"
+        aria-expanded="false" aria-controls="elucidation_manufacturer">
+        2.3.S.3.1 Elucidation of Structure and other Characteristics (name, manufacturer)
+      </button>
+    </div>
+    <div id="elucidation_manufacturer" class="collapse show" aria-labelledby="heading11" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onElucidationrPreparing($event)"
+            [dataSource]="elucidationCharacterisationData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="list_studies_performed"></dxi-column>
+            <dxi-column dataField="isomerism_potentials"></dxi-column>
+            <dxi-column dataField="summary_polymorphic_form"></dxi-column>
+            <dxi-column dataField="Summary_size_distribution"></dxi-column>
+            <dxi-column dataField="other_characteristics"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading12">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#impurities_materials"
+        aria-expanded="false" aria-controls="impurities_materials">
+        2.3.S.3.2 Impurities (name, manufacturer)
+      </button>
+    </div>
+    <div id="impurities_materials" class="collapse" aria-labelledby="heading12" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onImpuritiesPreparing($event)"
+            [dataSource]="impuritiesData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="api_related_impurity"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Elucidation of Structure and other Characteristics (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isElucidationCharacterisationWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="elucidationCharacterisationDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveElucidationCharacterisationDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) List of studies performed (e.g. IR, UV, NMR, MS, elemental analysis) and conclusion from the studies (e.g. whether results support the proposed structure):
+            </label>
+            <dx-html-editor height="200" formControlName="list_studies_performed" placeholder="Structural formula, including relative and absolute stereochemistry:(b) Molecular formula:(c) Relative molecular mass">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(b) Discussion on the potential for isomerism and identification of stereochemistry (e.g. geometric isomerism, number of chiral centres and configurations) of the API batch(es) used in comparative bioavailability or biowaiver studies:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="isomerism_potentials" placeholder="Test(s)/method(s)" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-12" >
+            <label class="control-label">(c) Summary of studies performed to identify potential polymorphic forms (including solvates):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="summary_polymorphic_form"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(d) Summary of studies performed to identify the particle size distribution of the API:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="Summary_size_distribution" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12" >
+            <label class="control-label">(e) Other characteristics:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="other_characteristics" placeholder="Other characteristics:" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveElucidationCharacterisationDetails()" 
+            [disabled]="!elucidationCharacterisationDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true"
+     title="Impurities (name, manufacturer)" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="isImpurityManufacturerWinshow">
+    <div *dxTemplate="let data of 'content'" class="row">
+      <dx-scroll-view>
+        <form [formGroup]="impurityManufacturingDetailsFrm" enctype="multipart/form-data" role="form" 
+          (ngSubmit)="onSaveImpurityManufacturingDetails()">
+          <div class="row" style="background: #fff;">
+            <div class="col-lg-12" >
+              <label class="control-label">(a) Identification of potential and actual impurities arising from the synthesis, manufacture and/or degradation: <br>
+                (i) List of API-related impurities (e.g. starting materials, by-products, intermediates, chiral impurities, degradation products), including chemical name, structure and origin:
+              </label>
+              <dx-html-editor height="200" formControlName="api_related_impurity" placeholder="Structural formula, including relative and absolute stereochemistry:(b) Molecular formula:(c) Relative molecular mass">
+                <dxo-toolbar>
+                  <dxi-item formatName="undo"></dxi-item>
+                  <dxi-item formatName="redo"></dxi-item>
+                  <dxi-item formatName="separator"></dxi-item>
+                  <dxi-item
+                    formatName="size"
+                    [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                    [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                  ></dxi-item>
+                  <dxi-item
+                    formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                    [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                  ></dxi-item>
+                  <dxi-item formatName="separator"></dxi-item>
+                  <dxi-item formatName="bold"></dxi-item>
+                  <dxi-item formatName="italic"></dxi-item>
+                  <dxi-item formatName="strike"></dxi-item>
+                  <dxi-item formatName="underline"></dxi-item>
+                  <dxi-item formatName="separator"></dxi-item>
+                  <dxi-item formatName="alignLeft"></dxi-item>
+                  <dxi-item formatName="alignCenter"></dxi-item>
+                  <dxi-item formatName="alignRight"></dxi-item>
+                  <dxi-item formatName="alignJustify"></dxi-item>
+                  <dxi-item formatName="separator"></dxi-item>
+                  <dxi-item formatName="orderedList"></dxi-item>
+                  <dxi-item formatName="bulletList"></dxi-item>
+                  <dxi-item formatName="separator"></dxi-item>
+                  <dxi-item
+                    formatName="header"
+                    [formatValues]="[false, 1, 2, 3, 4, 5]"
+                    [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                  ></dxi-item>
+                </dxo-toolbar>
+                <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+              </dx-html-editor>
+            </div>
+            <div class="col-lg-12 form-group " >
+              <input type="hidden" name="id"  formControlName = "id"/>
+            </div>
+            <div class="col-lg-12">
+              <button type="submit" (submit)="onSaveImpurityManufacturingDetails()" 
+                [disabled]="!impurityManufacturingDetailsFrm.valid"
+                class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+              </button>
+            </div>
+          </div>
+        </form>
+      </dx-scroll-view>
+    </div>
+  </dx-popup>
+
+

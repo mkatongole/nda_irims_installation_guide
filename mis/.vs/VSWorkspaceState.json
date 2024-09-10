@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\classic",
+    "\\classic\\src",
+    "\\classic\\src\\view",
+    "\\classic\\src\\view\\registers",
+    "\\classic\\src\\view\\registers\\views",
+    "\\classic\\src\\view\\registers\\views\\gvpregister",
+    "\\classic\\src\\view\\registers\\views\\gvpregister\\grid",
+    "\\classic\\src\\view\\registers\\views\\gvpregister\\panel",
+    "\\classic\\src\\view\\registers\\views\\safetyreportingregisters"
+  ],
+  "SelectedNode": "\\classic\\src\\view\\registers\\views\\safetyreportingregisters",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,583 @@
+<div class=" wizard-content">
+  <div class="accordion" id="gmpproductDetailsInformation">
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#manufacturing_block_info"
+          aria-expanded="false" aria-controls="manufacturing_block_info">
+         Scope of intended Manufacturing activities at the proposed location for Surgical Instruments
+        </button>
+      </div>
+      <div id="manufacturing_block_info" class="collapse" aria-labelledby="headingThree" data-parent="#gmpproductDetailsInformation">
+        <div class="card-body no-padding">
+          <dx-data-grid class="table row-border hover" [allowColumnResizing]="true" [columnHidingEnabled]="false" (onToolbarPreparing)="onGMPBlocksProductsLineToolbar($event)" [dataSource]="gmpManufacturingBlocksDataRows">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-paging [enabled]="false">
+              </dxo-paging>
+              <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-export [enabled]="true" fileName="ProductLinedetails" [allowExportSelectedData]="true"></dxo-export>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxi-column [width]="250" caption="Action" name="command-editing" [allowFiltering]="false" 
+                [allowSorting]="false"
+                cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                  <dx-button text="Edit" (click)="funcEditManSiteBlockDetails(data)"
+                    type="success" icon="edit">
+                  </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeleteManSiteBlockDetails(data)" 
+                    type="danger" icon="delete">
+                  </dx-button>
+                </div>
+              </dxi-column>
+              <dxi-column dataField="inspection_manufacturing_category"></dxi-column>
+              <dxi-column dataField="general_manufacturing_activity_type"></dxi-column>
+              <dxi-column dataField="block_name"></dxi-column>
+              <dxi-column dataField="total_value" caption="Number of Lines"></dxi-column>
+
+            </dx-data-grid>
+
+            <div class="green-column">
+                <h1 style="font-size: 18px; color: black;font-weight: bold;">View the Product Lines</h1>
+            </div>
+            <div  data-parent="#gmpproductDetailsInformation">
+              <div class="card-body no-padding">
+                <dx-data-grid class="table row-border hover" [allowColumnResizing]="true" [columnHidingEnabled]="false" [dataSource]="gmpSurgicalProductLineData">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-paging [enabled]="false">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="ProductLinedetails" [allowExportSelectedData]="true"></dxo-export>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column dataField="block_name"    [groupIndex]="2" [allowEditing]="false" caption='Block Name'></dxi-column>
+                    <dxi-column dataField="products_line_name"  [allowEditing]="false"caption="family of the medical device"></dxi-column>
+                    <dxi-column dataField="block_name" caption="Name of Block"></dxi-column>
+                    <dxi-column dataField="sterility" caption='Sterile or Non Sterile'>
+                    </dxi-column>  
+                    <dxi-column dataField="invasive" caption='Invasive or Non-Invasive'>
+                    </dxi-column> 
+                    <dxi-column dataField="active" caption='Active or Inactive'>
+                    </dxi-column> 
+                    <dxi-column dataField="medicated" caption='Medicated or Non-Medicated'>
+                    </dxi-column>                             
+                    <dxi-column dataField="manufacturing_activities" caption ="Manufacturing Activities">
+                    </dxi-column>
+                    <dxi-column dataField="total_value" caption="Total Lines"></dxi-column>
+                    <div>Total Sum: {{ totalSum }}</div>
+                    <dxo-summary>
+                      <dxi-total-item
+                        column="total_value">
+                      </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+<div  class=" wizard-content" *ngIf="gmp_type_id == 1">
+  <div class="accordion" id="productDetailsInformation">
+    <div class="card">
+          <div class="card-header" id="headingThree">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#product_registrationinfo"
+              aria-expanded="false" aria-controls="product_registrationinfo">
+              Products Applied for Registration
+            </button>
+          </div>
+          <div id="product_registrationinfo" class="collapse" aria-labelledby="headingThree" data-parent="#productDetailsInformation">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onManufacturingSiteProductsToolbar($event)"
+                  [dataSource]="gmpproductDetailsInformationData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="Gmp Products" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <!--<a (click)="funcEditProductLineDetails(data)"><i class="fa fa-edit"></i>Edit</a>&nbsp;-->
+                      <a (click)="funcDeleteGMPProductLineDetails(data)"  disabled="is_readonly"><i class="fa fa-trash"></i>Delete</a>
+                    </div>
+                  </dxi-column>
+                  <dxi-column dataField="products_line_name" [groupIndex]="1" [allowEditing]="false" caption='Product Line'></dxi-column>
+                  <dxi-column dataField="reference_no" caption="Reference No/Tracking NO"></dxi-column>
+                  <dxi-column dataField="brand_name"></dxi-column>
+                  <dxi-column dataField="classification_name"></dxi-column>
+                  <dxi-column dataField="common_name"></dxi-column>
+                  <dxi-column dataField="applicant_name"></dxi-column>
+                  <dxi-column dataField="products_line_name"></dxi-column>
+                  
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+</div>
+<div  class=" wizard-content"*ngIf="gmp_type_id == 2 && sub_module_id == 117">
+  <div class="accordion" id="productDetailsInformation">
+    <div class="card">
+          <div class="card-header" id="headingThree">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#product_registrationinfo"
+              aria-expanded="false" aria-controls="product_registrationinfo">
+              Surgical Products Details
+            </button>
+          </div>
+          <div id="product_registrationinfo" class="collapse" aria-labelledby="headingThree" data-parent="#productDetailsInformation">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onManufacturingSiteProductsToolbar($event)"
+                  [dataSource]="gmpproductDetailsInformationData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="Gmp Products" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <!--<a (click)="funcEditProductLineDetails(data)"><i class="fa fa-edit"></i>Edit</a>&nbsp;-->
+                      <a (click)="funcDeleteGMPProductLineDetails(data)"  disabled="is_readonly"><i class="fa fa-trash"></i>Delete</a>
+                    </div>
+                  </dxi-column>
+                  <dxi-column dataField="products_line_name" [groupIndex]="1" [allowEditing]="false" caption='Product Line'></dxi-column>
+                  <dxi-column dataField="brand_name"></dxi-column>
+                  <dxi-column dataField="classification_name"></dxi-column>
+                  <dxi-column dataField="gmdn_code"></dxi-column>
+                  <dxi-column dataField="gmdn_term"></dxi-column>
+                  <dxi-column dataField="products_line_name"></dxi-column>
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+</div>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Registered Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufacturingSiteProductsDetails">
+  <div *dxTemplate="let data of 'content'">
+        <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" [height]="500"  [remoteOperations]='true'
+        [remoteOperations]="true"
+                  [dataSource]="manSiteRegisteredProductsData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <a class="action-btn" (click)="funcSelectProductDetails(data)"><i class="fa fa-edit"></i>Select Product Details</a>&nbsp;
+                    </div>
+                    <dxo-paging [pageSize]="50"></dxo-paging> 
+                  </dxi-column>
+                  <dxi-column dataField="reference_no" caption="Reference No/Tracking No"></dxi-column>
+                  <dxi-column dataField="brand_name"></dxi-column>
+                  <dxi-column dataField="classification_name"></dxi-column>
+                  <dxi-column dataField="gmdn_code"></dxi-column>
+                  <dxi-column dataField="gmdn_term"></dxi-column>
+                  <dxi-column dataField="common_name"></dxi-column>
+                  <dxi-column dataField="applicant_name"></dxi-column>
+                  <dxi-column dataField="physical_address"></dxi-column>
+                  <dxi-column dataField="dosage_form"></dxi-column>
+                  <dxi-column dataField="product_type"></dxi-column>
+                  <dxi-column dataField="manufacturing_site"></dxi-column>
+                
+        </dx-data-grid>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" height="auto" [showTitle]="true" title="Manufacturered Products" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isgmpAddProductsModalShow">
+  
+  <div *dxTemplate="let data of 'content'" class="row">
+
+      <div class="col-lg-12">
+          <form enctype="multipart/form-data" role="form" [formGroup]="prodSurgicalgmpAddinspectionFrm" (ngSubmit)="onSaveprodgmpAddinspection()">
+              <div class="row">
+                  <div class="col-lg-6 row input-group ">
+                    <div class="col-lg-8">
+                      <label class="control-label">Product Name</label>
+                      <dx-text-box 
+                        formControlName="brand_name"
+                        placeholder="Product Name" [showClearButton]="true">
+                      </dx-text-box>
+                        <input type="hidden" name="product_id" value="product_id" formControlName="product_id" />
+                    </div>
+                    <div class="col-lg-4 no-padding">
+                      <dx-button  [disabled]="gmp_type_id == 2 && sub_module_id == 117" [elementAttr]="{ class: 'btn btn-primary pull-left'}" 
+                        style="margin-top:30px  !important;"  text="Search"  
+                        type="default" (onClick)="funcAddManufacturingSiteProducts()">
+                        <i class="fa fa-search"></i>Search
+                      </dx-button>
+                    </div>  
+                  </div> 
+
+                  <div *ngIf="gmp_type_id == 1"class="col-lg-6 ">
+                      <label class="control-label">Reference No</label>
+                      <dx-text-box  formControlName="reference_no">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-lg-6 row input-group ">
+                    <div class="col-lg-8">
+                      <label class="control-label">GMDN Code</label>
+                      <dx-text-box [readOnly]="true" 
+                        formControlName="gmdn_code"
+                        placeholder="GMDN Code" [showClearButton]="true">
+                      </dx-text-box>
+                        <input type="hidden" name="gmdn_code_id" value="gmdn_code_id" formControlName="gmdn_code_id" />
+                    </div>
+                    <div class="col-lg-4 no-padding">
+                      <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" 
+                        style="margin-top:30px  !important;"  text="Search Code"  
+                        type="default" (onClick)="onLoadGmdnCodeData()">
+                        <i class="fa fa-search"></i>Search
+                      </dx-button>
+                    </div>  
+                  </div> 
+                  <div class="col-lg-4">
+                    <label class="control-label">GMDN Description</label>
+                    <dx-text-box formControlName="gmdn_code_description" [readOnly]="true" placeholder="Enter GMDN Term"  [showClearButton]="true">
+                    </dx-text-box>
+                  </div>
+                  
+                  <div class="col-lg-6 ">
+                    <label for="ti" class="control-label">Class type A or B or C or D)</label>
+                    <dx-select-box [dataSource]="classificationData"  valueExpr="id" displayExpr="name"  [readOnly]= "isReadOnly" [searchEnabled]="true"
+                      placeholder="Select Classification" formControlName="classification_id">
+                    </dx-select-box>
+                  </div>
+
+                  <div *ngIf="gmp_type_id == 1" class="col-lg-6 ">
+                      <label class="control-label">Registrant</label>
+                      <dx-text-box  formControlName="applicant_name"placeholder="Registrant">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-12">
+                      <label for="ti" class="control-label">Product Line</label>
+                      <dx-select-box 
+                          [dataSource]="gmpSurgicalProductLineData" 
+                          valueExpr="id" 
+                          displayExpr="products_line_name" 
+                          [searchEnabled]="true" 
+                          formControlName="group_family_id"(onValueChanged)="onProductLineChange($event)">
+                          <div *dxTemplate="let data of 'item'">
+                              <div class="custom-item">
+                                  {{data.products_line_name}} {{data.manufacturing_activities}}
+                              </div>
+                          </div>
+                      </dx-select-box>
+                       <input type="hidden" formControlName="reg_product_id" />
+                      <input type="hidden" formControlName="product_id" />
+                  </div>
+
+                  <div class="col-lg-12 btn-margin-5">
+                      <br />
+                      <button type="submit" (submit)="onSaveprodgmpAddinspection()" [disabled]="!prodSurgicalgmpAddinspectionFrm.valid" class="btn btn-primary"><i class="fa fa-user"></i> Save Product GMP Inspection Details</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</dx-popup>
+ <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Manufactur Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isManufacturerPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+          <dx-data-grid class="table row-border hover" [remoteOperations]='true'  [allowColumnResizing]="true"  [columnHidingEnabled]="true" 
+                    [dataSource]="manufacturersSiteData" (onToolbarPreparing)="onManDetailPreparing($event)" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                    
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                      cellTemplate="cellTemplate">
+                      <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funcSelectManufacturer(data)" class="action-btn"><i class="fa fa-edit"></i>Select Manufacturer Site</a>&nbsp;
+                      </div>
+                    </dxi-column>
+                    <dxi-column dataField="site_name"></dxi-column>
+                    <dxi-column dataField="country"></dxi-column>
+                    <dxi-column dataField="physical_address"></dxi-column>
+          </dx-data-grid>
+      </div>
+  </dx-popup>
+
+<dx-popup  class="popup" [width]="1000" [height]="600" [showTitle]="true" title="Manufacturing Activities Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isManufatcuringSiteBlocks">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+       <wizard-step navigationSymbol="Step 1" stepTitle="Manufacturing Inspection  Activities and Site Blocks" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+              <form role="form" class="col-lg-12 row" enctype="multipart/form-data" role="form" [formGroup]="gmpSurgicalmanufatcuringSiteBlocksfrm"
+                  (ngSubmit)="onSavemanufatcuringSiteBlocks()">
+                  <div class="col-lg-12">
+                    <label>Inpection Manufacturing Category</label>
+                      <dx-select-box [items]="inspectionCategoryData" valueExpr="id" displayExpr="name" 
+                        placeholder="Inpection Selection"
+                        [searchEnabled]="true" formControlName="inspection_category_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-lg-12" >
+                    <label>General Manufacturing Activity Type</label>
+                    <dx-select-box [dataSource]="generalMnaufacturingData" valueExpr="id" displayExpr="name" placeholder="General Manufacturing Activity Type" 
+                      [searchEnabled]="true" formControlName="general_manufacturing_activity_id">
+                    </dx-select-box>
+                </div>
+                <div class="col-lg-12">
+                  <label>Block Name</label>
+                  <dx-text-box  formControlName="name"
+                    placeholder="Block Name"
+                    [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div>
+                    <input type="hidden" formControlName="id" />
+                  </div>
+                </form>      
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <dx-button
+                  text="Save Block and Next"
+                  type="success"
+                  icon="save"
+                  [disabled]="!gmpSurgicalmanufatcuringSiteBlocksfrm.valid"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onSavemanufatcuringSiteBlocks()">
+                </dx-button>
+      
+              </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 2" stepTitle="Product Line Details" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <div class="card-body no-padding">
+              <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  
+                [columnHidingEnabled]="false" (onToolbarPreparing)="onProductsLineToolbar($event)"  
+                [dataSource]="gmpProductLineData">
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-paging [enabled]="false">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="true" fileName="ProductLinedetails" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column [width]="250" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                  cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                  <dx-button text="Edit" (click)="funcEditProductLineDetails(data)"
+                    type="success" icon="edit">
+                  </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeleteProductLineDetails(data)" 
+                        type="danger" icon="delete">
+                  </dx-button>
+                </div>
+                </dxi-column>
+
+                <dxi-column dataField="block_name"    [groupIndex]="2" [allowEditing]="false" caption='Block Name'></dxi-column>
+
+                <dxi-column dataField="products_line_name"  [allowEditing]="false"caption="family of the medical device"></dxi-column>
+                <dxi-column dataField="block_name" caption="Name of Block"></dxi-column>
+<!--                 <dxi-column dataField="product_name" caption="Product Name"></dxi-column>
+                <dxi-column dataField="gmdn_code" caption='GMDN Code'>
+                </dxi-column>  
+                <dxi-column dataField="gmdn_code_description" caption='GMDN Descriptor'>
+                </dxi-column> 
+                <dxi-column dataField="classification" caption='Class type A or B or C or D)'></dxi-column> -->
+                <dxi-column dataField="sterility" caption='Sterile or Non Sterile'>
+                </dxi-column>  
+                <dxi-column dataField="invasive" caption='Invasive or Non-Invasive'>
+                </dxi-column> 
+                <dxi-column dataField="active" caption='Active or Inactive'>
+                </dxi-column> 
+                <dxi-column dataField="medicated" caption='Medicated or Non-Medicated'>
+                </dxi-column>             
+                <dxi-column dataField="manufacturing_activities" caption ="Manufacturing Activities">
+                </dxi-column>
+                <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+              </dx-data-grid>
+            </div>
+            <div class="wizard-divbottom">
+              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+            </div>
+          </div>
+        </wizard-step>
+  </wizard>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" height="auto" [showTitle]="true"
+   title="Product Line" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufatcuringSiteProductLine">
+    <div *dxTemplate="let data of 'content'" class="row">
+      <div class="col-lg-12">
+        <form role="form" class="col-lg-12 row" enctype="multipart/form-data" 
+          role="form" [formGroup]="gmpSurgicalProductLineDetailsfrm"
+            (ngSubmit)="onSaveGmpProductlineDetails()">
+                  <div class="col-lg-6">
+                    <label>Name and group or family of the medical device</label>
+                      <dx-select-box [items]="product_lineSurgicalData" valueExpr="id" displayExpr="name" placeholder="Select Product Type" 
+                        [searchEnabled]="true" formControlName="group_family_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Sterile or Non Sterile</label>
+                    <dx-select-box [items]="sterileTypeData" valueExpr="id" displayExpr="name" placeholder="Product Category" 
+                      [searchEnabled]="true" formControlName="sterile_id">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Invasive or Non-Invasive</label>
+                    <dx-select-box [items]="invasiveTypeData" valueExpr="id" displayExpr="name" placeholder="Product Category" 
+                      [searchEnabled]="true" formControlName="invasive_id">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Active or Inactive</label>
+                    <dx-select-box [items]="activeTypeData" valueExpr="id" displayExpr="name" placeholder="Product Category" 
+                      [searchEnabled]="true" formControlName="active_id">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Medicated or Non-Medicated</label>
+                    <dx-select-box [items]="medicatedTypeData" valueExpr="id" displayExpr="name" placeholder="Product Category" 
+                      [searchEnabled]="true" formControlName="medicated_id">
+                    </dx-select-box>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <label>Manufacturing Activities</label>
+                    <dx-select-box [items]="manufacturingActivitiesData" [searchEnabled]="true" valueExpr="id" displayExpr="name" formControlName="manufacturing_activity_id" placeholder="Select Manufacturing Activities">
+                    </dx-select-box>
+                </div>
+                  <div class="col-lg-12">
+                    <input type="hidden" formControlName="id" />
+                    <input type="hidden" formControlName="block_name" [value]="block_name">
+                    <input type="hidden" formControlName="manufacturingsite_block_id" [value]="manufacturingsite_block_id">
+
+                  </div>
+                  <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                      <dx-button text="Save Manufacturing Site Product Line" [disabled]="!gmpSurgicalProductLineDetailsfrm.valid" (onClick)="onSaveGmpProductlineDetails()"
+                      type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                    </dx-button>
+              </div>
+            </form>
+      </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" height="auto" [showTitle]="true"
+   title="Manufacturing Block" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufatcuringSiteBlock">
+    <div *dxTemplate="let data of 'content'" class="row">
+      <div class="col-lg-12">
+        <form role="form" class="col-lg-12 row" enctype="multipart/form-data" 
+          role="form" [formGroup]="manufatcuringSiteBlocksfrm"
+            (ngSubmit)="onSavemanufatcuringSiteBlocks()">
+                  <div class="col-lg-12">
+                    <label>Inpection Manufacturing Category</label>
+                      <dx-select-box [items]="inspectionCategoryData" valueExpr="id" displayExpr="name" 
+                        placeholder="Inpection Selection" 
+                        [searchEnabled]="true" formControlName="inspection_category_id">
+                      </dx-select-box>
+                  </div>
+                <div class="col-lg-12">
+                  <label>Block Name</label>
+                  <dx-text-box  formControlName="name"
+                    placeholder="Block Name"
+                    [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div>
+                    <input type="hidden" formControlName="id" />
+                </div>
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                  <dx-button text="Save Manufacturing Site Block" [disabled]="!manufatcuringSiteBlocksfrm.valid" (onClick)="onSavemanufatcuringSiteBlocks()"
+                      type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                  </dx-button>
+              </div>
+        </form>
+      </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Registered GMP Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isRegisteredGmPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+          <dx-data-grid class="table row-border hover" [remoteOperations]='true'  [allowColumnResizing]="true"  [columnHidingEnabled]="true" 
+                    [dataSource]="registeredPremisesData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                    
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                      cellTemplate="cellTemplate">
+                      <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funSelectRegisteredGMPsApp(data)" class="action-btn"><i class="fa fa-edit"></i>Select GMP Details</a>&nbsp;
+                      </div>
+                    </dxi-column>
+                <dxi-column dataField="manufacturing_site_name"></dxi-column>
+                <dxi-column dataField="permit_no"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+                <dxi-column dataField="physical_address"></dxi-column>
+          </dx-data-grid>
+      </div>
+  </dx-popup>
+
+    <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="GMDN Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="gmdnCodeWinshow">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [height]="450"   [remoteOperations]='true'  [dataSource]="gmdnCodeData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="120" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+     <a (click)="funcSelectgmdn(data)" class="action-btn"><i class="fa fa-edit"></i>Select</a>&nbsp;
+                      </div>
+                    </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="code" caption="GMDN Code"></dxi-column>
+    <dxi-column dataField="description"></dxi-column>
+
+  </dx-data-grid>
+</div>
+</dx-popup>

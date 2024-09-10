@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Pharmacist Account Users</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Profile</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+        <dx-data-grid class="table row-border hover " [allowColumnResizing]="true" [columnHidingEnabled]="true" [dataSource]="dtaPharmacistaccountUsers"
+        [showBorders]="true" (onToolbarPreparing)="onPharmacistToolbarPreparing($event)" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-load-panel [enabled]="true">
+        </dxo-load-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+          infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-search-panel 
+            [visible]="true">
+        </dxo-search-panel>
+        <dxo-export [enabled]="true" fileName="PharmacistAccount" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-selection mode="single"></dxo-selection>
+       
+        <dxi-column  dataField="psu_reg_no"></dxi-column>
+        <dxi-column  dataField="full_name"></dxi-column>
+        <dxi-column dataField="email" ></dxi-column>
+        <dxi-column dataField="telephone_no" ></dxi-column>
+        <dxi-column dataField="country" ></dxi-column>
+        <dxi-column dataField="physical_address" ></dxi-column>
+        <dxi-column name="command-editing"  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+              
+              <a (click)="funcUpdateTraderUserAccountDetails(data)"><i class="fa fa-edit"></i>Update Pharmacist Details</a>&nbsp;
+
+            </div>
+          </dxi-column>
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="420" [showTitle]="true" title="Pharmacist Users" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="addPharmacistUsersAccountFrmWin">
+  
+    <div *dxTemplate="let data of 'content'" >
+      <dx-scroll-view>
+          <form [formGroup]="PharmacistsUsersAccountFrm" class="col-lg-12  div-nopadding" style="background: #fff;" role="form" (ngSubmit)="onSavepharmacistUsersAccountDetails()">
+            <div class="col-lg-12 row input-group">
+              <div class="col-lg-8">
+                <label class="control-label">P.S.U Registration No</label>
+                  <dx-text-box formControlName="psu_reg_no"  
+                     placeholder="P.S.U Registration No" 
+                     [showClearButton]="true">
+                  </dx-text-box>
+              </div>
+              <div class="col-lg-4 no-padding">
+                <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}"
+                  style="margin-top:25px  !important;"  text="Search Pharmacist Details"  type="default" (onClick)="onSearchSupervisingDetails()">
+                  <i class="fa fa-search"></i>Applicant
+                </dx-button>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Full Names</label>
+              <dx-text-box formControlName="full_name"  placeholder="Full Names" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label>P.S.U Registration Date</label>
+              <dx-date-box formControlName="psu_reg_date">
+              </dx-date-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Telephone No</label>
+              <dx-text-box formControlName="telephone_no" placeholder="Telephone" 
+                [showClearButton]="true">
+              </dx-text-box>
+            </div>
+              <div class="col-lg-12">
+                <label class="control-label">Email Address</label>
+                <dx-text-box formControlName="email_address"  placeholder="Email" [showClearButton]="true">
+                </dx-text-box>
+              </div>
+              <div class="col-lg-12">
+                <label class="control-label">Country</label>
+                <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" 
+                  placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12">
+                <label for="ti" class="control-label">Region</label>
+                <dx-select-box  [dataSource]="regions" valueExpr="id" 
+                  displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12">
+                <label for="ti" class="control-label">District</label>
+                <dx-select-box [dataSource]="districts" 
+                  valueExpr="id" 
+                  placeholder="Select District" displayExpr="name" 
+                  [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+                </dx-select-box>
+              </div>      
+              <div class="col-lg-12">
+                <label for="ti" class="control-label">Postal Address</label>
+                <dx-text-box  formControlName="physical_address" placeholder="Postal Address" [showClearButton]="true">
+                </dx-text-box>
+              </div>
+              <div class="col-lg-12">
+               <input type="hidden" formControlName="id" />
+               <input type="hidden" value={{token}} formControlName="_token" />
+              </div>
+              <div class="col-lg-12">
+                  <dx-button
+                      text="Add Pharmacist"
+                      type="success"
+                      icon="fa fa-plus"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (click)="onSavepharmacistUsersAccountDetails()">
+                  </dx-button>
+                </div>
+            </form>
+
+
+      </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+
+
+ 
+
+

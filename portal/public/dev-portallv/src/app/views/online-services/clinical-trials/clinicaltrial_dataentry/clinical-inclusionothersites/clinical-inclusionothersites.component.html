@@ -1,0 +1,61 @@
+<form enctype="multipart/form-data" [formGroup]="clinicaltrialGeneralExclusiondetailsfrm">
+
+<div class="row wizard-content">
+
+  <div class="col-lg-4">
+      <label class="col-lg-12">Is there previous Clinical trials with this (or similar) medicines in Uganda?</label>
+        <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"  
+          [searchEnabled]="true"    (onSelectionChanged)="onClinicaltrialConductedinUganda($event)" class="form-control input-group-text" formControlName="is_clinicaltrialin_uganda">
+        </dx-select-box>
+    </div>
+  
+    <div class="col-lg-12" *ngIf="is_clinicalin_uganda">
+      <label class="col-lg-12">If previous trials with this (or similar) medicines in Uganda, List the titles of previous trials with this (or similar) medicines in Uganda</label>
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="clinicalin_otheruganda_sites" 
+        class="custom-textarea" 
+      ></textarea>
+    </div>
+    <div class="col-lg-4">
+      <label class="col-lg-12">Is the Clinical Trial conducted in any Other Countries
+      </label>
+        <dx-select-box [dataSource]="parameterData"  valueExpr="id" displayExpr="name"  
+          [searchEnabled]="true"   (onSelectionChanged)="onClinicaltrialConductedinOtherCountries($event)" class="form-control input-group-text" formControlName="is_clinicaltrialin_othercountry">
+        </dx-select-box>
+    </div>
+  
+    <div class="col-lg-12" *ngIf="is_clinicalin_othercountry">
+        <label class="col-lg-12">Name other regulatory authorities to which the application to do this trial has been submitted and/or approved
+        If applicable, details of and reasons for this trial having been halted at any stage.</label>
+  
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="clinicalin_othercountries_sites" class="custom-textarea" >
+        </textarea>
+    </div>
+    <div class="col-lg-4">
+      <label class="col-lg-12">Is there previous Clinical trials with this (or similar) medicines in Other Countries?
+      </label>
+        <dx-select-box [dataSource]="confirmationparameterData"  valueExpr="id" displayExpr="name"  
+          [searchEnabled]="true" (onSelectionChanged)="onPrevClinicaltrialConductedinOtherCountries($event)" class="form-control input-group-text" formControlName="is_prevclinicaltrialin_othercountry">
+        </dx-select-box>
+    </div>
+  
+    <div class="col-lg-12" *ngIf="is_prevclinicalin_othercountry">
+        <label class="col-lg-12">List the titles of previous trials with this (or similar) medicines in other countries</label>
+  
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="prevclinicalin_othercountries_sites" class="custom-textarea" >
+        </textarea>
+    </div>
+  
+  <div class="col-lg-4 form-group" style="margin:1px;">
+
+  </div>
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>

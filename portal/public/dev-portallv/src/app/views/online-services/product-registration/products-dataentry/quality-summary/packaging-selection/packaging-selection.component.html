@@ -1,0 +1,459 @@
+
+ <div class="card">
+    <div class="card-header" id="headingThree">
+
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#packaging_information"
+        aria-expanded="false" aria-controls="packaging_information">
+        Packaging Information(expand to fill in the product packaging)
+      </button>
+
+    </div>
+    <div id="packaging_information" class="collapse" aria-labelledby="headingThree" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onProdPackagingPreparing($event)"
+            [dataSource]="drugsPackagingData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="400" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                    type="danger" icon="delete">
+                  </dx-button> 
+                <dx-button
+                    text="View Details"
+                    (click)="funViewDetails(data)"
+                    type="success"
+                    icon="fa fa-eye">
+                  </dx-button>
+              </div>
+            </dxi-column>
+            <dxi-column *ngIf="product_type_id == 3" dataField="generic_name" [groupIndex]="1" [allowEditing]="false" caption="Generic Name"></dxi-column>
+            <dxi-column dataField="pack_size"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<dx-popup  class="popup" [width]="1150" [height]="550" [showTitle]="true" title="Packaging Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="productPackagingModal">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;"  navBarLayout ="large-filled-symbols">
+       <wizard-step navigationSymbol="Step 1" stepTitle="Primary Packaging" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form [formGroup]="primaryPackagingdetailsfrm" (submit)="onSaveProductPackaging()"
+               enctype="multipart/form-data"
+              role="form">
+
+              <div class="col-lg-12 form-group"style="margin:1px;" *ngIf="product_type_id == 3">
+                <label for="ti" class="control-label">Active Generic Name</label>
+                <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="drugscommonNamesData" valueExpr="common_name_id" placeholder="Select Active Generic Name" displayExpr="generic_name" [searchEnabled]="true" formControlName="active_common_name_id"(onValueChanged)="onGenericNameSelected($event)">
+                  <div *dxTemplate="let data of 'item'">
+                    <div class="custom-item">
+                      {{data.generic_name}} 
+                    </div>
+                  </div>
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Type</label>
+                <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"(onSelectionChanged)="onContainerTypeDetails($event)"
+                  placeholder=" Pack Type" formControlName="container_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Material</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Container Materials" formControlName="container_material_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+                <label class="control-label col-lg-12">No of Units in Pack</label>
+                <dx-text-box formControlName="no_of_units" [showClearButton]="true">
+                </dx-text-box>
+              </div> 
+              <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+                <div class="col-lg-6">
+                  <label>Quantity/Volume Per</label>
+                  <dx-text-box [readOnly]="packaging_readOnly" placeholder="Quantity/Volume Per" formControlName="no_of_packs">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                   <label>Unit of Quantity/Volume</label>
+                    <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                       displayExpr="name" formControlName="si_unit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                </div>
+              </div>
+              <div class="col-lg-12" >
+                  <label class="control-label">Description of the packaging
+                </label>
+                  <textarea [readOnly]="packaging_readOnly" (input)="adjustTextAreaHeight($event)"formControlName="description_of_packaging"  class="custom-textarea">
+                  </textarea>
+                  <input type="hidden" name="id" formControlName = "id"/>
+                </div>
+              <div class="col-lg-12">
+                <button [disabled]="is_readOnly" type="button" class="btn btn-primary" style="margin:5px;" nextStep><i
+                   class="fa fa-angle-double-right"></i>Next
+                </button>
+                <button type="submit" (submit)="onSaveProductPackaging()"
+                  class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                  Packaging Details</button>
+              </div>
+            </form>   
+          </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 2" stepTitle="Secondary Packaging" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form [formGroup]="secondaryPackagingdetailsfrm" (submit)="onSaveSecondaryPackaging()"
+               enctype="multipart/form-data"
+              role="form">
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Type</label>
+                <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"(onSelectionChanged)="onSecondaryContainerTypeDetails($event)"
+                  placeholder=" Pack Type" formControlName="secondary_container_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Material</label>
+                <dx-select-box [readOnly]="packaging_readOnly" [dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Pack Material" formControlName="secondary_container_material_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+                <label class="control-label col-lg-12">No of Units in Pack</label>
+                <dx-text-box [readOnly]="packaging_readOnly"formControlName="secondary_no_of_units" [showClearButton]="true">
+                </dx-text-box>
+              </div> 
+              <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+                <div class="col-lg-6">
+                  <label>Quantity/Volume Per</label>
+                  <dx-text-box [readOnly]="packaging_readOnly"placeholder="Quantity/Volume Per" formControlName="secondary_no_of_packs">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                   <label>Unit of Quantity/Volume</label>
+                    <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                       displayExpr="name" formControlName="secondary_si_unit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                </div>
+              </div>
+              <div class="col-lg-12" >
+                  <label class="control-label">Description of the packaging
+                </label>
+                  <textarea [readOnly]="packaging_readOnly"(input)="adjustTextAreaHeight($event)"formControlName="secondary_description"  class="custom-textarea">
+                  </textarea>
+                  <input type="hidden" name="id"  formControlName = "id"/>
+                </div>
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+                    class="fa fa-angle-double-left"></i>previous
+                  </button>
+                <button [disabled]="is_readOnly" type="button" class="btn btn-primary" style="margin:5px;" nextStep><i
+                   class="fa fa-angle-double-right"></i>Next
+                </button>
+                <button type="submit" (submit)="onSaveSecondaryPackaging()"
+                  class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                  Packaging Details</button>
+              </div>
+            </form>   
+          </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 3" stepTitle="Tertiary Packaging (Optional)" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form [formGroup]="productTertiarydetailsfrm" (submit)="onSaveTertiaryPackaging()"
+               enctype="multipart/form-data"
+              role="form">
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Type</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"(onSelectionChanged)="onTertiaryContainerTypeDetails($event)"
+                  placeholder=" Pack Type" formControlName="tertiary_container_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Material</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Pack Material" formControlName="tertiary_container_material_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+                <label class="control-label col-lg-12">No of Units in Pack</label>
+                <dx-text-box [readOnly]="packaging_readOnly"formControlName="tertiary_no_of_units" [showClearButton]="true">
+                </dx-text-box>
+              </div> 
+              <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+                <div class="col-lg-6">
+                  <label>Quantity/Volume Per</label>
+                  <dx-text-box [readOnly]="packaging_readOnly"placeholder="Quantity/Volume Per" formControlName="tertiary_no_of_packs">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                   <label>Unit of Quantity/Volume</label>
+                    <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                      displayExpr="name" formControlName="tertiary_si_unit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                </div>
+              </div>
+              <div class="col-lg-12" >
+                  <label class="control-label">Description of the packaging
+                </label>
+                  <textarea [readOnly]="packaging_readOnly"(input)="adjustTextAreaHeight($event)"formControlName="tertiary_description"  class="custom-textarea">
+                  </textarea>
+                  <input type="hidden" name="id"  formControlName = "id"/>
+                </div>
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+                    class="fa fa-angle-double-left"></i>previous
+                </button>
+                <button type="button" class="btn btn-primary" style="margin:5px;" nextStep><i
+                   class="fa fa-angle-double-right"></i>Next
+                </button>
+                <button type="submit" (submit)="onSaveTertiaryPackaging()" [disabled]="!productTertiarydetailsfrm.valid "
+                  class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                  Packaging Details</button>
+              </div>
+            </form>   
+          </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 4" stepTitle="Others(i) (Optional)" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form [formGroup]="otherPackagingdetailsfrm" (submit)="onSaveOtherPackaging()"
+               enctype="multipart/form-data"
+              role="form">
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Type</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"(onSelectionChanged)="onOtherContainerTypeDetails($event)"
+                  placeholder=" Pack Type" formControlName="other_container_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Material</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Container Materials" formControlName="other_container_material_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+                <label class="control-label col-lg-12">No of Units in Pack</label>
+                <dx-text-box [readOnly]="packaging_readOnly"formControlName="other_no_of_units" [showClearButton]="true">
+                </dx-text-box>
+              </div> 
+              <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+                <div class="col-lg-6">
+                  <label>Quantity/Volume Per</label>
+                  <dx-text-box [readOnly]="packaging_readOnly"placeholder="Quantity/Volume Per" formControlName="other_no_of_packs">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                   <label>Unit of Quantity/Volume</label>
+                    <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                       displayExpr="name" formControlName="other_si_unit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                </div>
+              </div>
+              <div class="col-lg-12" >
+                  <label class="control-label">Description of the packaging
+                </label>
+                  <textarea [readOnly]="packaging_readOnly"(input)="adjustTextAreaHeight($event)"formControlName="other_description"  class="custom-textarea">
+                  </textarea>
+                  <input type="hidden" name="id"  formControlName = "id"/>
+                </div>
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+                  class="fa fa-angle-double-left"></i>previous
+                </button>
+                <button type="button" class="btn btn-primary" style="margin:5px;" nextStep><i
+                   class="fa fa-angle-double-right"></i>Next
+                </button>
+                <button type="submit" (submit)="onSaveOtherPackaging()" [disabled]="!otherPackagingdetailsfrm.valid "
+                  class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                  Packaging Details</button>
+
+              </div>
+            </form>   
+          </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 5" stepTitle="Others(ii) (Optional)" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form [formGroup]="shippersPackagingdetailsfrm" (submit)="onSaveShippersPackaging()"
+               enctype="multipart/form-data"
+              role="form">
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Type</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"(onSelectionChanged)="onShippersContainerTypeDetails($event)"
+                  placeholder=" Pack Type" formControlName="shipper_container_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group " style="margin:1px;">
+                <label class="control-label">Pack Material</label>
+                <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Pack Material" formControlName="shipper_container_material_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+                <label class="control-label col-lg-12">No of Units in Pack</label>
+                <dx-text-box [readOnly]="packaging_readOnly"formControlName="shipper_no_of_units" [showClearButton]="true">
+                </dx-text-box>
+              </div> 
+              <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+                <div class="col-lg-6">
+                  <label>Quantity/Volume Per</label>
+                  <dx-text-box [readOnly]="packaging_readOnly"placeholder="Quantity/Volume Per" formControlName="shipper_no_of_packs">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                   <label>Unit of Quantity/Volume</label>
+                    <dx-select-box [readOnly]="packaging_readOnly"[dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+                       displayExpr="name" formControlName="shipper_si_unit_id" [searchEnabled]="true">
+                    </dx-select-box>
+                </div>
+              </div>
+              <div class="col-lg-12" >
+                  <label class="control-label">Description of the packaging
+                </label>
+                  <textarea [readOnly]="packaging_readOnly" (input)="adjustTextAreaHeight($event)"formControlName="shipper_description"  class="custom-textarea">
+                  </textarea>
+                <input type="hidden" name="id"  formControlName = "id"/>
+                </div>
+              <div class="col-lg-12">
+                <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+                    class="fa fa-angle-double-left"></i>previous
+                  </button>
+                <button type="button" class="btn btn-primary" style="margin:5px;" nextStep><i
+                   class="fa fa-angle-double-right"></i>Next
+                </button>
+                <button type="submit" (submit)="onSaveShippersPackaging()" [disabled]="!shippersPackagingdetailsfrm.valid"
+                  class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                  Packaging Details</button>
+              </div>
+            </form>   
+          </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 6" stepTitle="Diluents (Optional)" class="wizardStep-height">
+            <div class="card-body no-padding">
+              <dx-data-grid class="table row-border hover" [allowColumnResizing]="true"  
+                [columnHidingEnabled]="false" (onToolbarPreparing)="onProdDiluentsPackagingPreparing($event)"  
+                [dataSource]="diluentsProductPackagingData">
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-paging [enabled]="false">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="true" fileName="ProductDiluentsdetails" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column [width]="250" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                  cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                  <dx-button text="Edit" (click)="funcEditProductLineDetails(data)"
+                    type="success" icon="edit">
+                  </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeleteProductLineDetails(data)" 
+                        type="danger" icon="delete">
+                  </dx-button>
+                </div>
+                </dxi-column>
+                <dxi-column dataField="container_name" [allowEditing]="false" caption='Pack Type'></dxi-column>
+                <dxi-column dataField="container_name"  [allowEditing]="false"caption="Pack Material"></dxi-column>
+                <dxi-column dataField="diluent" caption="Diluent"></dxi-column>
+                <dxi-column dataField="secondary_no_of_units"  [allowEditing]="false"caption="Secondary No Of Units"></dxi-column>
+                <dxi-column dataField="no_of_units" caption ="Quantity/Volume Per">
+                </dxi-column>
+                <dxi-column dataField="si_unit"[allowEditing]="false" caption="Unit of Quantity/Volume"></dxi-column>
+                <dxi-column dataField="description"[allowEditing]="false" caption="Pack Description"></dxi-column>
+                <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+              </dx-data-grid>
+          </div>
+        </wizard-step>
+  </wizard>
+</dx-scroll-view>
+</div>
+</dx-popup>
+ 
+
+
+<dx-popup class="popup" [width]="funcpopWidth(70)" [height]="500" [showTitle]="true" title="Diluents Details" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="productpackagingDiluentsModal">
+  <div *dxTemplate="let data of 'content'" class="row">
+     <dx-scroll-view>
+      <form [formGroup]="diluentPackagingdetailsfrm" (submit)="onSaveDiluentPackaging()"
+        enctype="multipart/form-data"
+        role="form">
+       <div class="row" style="background: #fff;">
+        <div class="col-lg-12 form-group " style="margin:1px;">
+          <label class="control-label">Pack Type</label>
+          <dx-select-box [dataSource]="containerData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            (onSelectionChanged)="onDiluentsContainerTypeDetails($event)"
+            placeholder=" Pack Type" formControlName="container_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-12 form-group " style="margin:1px;">
+          <label class="control-label">Pack Material</label>
+          <dx-select-box [dataSource]="containerMaterialData" valueExpr="id" displayExpr="name" 
+            [searchEnabled]="true"
+            placeholder="Pack Material" formControlName="container_material_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-12 form-group " style="margin:1px;">
+          <label class="control-label">Diluent</label>
+          <dx-select-box [dataSource]="diluentData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Diluents" formControlName="diluent_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-12 form-group" style="margin:1px;">
+          <label class="control-label col-lg-12">No of Units in Secondary Pack</label>
+          <dx-text-box formControlName="secondary_no_of_units" [showClearButton]="true">
+          </dx-text-box>
+        </div> 
+        <div class="col-lg-12 form-group" style="margin:1px;"*ngIf="is_not_container_type_vial">
+          <label class="control-label col-lg-12">No of Units in Pack</label>
+          <dx-text-box formControlName="no_of_units" [showClearButton]="true">
+          </dx-text-box>
+        </div> 
+        <div class="col-lg-12  row" style="margin-left: 5px !important;padding:0px !important;"*ngIf="is_container_type_vial">
+          <div class="col-lg-6">
+            <label>Quantity/Volume Per</label>
+            <dx-text-box placeholder="Quantity/Volume Per" formControlName="no_of_packs">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label>Unit of Quantity/Volume</label>
+            <dx-select-box [dataSource]="siUnitsData" valueExpr="id" placeholder="Unit of Quantity/Volume"
+              displayExpr="name" formControlName="si_unit_id" [searchEnabled]="true">
+            </dx-select-box>
+          </div>
+        </div>
+        <div class="col-lg-12" >
+          <label class="control-label">Description of the packaging
+          </label>
+          <textarea  (input)="adjustTextAreaHeight($event)"formControlName="description"  class="custom-textarea">
+          </textarea>
+            <input type="hidden" name="id"  formControlName ="id"/>
+            <input type="hidden" name="pack_id"  formControlName ="pack_id"/>
+        </div>
+        <div class="col-lg-12">
+          <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+            class="fa fa-angle-double-left"></i>previous
+          </button>
+          <button type="submit" (submit)="onSaveDiluentPackaging()" [disabled]="!diluentPackagingdetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+            Packaging Details</button>
+        </div>
+       </div>
+      </form>  
+    </dx-scroll-view>
+  </div>
+</dx-popup>

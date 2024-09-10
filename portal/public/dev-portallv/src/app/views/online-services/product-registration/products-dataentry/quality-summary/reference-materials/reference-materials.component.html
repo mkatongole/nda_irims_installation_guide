@@ -1,0 +1,121 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="headingK">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#reference_standards"
+        aria-expanded="false" aria-controls="reference_standards">
+        2.3.P.6 Reference Standards or Materials     
+    </button>
+    </div>
+    <div id="reference_standards" class="collapse show" aria-labelledby="headingK" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="referenceStandardsControl($event)"
+            [dataSource]="referenceStandardsData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="description_of_source"></dxi-column>
+            <dxi-column dataField="characterisation_evaluation"></dxi-column>
+            <dxi-column dataField="decription_control"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title=" Reference Standards or Materials  " [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="referenceStandardsWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="refernceStandardsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveReferenceStandardsDetails()">
+      <div class="row" style="background: #fff;">
+        <div class="col-lg-12" >
+            <label class="control-label">((a) Source (including lot number) of primary reference standards or reference materials (e.g. Ph.Int., Ph.Eur., BP, USP, in-house) not discussed in 3.2.S.5: 
+            </label>
+            <dx-html-editor height="250"  formControlName="description_of_source">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12" >
+              <label class="control-label">(b) Characterization and evaluation of non-official (e.g. not from an officially recognized pharmacopoeia) primary reference standards or reference materials (e.g. elucidation of structure, certificate of analysis) not discussed in 3.2.S.5
+            </label>
+              <textarea  (input)="adjustTextAreaHeight($event)"formControlName="characterisation_evaluation"  class="custom-textarea">
+              </textarea>
+            </div>
+        
+           <div class="col-lg-12" >
+              <label class="control-label">(c) Description of the process controls of the secondary reference standard (comparative certificate of analysis and IR spectra against primary standard) not discussed in 3.2.S.5
+              </label>
+              <textarea  (input)="adjustTextAreaHeight($event)"formControlName="decription_control"  class="custom-textarea">
+              </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveReferenceStandardsDetails()" [disabled]="!refernceStandardsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+

@@ -1,0 +1,201 @@
+
+  <div class="accordion" id="productInfo">
+    <div class="card">
+    <div class="card-headerdefined" id="headingOne">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#test_procedure"
+        aria-expanded="false" aria-controls="test_procedure">
+        Reporter Initial Information
+      </button>
+    </div>
+    <div id="test_procedure" class="collapse show" aria-labelledby="headingOne" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onTestPreparing($event)"
+            [dataSource]="testProcedureData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditLaboratoryTestDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteClinicalLabTestDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="tes_name_medra"caption="Test Name(MedDRA)"></dxi-column>
+            <dxi-column dataField="test_name"></dxi-column>
+            <dxi-column dataField="test_logic"caption="Test Results"></dxi-column>
+            <dxi-column dataField="test_date"></dxi-column>
+            <dxi-column dataField="result"></dxi-column>
+            <dxi-column dataField="normal_low_value"></dxi-column>
+            <dxi-column dataField="normal_high_value"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <dx-popup class="popup" [width]="funcpopWidth(85)" [height]="500" [showTitle]="true" title="Test Procedure" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isTestProcedureWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="InitialReporteDetailsfrm" enctype="multipart/form-data" role="form" (ngSubmit)="onsaveSaeInvestigationsDetails()">
+      <div class="row" style="background: #fff;">
+       <div class="col-lg-6">
+          <label class="control-label">Reporter As</label>
+              <dx-select-box  
+                [dataSource]="reporterData" valueExpr="id"
+                displayExpr="name" placeholder="Reporter As"
+                [searchEnabled]="true" formControlName="adr_reporter_type_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Reporter Professional Qualification</label>
+              <dx-select-box  
+                [dataSource]="reportProfessionalData" valueExpr="id"
+                displayExpr="name" placeholder="Reporter Professional Qualification"
+                [searchEnabled]="true" formControlName="qualification_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Title</label>
+              <dx-select-box  
+                [dataSource]="reportTitleData" valueExpr="id"
+                displayExpr="name" placeholder="Title"
+                [searchEnabled]="true" formControlName="title_id">
+                </dx-select-box>
+          </div>
+
+          <div class="col-lg-6">
+            <label class="control-label">Is Primary Reporter</label>
+              <dx-select-box  
+                [dataSource]="confirmationData" valueExpr="id"
+                displayExpr="name" placeholder="Is Primary Reporter"
+                [searchEnabled]="true" formControlName="is_primary_id">
+                </dx-select-box>
+          </div>
+
+          <div class="col-lg-6">
+            <label class="control-label">Given/First Name</label>
+              <dx-text-box 
+                formControlName="first_name"
+                placeholder="Given/First Name" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Family/Last Name</label>
+              <dx-text-box 
+                formControlName="last_name"
+                placeholder="Family/Last Name" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Department</label>
+              <dx-text-box 
+                formControlName="department"
+                placeholder="Department" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Organisation</label>
+              <dx-text-box 
+                formControlName="organisation"
+                placeholder="Organisation" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Street address</label>
+              <dx-text-box 
+                formControlName="physical_address"
+                placeholder="Street address" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+
+          <div class="col-lg-6">
+            <label class="control-label">City</label>
+              <dx-select-box  
+                [dataSource]="cityData" valueExpr="id"
+                displayExpr="name" placeholder="City"
+                [searchEnabled]="true" formControlName="city_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Country</label>
+              <dx-select-box  
+                [dataSource]="countries" valueExpr="id"
+                displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)"
+                [searchEnabled]="true" formControlName="country_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-6">
+            <label for="ti" class="control-label">Region</label>
+              <dx-select-box  
+                [dataSource]="regions" valueExpr="id"
+                displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" 
+                [searchEnabled]="true"
+                formControlName="region_id">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-6">
+            <label for="ti" class="control-label">District</label>
+              <dx-select-box 
+                [dataSource]="districts" valueExpr="id"
+                placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id">
+              </dx-select-box>
+          </div>
+
+         <div class="col-lg-6">
+            <label class="control-label">Telephone</label>
+              <dx-text-box 
+                formControlName="telephone_no"
+                placeholder="Telephone" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Email addresss</label>
+              <dx-text-box 
+                formControlName="email_address"
+                placeholder="Email addresss" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+        <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onsaveSaeInvestigationsDetails()" 
+            [disabled]="!InitialReporteDetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

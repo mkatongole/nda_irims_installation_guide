@@ -1,0 +1,73 @@
+<form enctype="multipart/form-data" [formGroup]="nonClinicaltrialtoxicologyfrm">
+<div class="row wizard-content">
+  <fieldset class="col-lg-12 row">
+    <legend  class="contentfieldset">Pharmacology</legend>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Primary Pharmacodynamics</label>
+        <textarea (input)="adjustTextAreaHeight($event)" formControlName="primary_pharmacodynamics" 
+        class="custom-textarea"
+        ></textarea>
+    </div>
+    <div class="col-lg-12">
+        <label class="col-lg-12">Secondary Pharmacodynamics</label>
+        <textarea  (input)="adjustTextAreaHeight($event)" formControlName="secondary_pharmacodynamics" class="custom-textarea" >
+        </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Safety Pharmacology</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="safety_pharmacology" class="custom-textarea" >
+      </textarea>
+    </div>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Pharmacodynamic Drug Interactions</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="pharmacodynamic_drug_interactions" class="custom-textarea" >
+      </textarea>
+    </div>
+  </fieldset>
+  <fieldset class="col-lg-12 row">
+    <legend  class="contentfieldset">Pharmacokinetics</legend>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Describe Pharmacokinetics</label>
+      <textarea  (input)="adjustTextAreaHeight($event)" formControlName="pharmacokinetics" class="custom-textarea" >
+      </textarea>
+    </div>
+  </fieldset>
+  <fieldset class="col-lg-12 row">
+    <legend  class="contentfieldset">Toxicology</legend>
+    <div class="col-lg-12">
+      <label class="col-lg-12">Animal species selection/Genotoxicity/Carcinogenicity/Reproductive and developmental toxicity/Juvenile toxicity studies/Other studies (including enhanced PPND studies)/Local tolerance/Othe r toxicity studies</label>
+        <textarea (input)="adjustTextAreaHeight($event)" formControlName="toxicology" 
+        class="custom-textarea"
+        ></textarea>
+    </div>
+  </fieldset>
+  <fieldset class="col-lg-12 row">
+    <legend  class="contentfieldset">Additional considerations</legend>
+     <div class="col-lg-12">
+      <label class="col-lg-12">First-in-human trials</label>
+        <textarea (input)="adjustTextAreaHeight($event)" formControlName="First_in_human_trials" 
+        class="custom-textarea"
+        ></textarea>
+    </div>
+     <div class="col-lg-12">
+      <label class="col-lg-12">GLP aspects</label>
+        <textarea (input)="adjustTextAreaHeight($event)" formControlName="glp_aspects" 
+        class="custom-textarea"
+        ></textarea>
+    </div>
+  <div class="col-lg-4 form-group" style="margin:1px;">
+  </div>
+</fieldset>
+
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>
+

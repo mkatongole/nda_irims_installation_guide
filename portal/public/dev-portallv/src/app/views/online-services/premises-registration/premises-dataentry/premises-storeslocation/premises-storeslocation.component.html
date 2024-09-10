@@ -1,0 +1,118 @@
+<div class=" wizard-content">
+  <dx-data-grid class="table row-border hover" [dataSource]="premisesStoreLocationDetailsData" keyExpr="id" (onToolbarPreparing)="onPremisesStoreLocationToolbar($event,'')">
+
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="premPersonnelDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <dx-button [disabled]="is_readonly"text="Edit" (click)="funcEditLocationDetails(data)" 
+                  type="success" icon="edit">
+                  </dx-button> 
+              <dx-button [disabled]="is_readonly"text="Delete" (click)="funcDeleteLocationDetails(data)" 
+                  type="danger" icon="delete">
+              </dx-button> 
+          </div>
+      </dxi-column>
+      <dxi-column dataField="name" caption="Name"></dxi-column>
+      <dxi-column dataField="street" caption="Street"></dxi-column>
+      <dxi-column dataField="distance" caption="Distance (meters)"></dxi-column>
+      <dxi-column dataField="country_name" caption="country"></dxi-column>
+      <dxi-column dataField="region_name" caption="region"></dxi-column>
+      
+  </dx-data-grid>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(75)"[height]="auto" [showTitle]="true" title="Nearest Pharmacy Location" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isStoreLocationPopupVisible">
+  <div *dxTemplate="let data of 'content'" class="row">
+    <dx-scroll-view></dx-scroll-view>
+      <div class="col-lg-12">
+        <form role="form" enctype="multipart/form-data" role="form" 
+          [formGroup]="premisesStoreslocationFrm" class="col-lg-12" (ngSubmit)="onSavePremisesStoreLocationDetails()">
+          <div class="col-lg-12 row">
+            <div class="col-lg-4 row input-group ">
+                <div class="col-lg-8">
+                    <label class="control-label">Name</label>
+                      <dx-text-box  [readOnly]="true" formControlName="name" placeholder="Premise Name" 
+                          [showClearButton]="true"> 
+                      </dx-text-box>
+                </div>
+                <div class="col-lg-4 no-padding">
+                    <dx-button   [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Location Details"  type="default" (onClick)="onSearchNearestLocationDetails()">
+                        <i class="fa fa-search"></i>Search Pharmacy
+                    </dx-button>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label for="ti" class="control-label">Distance (meters)</label>
+                    <dx-text-box  [readOnly]="true" formControlName="distance" placeholder="Enter Distance" [showClearButton]="true"> 
+                     </dx-text-box>
+                </div>
+                <div class="col-lg-4">
+                  <label class="control-label">Country</label>
+                  <dx-select-box [readOnly]="true" [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4">
+                  <label for="ti" class="control-label">District</label>
+                  <dx-select-box [readOnly]="true" [dataSource]="districts" valueExpr="id" 
+                     placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+                  </dx-select-box>
+                </div>  
+                <div class="col-lg-4">
+                  <label for="ti" class="control-label">Region</label>
+                    <dx-select-box  [readOnly]="true" [dataSource]="regions" valueExpr="id" 
+                      displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                    </dx-select-box>
+                </div>
+           
+                <div class="col-lg-4">
+                  <label for="ti" class="control-label">Street/Road</label>
+                  <dx-text-box  [readOnly]="true" formControlName="street" placeholder="Street/Road" [showClearButton]="true">  </dx-text-box>
+                </div> 
+                <div class="col-lg-12">
+                  <input type="hidden" formControlName="id" />
+                </div>  
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <dx-button text="Save Premises Location Details" [disabled]="!premisesStoreslocationFrm.valid" (onClick)="onSavePremisesStoreLocationDetails()" type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+              </div>
+          </form>
+      </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Nearest Location Premises" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isLocationPopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [height]="450"   [remoteOperations]='true'  [dataSource]="registeredPremisesData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="120" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+     <a (click)="funcSelectLocationDetails(data)" class="action-btn"><i class="fa fa-edit"></i>Select Premise</a>&nbsp;
+                      </div>
+                    </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="distance" caption="Distance (Meters)"></dxi-column>
+    <dxi-column dataField="region_name"></dxi-column>
+
+  </dx-data-grid>
+</div>
+</dx-popup>
+

@@ -1,0 +1,63 @@
+<form role="form" enctype="multipart/form-data"  role="form" [formGroup]="preSubmissionGeneraldetailsfrm">
+<div class="row wizard-content">
+
+  <div class="col-lg-12">
+    <label class="control-label">Study Title</label>
+    <textarea  (input)="adjustTextAreaHeight($event)" formControlName="study_title"   placeholder="Study Title" class="custom-textarea" >
+    </textarea>
+  </div>
+
+   <div class="col-lg-12 " >
+    <label class="control-label">Brief summary describing the background and objectives of trial</label>
+    <textarea (input)="adjustTextAreaHeight($event)"
+    formControlName="brief_description" class="custom-textarea"
+    placeholder="Brief summary describing the background and objectives of the trial"
+  ></textarea>
+
+  </div>
+  <div class="col-lg-4">
+      <label class="control-label">Proposed Meeting Date</label>
+      <dx-date-box
+        [type]="'date'"
+        [min]="minDate"
+        [formControlName]="'meeting_date'"
+       >
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Proposed Meeting Time</label>
+      <dx-date-box
+        [type]="'time'"
+        [(value)]="selectedMeetingTime"
+        (onValueChanged)="validateMeetingTime($event)"
+        [formControlName]="'meeting_time'"
+        [showClearButton]="true"
+        [pickerType]="'rollers'"
+        [displayFormat]="'shortTime'"
+      >
+      </dx-date-box>
+      <div *ngIf="isInvalidMeetingTime" class="warning-message">
+        Meeting time must be between 9:00 AM and 5:00 PM.
+      </div>
+    </div>
+    <div class=" col-lg-4">
+      <label class="control-label">Meeting Type</label>
+      <dx-select-box [dataSource]="meetingTypeData"  (onValueChanged)="onClinicalTriaMeetingTypeChange($event)" valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="meeting_type_id">
+      </dx-select-box>
+    </div>
+  <div class="col-lg-4 form-group" style="margin:1px;">
+
+  </div>
+  <div class="col-lg-12">
+    <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+    <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+    <input type="hidden" value={{application_code}} formControlName="application_code" />
+    <input type="hidden" value={{section_id}} formControlName="section_id" />
+    
+    <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+    
+  </div>
+</div> 
+</form>
+

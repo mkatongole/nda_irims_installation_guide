@@ -1,0 +1,59 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="clinicaltrialOtherReportingdetailsfrm">
+
+  <div class="row wizard-content">
+  
+    <div class="col-lg-8">
+      <label class="control-label">Study Title</label>
+      <dx-text-area  formControlName="study_title"  [readOnly]="true"  placeholder="Study Title" >
+      </dx-text-area>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <label class="control-label">Clinical Study Phase</label>
+        <dx-select-box [dataSource]="clinicalStudyPhaseData"  valueExpr="id" displayExpr="name"  
+         [searchEnabled]="true" formControlName="phase_id">
+        </dx-select-box>
+      </div>
+    <div class="col-lg-4">
+      <label class="control-label">Protocol No</label>
+      <dx-text-box formControlName="protocol_no"  [readOnly]="true"  placeholder="Protocol No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Version No</label>
+      <dx-text-box formControlName="version_no"  [readOnly]="true"  placeholder="Version No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="control-label">Date of Protocol</label>
+      <dx-date-box [elementAttr]="{class:'form-control'}"  [readOnly]="true" formControlName="date_of_protocol">
+      </dx-date-box>
+    </div>
+    
+    <div class="col-lg-4">
+        <label class="control-label">Reporting Period Start Date</label>
+        <dx-date-box     formControlName="reporting_start_date">
+        </dx-date-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Reporting Period End Date</label>
+        <dx-date-box    formControlName="reporting_end_date">
+        </dx-date-box>
+      </div>
+    <div class="col-lg-12">
+      <label class="control-label">Brief Description</label>
+      <dx-text-area  formControlName="brief_description"   placeholder="Brief Description" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-12">
+      <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+      <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+      <input type="hidden"  formControlName="section_id" />      
+      <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+      
+    </div>
+  </div> 
+  </form>
+  

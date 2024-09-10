@@ -1,0 +1,109 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="heading5">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#active_pharmaceutical"
+        aria-expanded="false" aria-controls="active_pharmaceutical">
+        2.3.S ACTIVE PHARMACEUTICAL INGREDIENT (API)) 
+      </button>
+    </div>
+    <div id="active_pharmaceutical" class="collapse show" aria-labelledby="heading5" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onActivePharm($event)"
+            [dataSource]="activePharmaceuticalData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="active_ingredient"></dxi-column>
+            <dxi-column dataField="manufacturer"></dxi-column>
+            <dxi-column dataField="cert_suitability"></dxi-column>
+            <dxi-column dataField="full_details_PD"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="DRUG SUBSTANCE (or ACTIVE PHARMACEUTICAL INGREDIENT (API)) " [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isActivePharmaceuticalWin">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="activePharmaceuticalFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveActivePharmaceuticalDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-6" >
+            <label class="control-label">Name of API</label>
+            <textarea  [readOnly]= "true" (input)="adjustTextAreaHeight($event)"formControlName="active_ingredient" placeholder="Name of API" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6" >
+            <label class="control-label">Name of API manufacturer:</label>
+            <textarea  [readOnly]= "true" (input)="adjustTextAreaHeight($event)"formControlName="manufacturer" placeholder="Name of API manufacturer" class="custom-textarea">
+            </textarea>
+          </div>
+<!--           <div class="col-lg-6" >
+            <label class="control-label">Certificate of suitability to the European Pharmacopoeia (CEP):</label>
+            <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"  
+              [searchEnabled]="true"  class="form-control input-group-text" formControlName="cert_suitability">
+            </dx-select-box>
+          </div> -->
+
+          <div class="col-lg-12" >
+            <label class="control-label">Certificate of suitability to the European Pharmacopoeia (CEP):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="cert_suitability" placeholder="Certificate of suitability to the European Pharmacopoeia (CEP)::" class="custom-textarea">
+            </textarea>
+          </div>
+<!-- 
+          <div class="col-lg-6 form-group " >
+
+            <label class="control-label">Active pharmaceutical ingredient master file (APIMF):
+               a copy of the letter of access should be provided in Module 1; and summaries of the relevant information from the Open part should be provided under the appropriate sections. 
+            </label>
+            <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"  
+              [searchEnabled]="true"  class="form-control input-group-text" formControlName="EAC_file">
+            </dx-select-box>
+          </div> -->
+
+          <div class="col-lg-12" >
+            <label class="control-label">Full details in the PD:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="full_details_PD" placeholder="Full details in the PD:" class="custom-textarea">
+            </textarea>
+          </div>
+
+          <div class="col-lg-6 form-group " >
+
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveActivePharmaceuticalDetails()" [disabled]="!activePharmaceuticalFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+

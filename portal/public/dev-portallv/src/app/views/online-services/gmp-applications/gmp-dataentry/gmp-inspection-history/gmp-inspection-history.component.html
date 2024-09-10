@@ -1,0 +1,103 @@
+
+<form role="form" enctype="multipart/form-data"  role="form" [formGroup]="inspectionHistorydetailsfrm">
+  <div class="row  wizard-content wizard-contentfieldset"> 
+       <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Inspection History of Facility</legend>
+          <div class="col-lg-4"> 
+              <label class="control-label">Date of last Onsite Physical Inspection By NDA (most recent inspection)</label>
+              <dx-text-box  formControlName="start_date"  
+                 placeholder="Most Recent Physical Inspection Date" 
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4  ">
+              <label class="control-label"><br>Compliant Status in most recent inspection</label>
+              <dx-text-box  formControlName="compliant"  placeholder="Compliant Status in most recent inspection" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <label><br>Time in Years Since Last Inspection</label>
+            <dx-text-box  formControlName="timesince_lastinspection">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <label>Based on Last Inspection Date Does it Meet Criteria</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name"  placeholder="Meet Criteria" [searchEnabled]="true" formControlName="meet_criteria">
+            </dx-select-box>
+          </div>
+
+          <div class="col-lg-4">
+            <label>Are there any PMS Complaints Received Previously</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name"  placeholder="PMS Complaints Received Previously" [searchEnabled]="true" formControlName="pms_complaintsreceived_previously">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label>Are there any Product Recalls Previously Conducted</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name"  placeholder="Product Recalls Previously Conducted" [searchEnabled]="true" formControlName="product_recallspreviously_conducted">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label>Only Previously approved Product Lines have been applied for Renewals</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name"  placeholder="Product Lines have been applied for Renewals" [searchEnabled]="true" formControlName="approved_renewalprevious_productline">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label><br>Total Product Lines applied are not more than 5</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name"  placeholder="Total Product Lines applied are not more than 5" [searchEnabled]="true" formControlName="total_product_line">
+            </dx-select-box>
+          </div>
+         <div class="col-lg-4">
+            <label>Has the facility been Inspected by Stringent Regulatory Authority or WHO?</label>
+            <dx-select-box  [dataSource]="confirmDataParam"  valueExpr="id"
+              displayExpr="name" (onValueChanged)="onInspectedByWho($event)"  placeholder="Inspected by Stringent Regulatory Authority or WHO" [searchEnabled]="true" formControlName="facility_inspected_who">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-4" *ngIf ="isonInspectedByWho">
+            <label class="control-label">State Inspecting Country</label>
+              <dx-select-box 
+                [dataSource]="countries" valueExpr="id"
+                displayExpr="name" placeholder="Select Country" 
+                [searchEnabled]="true" formControlName="country_id">
+                </dx-select-box>
+          </div>
+          <div class="col-lg-4 "*ngIf ="isonInspectedByWho">
+              <label class="control-label">State Date of Approval</label>
+              <dx-date-box  formControlName="approval_date"  placeholder="State Date of Approval" [showClearButton]="true">
+              </dx-date-box>
+          </div>
+
+          <div class="col-lg-4 "*ngIf ="isonInspectedByWho">
+              <label class="control-label">State Date of Expiry</label>
+              <dx-date-box  formControlName="expiry_date"  placeholder="State Date of Expiry" [showClearButton]="true">
+              </dx-date-box>
+          </div>
+          <div class="col-lg-4"*ngIf ="isonInspectedByWho">
+            <label>GMP Validity Status</label>
+            <dx-text-box  formControlName="validity_status">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4"*ngIf ="isonInspectedByWho">
+            <label>Time to Expiry (Years)</label>
+            <dx-text-box  formControlName="times_to_expiry">
+            </dx-text-box>
+          </div>
+
+      </fieldset>  
+      <div class="col-lg-12">
+        <input type="hidden" formControlName="id" />
+        <input type="hidden" value={{sub_module_id}} formControlName="gmpsub_module_id" />
+        <input type="hidden" value={{section_id}} formControlName="section_id" />
+      </div>
+   </div>
+</form>
+
+
+
+
+
+

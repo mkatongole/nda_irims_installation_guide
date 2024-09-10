@@ -1,0 +1,81 @@
+<div class="top-banner ultra-top-bar">
+    <div class="row">
+        <div class="col-lg-4">
+            <img src="{{assets_url}}images/logo.jpg" style="margin: -5px; width: 75px; height: 60px;" alt="Logo">
+        </div>
+        <div class="col-lg-4">
+        </div>
+        <div class="col-lg-4">
+            <ul class="list-inline float-right mb-0">
+                <li class="list-inline-item" id="user-menu">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link nav-user" href="#" data-toggle="dropdown" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <div class="profile-picture mr-3">
+                                    <img src="{{assets_url}}images/profile.jpg">
+                                </div>
+                                <div class="text-right">
+                                    <i class="fa fa-user"></i> {{trader_no}} - {{company_name}} - {{email_address}}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenuDropdown">
+                            <a class="dropdown-item" (click)="funcChangePasswordModal()">
+                                <i class="fa fa-user-circle mr-2 text-dark"></i><span>Change Password</span>
+                            </a>
+                            <a routerLink="trader-profile" class="dropdown-item">
+                                <i class="fa fa-user mr-2 text-dark"></i><span>Profile</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a (click)="funclogOut()" class="dropdown-item">
+                                <i class="fa fa-power-off mr-2 text-dark"></i> <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+ <dx-popup class="popup" [width]="500" [height]="400" [showTitle]="true" title="Change Password"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton] ="true"  [(visible)]="ischangePasswordModal">
+  <div *dxTemplate="let data of 'content'">
+      <form role="form" enctype="multipart/form-data" role="form" [formGroup]="changePasswordFrm" (ngSubmit)="onFuncChangePassword()">
+        <div class="row">
+          <div class="col-lg-12">
+            <label>Current Password</label>
+            <dx-text-box mode="password" formControlName="current_password" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label>New Password</label>
+            <dx-text-box mode="password" formControlName="new_password" [showClearButton]="true">
+
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label>Confirm Password</label>
+            <dx-text-box mode="password" formControlName="confirm_password" [showClearButton]="true">
+
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 pull-left">
+            <dx-button [elementAttr]="{ class: 'btn btn-primary  pull-right' }" text="Change Password" [disabled]="!changePasswordFrm.valid"
+              type="success" (onClick)="onFuncChangePassword()">
+            </dx-button>
+          </div>
+          <div class="col-lg-6 pull-right">
+              <h5>New Password must: </h5>
+              <label> 1) Have 6 characters. </label><br />
+              <label> 2) Atleast One numeric value. </label><br />
+            </div>
+        </div>
+      </form>
+      
+    </div>
+ </dx-popup>
+</div>
+
+
+
+
+

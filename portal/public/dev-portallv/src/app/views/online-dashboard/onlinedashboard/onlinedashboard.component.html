@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Dashboard</h1>
+      <ol class="breadcrumb float-left">
+
+        <a href="#"><li class="fa fa-dashboard">Home</li></a> &nbsp;
+
+      </ol>
+      <div class="clearfix">
+        <div class="date-container float-right " (mouseenter)="toggleCalendarVisibility(true)">
+        <div class="current-date" (mouseenter)="toggleCalendarVisibility(true)">
+            Today {{ currentDate | date: 'mediumDate' }}
+        </div>
+        <div *ngIf="isCalendarVisible" class="calendar-container">
+          <dx-date-box
+            [(value)]="currentDate"
+            [displayFormat]="'mediumDate'"
+            [type]="'date'"
+            [opened]="isCalendarVisible"
+          ></dx-date-box>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+<div class=" container-fluid  with-background">
+    <div class="menu-toggle">
+      <h3 class="online-services">Explore our Online Services</h3>
+    </div>
+    <div class="row">
+     <div *ngFor="let nav of navResults;" class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+        <div class="card-box noradius noborder custom-card" [style.background]="nav.backgroundColor">
+          <a *ngIf="nav.children" class="card-body card-link" >
+            <span class="{{ nav.iconCls }} icon float-right text-white" style="font-size: 27px;"></span>
+            <h6 class="text-white text-uppercase m-b-20 mb-2">{{ nav.name }}</h6>
+              <button class="btn btn-custom" (click)="onMenuItemClick(nav.id)"[style.background]="nav.backgroundColor" style="color: white;border: none; border-radius: 0;">
+                Proceed with Application <span class="fa fa-sign-in"></span>
+              </button>
+          </a>
+          <a *ngIf="!nav.children" routerLink="{{ nav.router_link }}" [routerLinkActive]="'is-active'" class="card-body card-link">
+            <i class="{{ nav.iconCls }} icon" aria-hidden="true"></i>&nbsp;
+            <h6 class="title">{{ nav.name }}</h6>
+          </a>
+        </div>
+        <div class="card-box noradius noborder reg_routerlink" 
+        (click)="funcPreviewGuidelines(nav.id)" [style.background]="nav.backgroundColor">
+          <span><a  class="fa fa-question-circle">
+            </a >View Services Guidelines</span>
+        </div>
+      </div>
+    </div>
+</div>   
+<dx-popup class="popup"  [width]="funcpopWidth(70)" [height]="450" [showTitle]="true" title="View Services Guidelines"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewsingleServicesDataset">
+  <dx-scroll-view>
+
+  <dx-data-grid   [dataSource]="singleServicesDataset"  [showBorders]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true" (onToolbarPreparing)="onServiceGridPreparing($event)"  keyExpr="id">
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+<dxo-selection mode="single"></dxo-selection>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      
+      <dxo-paging [enabled]="false">
+      </dxo-paging>
+      <dxo-pager [showInfo]="false" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="false" fileName="Services" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-group-panel [visible]="false"></dxo-group-panel>
+      <dxi-column [width] =50  caption="" alignment= 'left' dataField="#" cellTemplate="cellTemplateCOunt">
+        <div *dxTemplate="let data of 'cellTemplateCOunt'">
+          <div [innerHTML]="data.row.rowIndex+1"></div>
+      </div>
+      </dxi-column>
+      <dxi-column caption="" dataField="name"  [groupIndex]="0"></dxi-column>
+      <dxi-column name="command-editing"  caption="Organisation Services"  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <div [innerHTML]="data.data.name"></div>
+          </div>
+        </dxi-column> 
+        <dxi-column [width] =200 name="command-editing"  caption="Services Guidelines "  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateGuidelines">
+          <div *dxTemplate="let data of 'cellTemplateGuidelines'">
+            <a class="btn btn-success  btn-sm" (click)="funcDownloadPreviewGuidelines(data.data)"><i class="fa fa-download"></i>Download Guidelines</a>
+            
+          </div>
+        </dxi-column> 
+    </dx-data-grid>
+  </dx-scroll-view>
+
+  </dx-popup>
+ 
+
+
+

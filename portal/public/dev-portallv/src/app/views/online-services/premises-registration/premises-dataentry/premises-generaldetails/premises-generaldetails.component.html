@@ -1,0 +1,434 @@
+
+<form role="form" enctype="multipart/form-data"  role="form" [formGroup]="premisesGeneraldetailsfrm">
+  <div class="row  wizard-content wizard-contentfieldset">
+      <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">Premise Details</legend>
+      <div class="col-lg-4">
+        <label>Premise Category</label>
+        <dx-select-box  [dataSource]="businessTypesData" valueExpr="id" displayExpr="name"[readOnly]= "is_readonly || is_made_readOnly"  placeholder="Select Premises Category" [searchEnabled]="true"  formControlName="business_type_id">
+        </dx-select-box>
+      </div>
+<!--       <div class="col-lg-4"*ngIf="sub_module_id==109">
+        <label>Premise Type</label>
+        <dx-select-box  [dataSource]="businessTypeDetailsData" valueExpr="id" displayExpr="name"placeholder="Select Business Category" [searchEnabled]="true"  formControlName="business_type_detail_id">
+        </dx-select-box>
+      </div> -->
+    <div class="col-lg-4">
+      <label>Is This Application made for:</label>
+      <dx-select-box   [dataSource]="applicantTypesData" valueExpr="id"
+        displayExpr="name" [readOnly]= "is_readonly || is_made_readOnly" placeholder="Select Application Type" [searchEnabled]="true"
+        formControlName="applicant_type_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Business/Company Registration No </label>
+      <dx-text-box formControlName="company_registration_no"  
+        [readOnly]= "is_readonly || is_made_readOnly" placeholder="Registration" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Name of the Company/Pharmacy</label>
+      <dx-text-box [readOnly]= "is_readonly || is_made_readOnly" formControlName="premises_name"  placeholder="Premises Name" 
+        [showClearButton]="true">
+      </dx-text-box>
+    </div> 
+    <div class="col-lg-4">
+      <label>Registration Date</label>
+        <dx-date-box [readOnly]= "is_readonly || is_made_readOnly" formControlName="reg_date">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-4 row input-group">
+            <div class="col-lg-9">
+              <label class="control-label">TIN</label>
+                <dx-text-box  [readOnly]= "is_readonly || is_made_readOnly" formControlName="tpin_no" [showClearButton]="true">
+                </dx-text-box>
+            </div>
+            <div class="col-lg-3">
+              <dx-button  
+                [elementAttr]="{ class: 'btn btn-primary pull-left'}"[disabled]= "is_readonly" style="margin-top:35px  !important;"  text="Search Tin "  type="default" (onClick)="onSearchTinDetails()">
+               <i class="fa fa-search"></i>Search
+              </dx-button>
+            </div> 
+          </div>
+      <div class="col-lg-4">
+        <label class="control-label">Product Category</label>
+          <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="premiseClassData"formControlName="product_classification_id"
+           placeholder="Product Classification"
+           valueExpr="id"
+            (onValueChanged)="onOtherClassificationChange($event)"
+            [searchEnabled]="true"
+            displayExpr="name">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-4" *ngIf="is_other_classification">
+        <label class="control-label">Please Specify</label>
+          <dx-text-box [readOnly]= "is_readonly || is_made_readOnly" formControlName="other_classification" 
+            placeholder="Specify if other Classification" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      </fieldset> 
+       <fieldset class="col-lg-12 row" *ngIf="sub_module_id ==1 || sub_module_id ==2 || sub_module_id ==3 || sub_module_id ==108 || sub_module_id ==109">
+        <legend  class="contentfieldset">Supervising Pharmacist Details</legend>
+          <div class="col-lg-4"> 
+              <label class="control-label">P.S.U Registration No</label>
+              <dx-text-box [readOnly]= "is_readonly || is_made_relocation" formControlName="psu_no"  
+                 placeholder="P.S.U Registration No" 
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4  ">
+              <label class="control-label">Full Names</label>
+              <dx-text-box [readOnly]="true" formControlName="full_names"  placeholder="Full Name" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <label>P.S.U Registration Date</label>
+            <dx-date-box [readOnly]="true" formControlName="psu_date">
+            </dx-date-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Telephone No</label>
+            <dx-text-box [readOnly]="true" formControlName="pharmacist_telephone" placeholder="Telephone" 
+              [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <label class="control-label">Email Address</label>
+            <dx-text-box [readOnly]="true" formControlName="pharmacist_email"  placeholder="Email" [showClearButton]="true">
+            </dx-text-box>
+          </div> 
+          <div class="col-lg-4">
+              <label for="ti" class="control-label">Qualification of Applicant</label>
+                <dx-select-box [readOnly]="true" [dataSource]="qualificationsData" valueExpr="id" 
+                   placeholder="Select Qualification" displayExpr="name" [searchEnabled]="true" formControlName="pharmacist_qualification">
+                </dx-select-box>
+              </div>
+          <div class="col-lg-4">
+            <label class="control-label">Country</label>
+            <dx-select-box [readOnly]="true" [dataSource]="countries" valueExpr="id" displayExpr="name" 
+              placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="pharmacist_country_id">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-4">
+            <label for="ti" class="control-label">District</label>
+            <dx-select-box [readOnly]="true" [dataSource]="districts" 
+              valueExpr="id" 
+              placeholder="Select District" displayExpr="name" 
+              [searchEnabled]="true" formControlName="pharmacist_district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+            </dx-select-box>
+          </div> 
+          <div class="col-lg-4">
+            <label for="ti" class="control-label">Region</label>
+            <dx-select-box  [readOnly]="true" [dataSource]="regions" valueExpr="id" 
+              displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="pharmacist_region_id">
+            </dx-select-box>
+          </div>     
+      </fieldset>  
+       <fieldset class="col-lg-12 row" *ngIf="sub_module_id == 1 || sub_module_id == 108 || sub_module_id == 3 || sub_module_id == 109">
+        <legend  class="contentfieldset">Declarations Details</legend>
+          <div class="col-lg-12">
+            <label>Has the applicant, any partner or director been convicted the past three years within or outside Uganda, of any offence involving drug  </label>
+            <dx-select-box  [readOnly]= "is_readonly || is_made_relocation" [dataSource]="confirmDataParam" valueExpr="id"
+              displayExpr="name"  (onSelectionChanged)="onApplicantConvictionChange($event)" placeholder="Is convicted" [searchEnabled]="true"
+              formControlName="had_offence">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-12" *ngIf="isConvicted">
+            <label class="control-label">Give Offence Reason</label>
+            <dx-text-area [readOnly]= "is_readonly || is_made_relocation"  formControlName="offence"placeholder="Offence Reason">
+            </dx-text-area>
+          </div>
+          <div class="col-lg-12">
+            <label>Has any previous application by the applicants any partner or director, for a license to operate any type of pharmaceutical business been refused or cancelled</label>
+             <dx-select-box   (onSelectionChanged)="onApplicantCancelledChange($event)" [readOnly]= "is_readonly || is_made_relocation"  [dataSource]="confirmDataParam" valueExpr="id"
+               displayExpr="name" placeholder="Had Cancelled" [searchEnabled]="true"
+             formControlName="had_cancelled_application">
+              </dx-select-box>
+          </div>
+          <div class="col-lg-12" *ngIf="isCancelled">
+            <label class="control-label">Give Reason</label>
+            <dx-text-area  [readOnly]= "is_readonly || is_made_relocation" formControlName="cancelling_reason" placeholder="Cancellation Reason">
+            </dx-text-area>
+          </div>
+      </fieldset>  
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Physical Location of Premises of the business</legend>
+        <div class="col-lg-4">
+          <label class="control-label">Country</label>
+          <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">District</label>
+          <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Region</label>
+          <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+       </div>
+
+        <div class="col-lg-4">
+        <label for="ti" class="control-label">County/Division</label>
+          <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="countyData" valueExpr="id" 
+             placeholder="Select County/Division" displayExpr="name" [searchEnabled]="true" formControlName="county_id" (onSelectionChanged)="oCountyCboSelect($event)" >
+          </dx-select-box>
+        </div> 
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Sub-County</label>
+            <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="subCountyData" valueExpr="id" 
+              placeholder="Select Sub-County" displayExpr="name" [searchEnabled]="true" formControlName="sub_county_id"(onSelectionChanged)="onSubCountyCboSelect($event)">
+            </dx-select-box>
+        </div>
+
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Parishes</label>
+            <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="perishData" valueExpr="id" 
+              placeholder="Select Parish" displayExpr="name" [searchEnabled]="true" formControlName="parish_id" (onSelectionChanged)="onParishesCboSelect($event)">
+            </dx-select-box>
+        </div>
+
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Village</label>
+            <dx-select-box [readOnly]= "is_readonly || is_made_readOnly" [dataSource]="villageData" valueExpr="id" 
+              placeholder="Select Village" displayExpr="name" [searchEnabled]="true" formControlName="village">
+            </dx-select-box>
+        </div> 
+        <div class="col-lg-4">
+            <label for="ti" class="control-label">Street/Road</label>
+            <dx-text-box  [readOnly]= "is_readonly || is_made_readOnly" formControlName="street" placeholder="Road/Street" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+      
+      <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+
+          <dx-text-area [readOnly]= "is_readonly || is_made_readOnly" [height]="60" formControlName="physical_address" placeholder="Physical Address">
+          </dx-text-area>
+      </div>
+     <div class="col-lg-8 row form-group">
+          <label class="control-label col-lg-12">Geo-Location</label>
+          <div class="col-lg-6">
+              <dx-text-box  [readOnly]= "is_readonly" formControlName="latitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+
+              <dx-text-box  [readOnly]= "is_readonly" formControlName="longitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+              <dx-button
+                text="Add Location"
+                type="success"
+                [disabled]="is_readonly"
+                icon="fa fa-plus"
+                [elementAttr]="{  class: 'pull-left' }"
+                (click)="captureLocation()">
+              </dx-button>
+          </div>
+      </div>
+      </fieldset>
+       <fieldset class="col-lg-12 row" *ngIf="sub_module_id == 109">
+        <legend  class="contentfieldset">Proposed New Location of Premises of the business</legend>
+        <div class="col-lg-4">
+          <label class="control-label">Country</label>
+          <dx-select-box [readOnly]= "is_readonly" [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">District</label>
+          <dx-select-box [readOnly]= "is_readonly" [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="proposed_district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Region</label>
+          <dx-select-box [readOnly]= "is_readonly" [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="proposed_region_id">
+          </dx-select-box>
+       </div>
+
+        <div class="col-lg-4">
+        <label for="ti" class="control-label">County/Division</label>
+          <dx-select-box [readOnly]= "is_readonly" [dataSource]="countyData" valueExpr="id" 
+             placeholder="Select County/Division" displayExpr="name" [searchEnabled]="true" formControlName="proposed_county_id" (onSelectionChanged)="oCountyCboSelect($event)" >
+          </dx-select-box>
+        </div> 
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Sub-County</label>
+            <dx-select-box [readOnly]="is_readonly" [dataSource]="subCountyData" valueExpr="id" 
+              placeholder="Select Sub-County" displayExpr="name" [searchEnabled]="true" formControlName="proposed_sub_county_id"(onSelectionChanged)="onSubCountyCboSelect($event)">
+            </dx-select-box>
+        </div>
+
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Parishes</label>
+            <dx-select-box [readOnly]="is_readonly" [dataSource]="perishData" valueExpr="id" 
+              placeholder="Select Parish" displayExpr="name" [searchEnabled]="true" formControlName="proposed_parish_id" (onSelectionChanged)="onParishesCboSelect($event)">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Village</label>
+            <dx-select-box [readOnly]="is_readonly" [dataSource]="villageData" valueExpr="id" 
+              placeholder="Select Village" displayExpr="name" [searchEnabled]="true" formControlName="proposed_village">
+            </dx-select-box>
+        </div>  
+        <div class="col-lg-4">
+            <label for="ti" class="control-label">Street/Road</label>
+            <dx-text-box  formControlName="proposed_street" placeholder="Road/Street" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+      
+      <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+
+          <dx-text-area [readOnly]= "is_readonly" [height]="60" formControlName="proposed_physical_address" placeholder="Physical Address">
+          </dx-text-area>
+      </div>
+
+
+     <div class="col-lg-8 row form-group">
+          <label class="control-label col-lg-12">Geo-Location</label>
+          <div class="col-lg-6">
+              <dx-text-box [readOnly]="is_readonly" formControlName="proposed_latitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+
+              <dx-text-box [readOnly]="is_readonly" formControlName="proposed_longitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+              <dx-button
+                text="Add Location"
+                type="success"
+                [disabled]="is_readonly"
+                icon="fa fa-plus"
+                [elementAttr]="{  class: 'pull-left' }"
+                (click)="captureLocation()">
+              </dx-button>
+          </div>
+      </div>
+      </fieldset> 
+      <div class="col-lg-12">
+              <input type="hidden" [value]= "pharmacist_id" formControlName="pharmacist_id" />
+              <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+              <input type="hidden" value={{module_id}} formControlName="module_id" />
+              <input type="hidden" [value]= "company_reg_id" formControlName="company_reg_id" />
+              <input type="hidden" value={{application_code}} formControlName="application_code" />
+              <input type="hidden" value={{tra_premise_id}} formControlName="tra_premise_id" />
+              <input type="hidden" value={{registered_id}} formControlName="registered_id" />
+          </div>
+   </div>
+</form>
+
+<dx-popup class="popup"  [width]="funcpopWidth(45)" [showTitle]="true" title="Premises Personnel" [dragEnabled]="false" [closeOnOutsideClick]="false"
+[(visible)]="isPersonnelPopupVisible">
+
+<div *dxTemplate="let data of 'content'" class="row">
+  <dx-data-grid [dataSource]="personnel_informationData" height=500 (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+    [showBorders]="true">
+    <dxi-column dataField="name"></dxi-column>
+
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="telephone_no"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+
+    <dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a style="cursor: pointer;" (click)="funcSelectPremisePersonnel(data)"><i class="fa fa-edit"></i>Select
+          Personnel</a>&nbsp;
+      </div>
+    </dxi-column>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="dtpremDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(50)" [height]="'auto'" [showTitle]="true" title="Personnel Information"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isaddNewPremisesPersonnelDetails">
+<div *dxTemplate="let data of 'content'">
+<div class="col-lg-12">
+  <form enctype="multipart/form-data" role="form" [formGroup]="newPremisesPersonnelDetailsFrm"
+    (ngSubmit)="onSaveNewPremisesPersonnelDetails()">
+
+    <div class="row">
+
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+
+        <label class="control-label">Name</label>
+        <dx-text-box formControlName="name">
+        </dx-text-box>
+
+      </div>
+     
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Email Address</label>
+        <dx-text-box formControlName="email_address" placeholder="Email Address">
+        </dx-text-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Postal Address</label>
+        <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+        </dx-text-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Telephone No</label>
+
+        <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12 btn-margin-5">
+        <br />
+        <button type="submit" (submit)="onSaveNewPremisesPersonnelDetails()" [disabled]="!newPremisesPersonnelDetailsFrm.valid"
+          class="btn btn-primary"><i class="fa fa-user"></i> Save Personnel Details</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(70)" [height]="500" [showTitle]="true" title=" Registered Supervising Pharmacist Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isSupervisorPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+          <dx-data-grid class="table row-border hover" [remoteOperations]='true'  [allowColumnResizing]="true"  [columnHidingEnabled]="true" 
+                    [dataSource]="supervisingDetailsData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="premPersonnelDetailsData" [allowExportSelectedData]="true"></dxo-export>
+                    
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                      cellTemplate="cellTemplate">
+                      <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funcSelectSupervisingDetails(data)" class="action-btn"><i class="fa fa-edit"></i>Select Supervising Pharmacists Details</a>&nbsp;
+                      </div>
+                    </dxi-column>
+                    <dxi-column [groupIndex]="1" dataField="first_name"></dxi-column>
+                    <dxi-column dataField="last_name"></dxi-column>
+                    <dxi-column dataField="psu_reg_no"></dxi-column>
+                    <dxi-column dataField="psu_reg_date"></dxi-column>
+                    <dxi-column dataField="country"></dxi-column>
+                    <dxi-column dataField="region"></dxi-column>
+                    <dxi-column dataField="district"></dxi-column>
+                    <dxi-column dataField="physical_address"></dxi-column>
+                    <dxi-column dataField="postal_address"></dxi-column>
+                    <dxi-column dataField="email_address"></dxi-column>
+                    
+          </dx-data-grid>
+      </div>
+  </dx-popup>

@@ -1,0 +1,403 @@
+<div class="row wizard-content">
+            
+  <dx-data-grid class="table row-border hover" 
+    (onToolbarPreparing)="onProductParticularsPreparing($event)"
+    [dataSource]="promProductParticularsData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-paging [enabled]="true"></dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)"></dxo-pager>
+    <dxo-export [enabled]="true" fileName="Report" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="100" caption="Action" name="command-editing" 
+      [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a (click)="funcEditProductParticularsDetails(data)"  class="action-btn"><i class="fa fa-edit"></i>Edit</a>&nbsp;
+        <a (click)="funcDeleteProductParticularsDetails(data)"  class="action-btn"><i class="fa fa-trash"></i>Delete</a>
+      </div>
+    </dxi-column>
+   <dxi-column dataField="advertisement_material" [groupIndex]="1" [allowEditing]="false" caption='Type Advertisements Material'></dxi-column>
+    <dxi-column dataField="brand_name"></dxi-column>
+    <dxi-column dataField="advert_language"></dxi-column>
+    
+  </dx-data-grid>
+</div>
+
+
+
+<dx-popup class="popup" [width]="funcpopWidth(70)" [height]="550" 
+  [showTitle]="true" title="Promotional Application: Product Particulars"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPromotionalProductparticularswinadd">
+  <div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+    <form enctype="multipart/form-data" role="form" 
+      [formGroup]="promotionalProductparticularsfrm"
+      (ngSubmit)="onSavepromotionalProductparticulars()">
+      <div class="col-lg-12 row">
+
+       <div class="col-lg-4" *ngIf="!isHasExhibitionMeeting">
+          <label class="control-label">Type Advertisements Material (Select)
+          </label>
+          <dx-select-box
+            [items]="promotionalMaterialsData"
+            formControlName="promotions_material_id"
+            placeholder="Type of Advertisements Material"
+            (onValueChanged)="onGenericNameSelected($event)"
+            valueExpr="id" [readOnly]="is_readonly" 
+            [searchEnabled]="true"
+            displayExpr="advertisement_material">
+          </dx-select-box>
+        </div> 
+        <div class="col-lg-4 row input-group ">
+          <div class="col-lg-8">
+            <label class="control-label">Brand Name</label>
+            <dx-text-box 
+              formControlName="brand_name" [readOnly]=true
+              placeholder="Enter Brand Name" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4 no-padding">
+            <dx-button   
+              [elementAttr]="{ class: 'btn btn-primary pull-left'}" 
+              style="margin-top:25px  !important;"  text="Search  Details"  
+              type="default" (onClick)="onSearchRegisteredProductApplication()">
+              <i class="fa fa-search"></i>Search Registered Products 
+            </dx-button>
+          </div>  
+        </div> 
+        <div class="col-lg-12 btn-margin-5">         
+          <br /> 
+          <input type="hidden" name="product_id" formControlName="product_id"/>
+          <input type="hidden" name="language_id" formControlName="language_id"/>
+          <input type="hidden" formControlName="id" />
+
+          <button type="submit" (submit)="onSavepromotionalProductparticulars()" 
+            [disabled]="!promotionalProductparticularsfrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Product Particulars Details
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- <div class="col-lg-12">
+      <dx-data-grid class="table row-border hover"  (onCellPrepared)="onCellPrepared($event)"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"   [paging]="{ enabled: true, pageSize: 1000 }" [showRowLines] = "true"  [wordWrapEnabled] = "true" [dataSource]="appDocumentsUploadData" keyExpr="id" 
+       (onToolbarPreparing)="onApplicationDocumentToolbar($event)">
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[1000]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+        <dxo-export [enabled]="true" fileName="appDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="250" caption="Action"  [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <div class="row">
+                  <dx-button text="Upload" (onClick)="funAddApplicationUploadDetails(data)"
+                      type="success" icon="upload">
+                    </dx-button> 
+                <dx-menu  type="success"  (onItemClick)="appDocumentsActionColClick($event,data)"  [items]="documentMenuItems"></dx-menu>
+                  
+              </div>
+          </div>
+      </dxi-column>
+        <dxi-column [groupIndex]="0"   dataField="document_requirement"></dxi-column>
+
+        <dxi-column dataField="file_name"></dxi-column>
+        
+        <dxi-column dataField="initial_file_name"></dxi-column>
+        
+        <dxi-column width=130 dataField="uploaded_on"></dxi-column>
+        <dxi-column dataField="remarks"></dxi-column>
+        <dxi-column  dataField="allowed_extensions" caption="Allowed File Types"></dxi-column>
+        <dxi-column width=130 dataField="is_mandatory" caption="Mandatory/Optional"></dxi-column>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+  </div> -->
+  </dx-scroll-view>
+</div>
+</dx-popup>
+
+
+
+
+<dx-popup class="popup" [width]="1050" [height]="450" 
+  [showTitle]="true" title="Registered Product Applications" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="isRegisteredProductsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+    <dx-scroll-view>
+    <div class="row no-padding">
+      <div class="col-lg-12 ">
+        <dx-data-grid class="table row-border hover" [remoteOperations]='true' 
+          [dataSource]="registeredProductsData" keyExpr="id" >
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="registeredProducts" 
+              [allowExportSelectedData]="true"></dxo-export>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column caption="Actions" name="command-editing" 
+            [allowFiltering]="false" [allowSorting]="false"
+            cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+              <a (click)="funSelectRegisteredProdcustsApp(data)" class="action-btn"><i class="fa fa-edit"></i>Select</a>&nbsp;
+            </div>
+          </dxi-column>
+            <dxi-column dataField="brand_name"></dxi-column>
+            <dxi-column dataField="common_name"></dxi-column>
+            <dxi-column dataField="classification_name"></dxi-column>
+            <dxi-column dataField="certificate_no"></dxi-column>
+            <dxi-column dataField="expiry_date"></dxi-column>
+            <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+            <dxi-column dataField="local_agent"></dxi-column>
+           
+            <dxo-paging [pageSize]="50"></dxo-paging>
+        </dx-data-grid>
+      </div>
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(65)" [height]=620 [showTitle]="true" title="New Manufacturer" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="isnewmanufacturerModalShow">
+  
+  <div *dxTemplate="let data of 'content'" class="row">
+    <dx-scroll-view>
+      <div class="col-lg-12">
+          <form enctype="multipart/form-data" role="form" [formGroup]="manufacturerFrm" (ngSubmit)="onAddManufacturerDetails()">
+
+              <div class="row">
+
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+                      <label class="control-label">Manufacturer Site Name</label>
+                      <dx-text-box formControlName="name">
+                      </dx-text-box>
+
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label class="control-label">Country</label>
+
+                      <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Region/City</label>
+
+                      <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                      </dx-select-box>
+
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">District(Optional)</label>
+
+                      <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Email Address</label>
+                      <dx-text-box formControlName="email_address" placeholder="Email Address">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Postal Address</label>
+                      <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Telephone No</label>
+
+                      <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label class="control-label col-lg-12">Mobile No</label>
+
+                      <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-lg-12">
+                    <label class="control-label">Physical Address</label>
+
+                    <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+                    </dx-text-area>
+                </div>
+                  <div class="col-lg-12 btn-margin-5">
+                      <br />
+                      <button type="submit" (submit)="onAddManufacturerDetails()" [disabled]="!manufacturerFrm.valid" class="btn btn-primary"><i
+                        class="fa fa-user"></i> Save Manufacturer</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Manufacturing Site Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufacturerSitePopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+      <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"   (onToolbarPreparing)="onManufacturerPreparing($event)" [dataSource]="manufacturersData" [remoteOperations]='true'   keyExpr="id">
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="true">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funcSelectManufacturer(data)"><i class="fa fa-edit"></i>Select Manufacturer</a>&nbsp;
+                    </div>
+                </dxi-column>
+                <dxi-column dataField="manufacturer_name"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+                <dxi-column dataField="region"></dxi-column>
+                <dxi-column dataField="district"></dxi-column>
+                <dxi-column dataField="physical_address"></dxi-column>
+                <dxi-column dataField="postal_address"></dxi-column>
+                <dxi-column dataField="email_address"></dxi-column>
+              
+                
+            <dxo-paging [pageSize]="50"></dxo-paging>
+      </dx-data-grid>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="400" [showTitle]="true" title="Add Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductGenericNamesModal">
+  
+    <div *dxTemplate="let data of 'content'" >
+          <form [formGroup]="addproductGenericNamesFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericName()">
+              <div class="col-lg-12">
+                <label class="control-label">Name</label>
+                <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+                </dx-text-box>
+              </div>
+              <div class="col-lg-12">
+                <label class="control-label">Description</label>
+                <dx-text-area formControlName="description" placeholder="description" >
+                </dx-text-area>
+              </div>
+              <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+              <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+
+              <div class="col-lg-12">
+                  <dx-button
+                      text="Save Details"
+                      type="success"
+                      icon="fa fa-plus"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (onClick)="onSaveNewGenericName()">
+                  </dx-button>
+                </div>
+            </form>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="900" [height]="450" [showTitle]="true" title="Documents Version Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentVersionPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true"   [allowColumnResizing]="true"  [columnHidingEnabled]="true" [dataSource]="premDocumentsVersionsUploadData" keyExpr="id"  (onToolbarPreparing)="onPremisesDocumentToolbar($event)">
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="premDocumentsVersionUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+          <dxo-selection mode="multiple"></dxo-selection>
+          <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column dataField="name"></dxi-column>
+          <dxi-column dataField="nodeType"></dxi-column>
+          <dxi-column dataField="node_ref"></dxi-column>
+          <dxi-column dataField="modifiedAt"></dxi-column>
+          <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+            cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                  
+                <dx-menu (onItemClick)="appDocumentsActionColClick($event,data)"  [items]="documentVersionMenuItems"></dx-menu>
+                
+              </div>
+          </dxi-column>
+          
+          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+  </div>
+</dx-popup>
+
+
+<dx-popup (onShown) = "onDocumentUploadPopupVisible()" class="popup" [width]="500" [height]="400" [showTitle]="true" title="Registration Documents Upload"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isDocumentUploadPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="appDocumentUploadfrm"
+      (ngSubmit)="onaplicationDocumentUpload()">
+      <div class="col-lg-12">
+        <label>Document Requirement</label>
+        <dx-select-box [readOnly] = true [dataSource]="appDocumentsUploadRequirement" valueExpr="document_requirement_id"  displayExpr="document_requirement"
+          placeholder="Select Document Upload" [searchEnabled]="true" formControlName="document_requirement_id">
+
+        </dx-select-box>
+      </div>
+     
+      <div class="col-lg-12">
+
+
+        <input formControlName="file" type="text" formControlName="file"  style="width: 70%;padding: 10px;margin: 8px 0px;display: inline-block;box-sizing: border-box;background: #f1f1f1;outline: 0;border-width: 0 0 2px;border-color: #4664ab;"placeholder="select file" name="uname" ><a style="background-color: #35BAF6;box-shadow: 0 2px 0 darkblue;color: white;padding: 10px;position: relative;width: 30%;text-decoration: none;margin: 8px 0px;"id="fileSelection">Select files</a>
+     
+      </div>
+      <div class="col-lg-12">
+        <label>Description</label>
+        <dx-text-area [height]="60" formControlName="description"  placeholder="Description"
+          [(value)]="value">
+        </dx-text-area>
+      </div>
+      <input type="hidden" formControlName="id"/>
+      <input type="hidden" formControlName="node_ref" />
+      <div class="col-lg-12">
+        <dx-button text="Upload Application Document" [disabled]="!appDocumentUploadfrm.valid" (onClick)="onaplicationDocumentUpload()"
+          type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+        </dx-button>
+      </div>
+    </form>
+  </div>
+</dx-popup>
+
+<dx-popup (onShown) = "onDocumentUploadPopupVisible()" class="popup" [width]="400"  [height]="120" [showTitle]="false" 
+  [dragEnabled]="true" [closeOnOutsideClick]="false" [(visible)]="isDocumentUploadProgressVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row">
+      <dx-progress-bar
+        #progressBar
+        id="progress-bar-status"
+        width="100%"
+        [class.complete]="progressBar.value == maxValue"
+        [min]="0"
+        [max]="maxValue"
+        [statusFormat]="format"
+        [value]="progress_value"
+      >
+      </dx-progress-bar>
+
+    </div>
+</div>
+</dx-popup>

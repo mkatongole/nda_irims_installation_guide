@@ -1,0 +1,313 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="headingFive">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#nomenclature_structure"
+        aria-expanded="false" aria-controls="nomenclature_structure">
+        2.3.S.1.1 Nomenclature 
+      </button>
+    </div>
+    <div id="nomenclature_structure" class="collapse show" aria-labelledby="headingFive" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onNomenclaturePreparing($event)"
+            [dataSource]="nomenclatureData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="international_non_proprietary_name"></dxi-column>
+            <dxi-column dataField="compendial_name"></dxi-column>
+            <dxi-column dataField="chemical_name"></dxi-column>
+            <dxi-column dataField="laboratory_code"></dxi-column>
+            <dxi-column dataField="other_non_proprietary_name"></dxi-column>
+            <dxi-column dataField="registry_no"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-headerdefined" id="heading9">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#structure"
+        aria-expanded="false" aria-controls="structure">
+        2.3.S.1.2 Structure 
+      </button>
+    </div>
+    <div id="structure" class="collapse show" aria-labelledby="heading9" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onStructurePreparing($event)"
+            [dataSource]="structureData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="structure"></dxi-column>
+            <dxi-column dataField="molecular_formular"></dxi-column>
+            <dxi-column dataField="relative_molecular_mass"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header" id="headingSix">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#general_properties"
+        aria-expanded="false" aria-controls="general_properties">
+        2.3.S.1.3 General Properties (name, manufacturer)
+      </button>
+    </div>
+    <div id="general_properties" class="collapse" aria-labelledby="headingSix" data-parent="#productInfo">
+      <div class="card-body no-padding">
+
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onGeneralPropertiesPreparing($event)"
+            [dataSource]="generalPropertiesData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="packagingFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column  [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                    <dx-button text="Edit" (click)="funcEditPackagingDetails(data)" 
+                      type="success" icon="edit">
+                      </dx-button> 
+                  <dx-button text="Delete" (click)="funcDeletePackDetails(data)" 
+                      type="danger" icon="delete">
+                  </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="solubilities"></dxi-column>
+            <dxi-column dataField="polymorphic_form"></dxi-column>
+            <dxi-column dataField="potential_isomerism"></dxi-column>
+            <dxi-column dataField="other_property"></dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Nomenclature" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isNomenclatureDetailsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="nomenclatureDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNomenclatureDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-6" >
+            <label class="control-label">(a)(Recommended) International Non-proprietary name (INN):</label>
+            <dx-text-box formControlName="international_non_proprietary_name" placeholder="(Recommended) International Non-proprietary name (INN):" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">(b)Compendial name, if relevant:</label>
+            <dx-text-box formControlName="compendial_name" placeholder="Compendial name, if relevant:" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">(c)Chemical name(s):</label>
+            <dx-text-box formControlName="chemical_name" placeholder="Chemical name(s):" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">(d)Company or laboratory code:</label>
+            <dx-text-box formControlName="laboratory_code" placeholder="Company or laboratory code:" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+        <div class="col-lg-6" >
+          <label class="control-label">(f)Chemical Abstracts Service (CAS) registry number:</label>
+          <dx-text-box formControlName="registry_no" placeholder="Chemical Abstracts Service (CAS) registry number:" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      </div>
+      <div class="col-lg-12" >
+          <label class="control-label">(e)Other non-proprietary name(s) (e.g. national name, USAN, BAN):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="other_non_proprietary_name" placeholder="Other non-proprietary name(s) (e.g. national name, USAN, BAN):"  class="custom-textarea">
+            </textarea>
+        </div>
+      <div class="col-lg-6 form-group " >
+
+          <input type="hidden" name="id"  formControlName = "id"/>
+      </div>
+          
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSaveNomenclatureDetails()" [disabled]="!nomenclatureDetailsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(70)" [height]="550" [showTitle]="true" title="Structure" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isStructureDetailsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="structureDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveStructureDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-12" >
+            <label class="control-label">(a) Structural formula, including relative and absolute stereochemistry:
+            </label>
+            <dx-html-editor height="200" formControlName="structure" placeholder="Structural formula, including relative and absolute stereochemistry:(b) Molecular formula:(c) Relative molecular mass">
+              <dxo-toolbar>
+                <dxi-item formatName="undo"></dxi-item>
+                <dxi-item formatName="redo"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="size"
+                  [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font size' } }"
+                ></dxi-item>
+                <dxi-item
+                  formatName="font"[formatValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                  [options]="{ inputAttr: { 'aria-label': 'Font family' } }"
+                ></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="bold"></dxi-item>
+                <dxi-item formatName="italic"></dxi-item>
+                <dxi-item formatName="strike"></dxi-item>
+                <dxi-item formatName="underline"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="alignLeft"></dxi-item>
+                <dxi-item formatName="alignCenter"></dxi-item>
+                <dxi-item formatName="alignRight"></dxi-item>
+                <dxi-item formatName="alignJustify"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item formatName="orderedList"></dxi-item>
+                <dxi-item formatName="bulletList"></dxi-item>
+                <dxi-item formatName="separator"></dxi-item>
+                <dxi-item
+                  formatName="header"
+                  [formatValues]="[false, 1, 2, 3, 4, 5]"
+                  [options]="{ inputAttr: { 'aria-label': 'Header' } }"
+                ></dxi-item>
+              </dxo-toolbar>
+              <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label"> (b) Molecular formula:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="molecular_formular" 
+              placeholder="Molecular formula:"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label"> (c) Relative molecular mass:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="relative_molecular_mass" 
+              placeholder="Relative Molecular Mass"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+
+              <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+          <div class="col-lg-12">
+            <button type="submit" (submit)="onSaveStructureDetails()" [disabled]="!structureDetailsFrm.valid"
+              class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+            </button>
+          </div>
+        </div>
+      </form>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="General Properties (name, manufacturer)" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isGeneralPropertiesWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="generalPropertiesDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveActiveGeneralPropertiesDetails()">
+      <div class="row" style="background: #fff;">
+      <div class="col-lg-12" >
+            <label class="control-label">Physical description (e.g. appearance, colour, physical state):</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="physical_description" placeholder="Contact information" class="custom-textarea">
+            </textarea>
+          </div>
+
+        <div class="col-lg-12" >
+          <label class="control-label">Solubility:</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="solubilities" placeholder="Solubility:"  class="custom-textarea">
+            </textarea>
+        </div>
+
+        <div class="col-lg-12" >
+          <label class="control-label">Polymorphic form</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="polymorphic_form" placeholder="Polymorphic form:"  class="custom-textarea">
+            </textarea>
+        </div>
+        <div class="col-lg-12" >
+          <label class="control-label">Potential isomerism </label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="potential_isomerism" placeholder="Potential isomerism :"  class="custom-textarea">
+            </textarea>
+        </div>
+        <div class="col-lg-12" >
+          <label class="control-label">(d)Describe Others Properties</label>
+            <textarea  (input)="adjustTextAreaHeight($event)"formControlName="other_property" placeholder="Describe Others Properties"  class="custom-textarea">
+            </textarea>
+        </div>
+
+          <div class="col-lg-6 form-group " >
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+        <div class="col-lg-12">
+          <button type="submit" (submit)="onSaveActiveGeneralPropertiesDetails()" 
+            [disabled]="!generalPropertiesDetailsFrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Details
+        </button>
+      </div>
+    </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+

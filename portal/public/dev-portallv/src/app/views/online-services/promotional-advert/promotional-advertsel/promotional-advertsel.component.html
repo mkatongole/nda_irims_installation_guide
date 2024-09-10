@@ -1,0 +1,71 @@
+<div class="row wizard-content">
+  <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onPromotionalMaterialsDetails($event)"
+    [dataSource]="apppromMaterialsDetailData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="dtpremOtherDetailsData" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column dataField="advertisement_material"caption='Type Advertisements Material'></dxi-column>
+    <dxi-column dataField="advert_language"></dxi-column>
+    <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a (click)="funcEditPromotionalMaterialsDetails(data)"><i class="fa fa-edit"></i>Edit</a>&nbsp;
+        <a (click)="funcDeletePromotionalMaterialsDetails(data)"><i class="fa fa-trash"></i>Delete</a>
+      </div>
+    </dxi-column>
+  </dx-data-grid>
+</div>
+
+<dx-popup class="popup" [width]="1000" [height]="'auto'" 
+  [showTitle]="true" title="Promotional Application: Promotional Materials"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPromotionalMaterialswinshow">
+  <div *dxTemplate="let data of 'content'">
+    <form enctype="multipart/form-data" role="form" 
+      [formGroup]="promotionalMaterialsfrm"
+      (ngSubmit)="onSavepromotionalMaterialsDetails()">
+      <div class="col-lg-12 row">
+       <div class="col-lg-6" >
+          <label class="control-label">Type Advertisements Material (Select)
+          </label>
+          <dx-select-box
+              [items]="promotionalMaterialsData"
+              formControlName="promotions_material_id"
+              placeholder="Type of Advertisements Material"
+              (onSelectionChanged)= "OnSelectAdvertMaterial($event)"
+              valueExpr="id" [readOnly]="is_readonly" 
+              [searchEnabled]="true"
+              displayExpr="name">
+          </dx-select-box>
+        </div> 
+        <div class="col-lg-6" *ngIf="is_other_advert_materials">
+          <label class="control-label">Other Type of Material(please specify)
+          </label>
+         <dx-text-box formControlName="other_advert_materials" 
+            placeholder="Other Type of Material(please specify)" 
+       >
+          </dx-text-box>
+        </div>
+        <div class="col-lg-6">
+            <label class="control-label">Language of Publication or Advert</label>
+            <dx-select-box [dataSource]="languageData" valueExpr="id" 
+              displayExpr="name" [searchEnabled]="true" placeholder="Language of Publication or Advert"formControlName="language_id">
+            </dx-select-box>
+            <input type="hidden" formControlName="application_id" />
+            <input type="hidden"   formControlName="id" />
+        </div>
+        <div class="col-lg-12 btn-margin-5">
+            <br/>
+          <button type="submit" (submit)="onSavepromotionalMaterialsDetails()" 
+            [disabled]="!promotionalMaterialsfrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Promotion Materials
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-popup>

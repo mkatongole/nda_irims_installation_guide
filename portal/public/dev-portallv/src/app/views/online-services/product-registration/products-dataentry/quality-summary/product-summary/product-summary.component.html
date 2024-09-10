@@ -1,0 +1,147 @@
+
+<div class="accordion" id="productInfo">
+  <div class="card">
+    <div class="card-headerdefined" id="heading4">
+
+      <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#product_summary"
+        aria-expanded="false" aria-controls="product_summary">
+        Summary of product information:
+      </button>
+    </div>
+    <div id="product_summary" class="collapse show" aria-labelledby="heading4" data-parent="#productInfo">
+      <div class="card-body no-padding">
+        <div class="no-padding">
+          <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onProdSummaryPreparing($event)"
+            [dataSource]="drugsSummaryData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ingredientsFile" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditIngredientsDetails(data)" 
+                  type="success" icon="edit">
+                </dx-button> 
+                <dx-button text="Delete" (click)="funcDeleteIngredientsDetails(data)" 
+                  type="danger" icon="delete">
+                </dx-button> 
+              </div>
+            </dxi-column>
+            <dxi-column dataField="non_proprietary_name(FPP)"></dxi-column>
+            <dxi-column dataField="proprietary_name(FPP)"></dxi-column>
+            <dxi-column dataField="international_non_proprietary_name(API)"></dxi-column>
+            <dxi-column dataField="applicant_name_address"></dxi-column>
+            <dxi-column dataField="dosage_form"></dxi-column>
+            <dxi-column dataField="reference_no"></dxi-column>
+            <dxi-column dataField="strength"></dxi-column>
+            <dxi-column dataField="route_of_admnistration"></dxi-column>
+            <dxi-column dataField="proposed_indication"></dxi-column>
+            <dxi-column dataField="contact_information"></dxi-column>
+
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="Summary of Product information" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isSummaryProductDetailsWinshow">
+  <div *dxTemplate="let data of 'content'" class="row">
+  <dx-scroll-view>
+    <form [formGroup]="summaryProductDetailsFrm" enctype="multipart/form-data" role="form" (ngSubmit)="onSavesummaryProductDetails()">
+      <div class="row" style="background: #fff;">
+          <div class="col-lg-6" >
+            <label class="control-label">Non-proprietary name of the finished pharmaceutical product (FPP)</label>
+            <dx-text-box formControlName="non_proprietary_name" placeholder="Non-proprietary name of the finished pharmaceutical product (FPP)" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">Proprietary name of the finished pharmaceutical product (FPP)</label>
+            <dx-text-box [readOnly]= "true" formControlName="brand_name" placeholder="Proprietary name of the finished pharmaceutical product (FPP)" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">International non-proprietary name(s) of the 
+              active pharmaceutical ingredient(s) (API(s)), including form (salt, hydrate, polymorph)
+          </label>
+            <dx-text-box formControlName="international_non_proprietary_name" placeholder="International non-proprietary name(s)International non-proprietary name(s)" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+
+          <div class="col-lg-6 form-group " >
+            <label class="control-label">Applicant name and address</label>
+
+            <dx-text-box [readOnly]= "true" formControlName="local_agent_name" placeholder="Applicant name and address" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          
+          <div class="col-lg-6">
+            <label class="control-label">Dosage Form</label>
+            <dx-select-box [dataSource]="dosageFormsData" [readOnly]= "true" valueExpr="id" 
+              displayExpr="name" [searchEnabled]="true"
+              placeholder=" Dosage Form" formControlName="dosage_form_id">
+            </dx-select-box>
+          </div>
+
+          <div class="col-lg-6 form-group " >
+            <label class="control-label">Reference Number(s)</label>
+
+            <dx-text-box [readOnly]= "true" formControlName="tracking_no" placeholder="Reference Number(s)" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6" >
+
+            <label class="control-label">Strength(s)</label>
+            <dx-text-box [readOnly]= "true" formControlName="product_strength" placeholder="Strength(s)" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Route Of Administration</label>
+            <dx-tag-box
+                [items]="routeOfAdministrationData"
+                formControlName="route_of_administration_id"
+                placeholder="Route of Administrations..."
+                valueExpr="id"
+                [showSelectionControls]="true"
+                applyValueMode="useButtons"
+                displayExpr="name"
+                [readOnly]= "true"
+                class="custom-dx-tag-box">
+            </dx-tag-box>
+          </div>
+          <div class="col-lg-6" >
+            <label class="control-label">Proposed indication(s)</label>
+            <textarea (input)="adjustTextAreaHeight($event)" formControlName="indication" placeholder="Proposed indication(s)"  class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6" >
+            <label class="control-label">Contact information</label>
+            <textarea  [readOnly]= "true" (input)="adjustTextAreaHeight($event)"formControlName="contact_information" placeholder="Contact information" class="custom-textarea">
+            </textarea>
+          </div>
+          <div class="col-lg-6 form-group " >
+
+            <input type="hidden" name="id"  formControlName = "id"/>
+          </div>
+          
+      <div class="col-lg-12">
+        <button type="submit" (submit)="onSavesummaryProductDetails()" [disabled]="!summaryProductDetailsFrm.valid"
+          class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Sample Details
+        </button>
+      </div>
+      </div>
+    </form>
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+
+

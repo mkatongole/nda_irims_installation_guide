@@ -1,0 +1,364 @@
+
+<div class="accordion" id="clinicalInfo">
+    <div class="card">
+        <div class="card-headerdefined" id="headingA">
+    
+          <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#summary_ammendment"
+            aria-expanded="false" aria-controls="clinical_investigators">
+            Summary of amendments during report period (if any)
+          </button>
+        </div>
+        <div id="summary_ammendment" class="collapse show" aria-labelledby="headingA" data-parent="#clinicalInfo">
+          <div class="card-body no-padding">
+            <div class="no-padding">
+    
+                <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onSummaryAmmendmentPreparing($event)"
+                  [dataSource]="summaryActivityDetailsData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="Investigators" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <dx-button
+                          text="Edit"
+                          type="success"
+                          icon="fa fa-edit"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcEditSummaryDetails(data)">
+                      </dx-button>
+                       <dx-button
+                          text="Delete"
+                          type="danger"
+                          icon="fa fa-trash"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcDeleteOtherDetails(data, 'tra_clinicaltrial_summary_activity')">
+                        </dx-button>
+                      </div>
+                  </dxi-column>
+                  <dxi-column dataField="type_of_ammendment"></dxi-column>
+                  <dxi-column dataField="summary_of_ammendment"></dxi-column>
+                  <dxi-column dataField="date_of_approval_by"></dxi-column>
+                </dx-data-grid>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+          <div class="card-headerdefined" id="headingB">
+            <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#lapse_report"
+              aria-expanded="false" aria-controls="lapse_report">
+              Outline any regulatory lapses during the report period (if any)
+            </button>
+          </div>
+          <div id="lapse_report" class="collapse show" aria-labelledby="headingB" data-parent="#clinicalInfo">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover" [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onRegulatoryLapse($event)"
+                    [dataSource]="regulatoryLapseData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="Monitors" [allowExportSelectedData]="true"></dxo-export>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <dx-button
+                          text="Edit"
+                          type="success"
+                          icon="fa fa-edit"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcEditRegulatoryLapseDetails(data)">
+                      </dx-button>
+                       <dx-button
+                          text="Delete"
+                          type="danger"
+                          icon="fa fa-trash"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcDeleteOtherDetails(data, 'tra_clinicaltrial_regulatorylapse')">
+                        </dx-button>
+                      </div>
+                  </dxi-column>
+                    <dxi-column dataField="regulatory_lapse" caption="Regulatory Lapse"></dxi-column>
+                    <dxi-column dataField="date_of_occurrance"></dxi-column>
+                    <dxi-column dataField="reason"></dxi-column>
+                  </dx-data-grid>
+      
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-headerdefined" id="headingC">
+      
+            <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#clinical_deviation"
+              aria-expanded="false" aria-controls="clinical_deviation">
+             Provide an outline of deviations during the reporting period (if any)
+            </button>
+          </div>
+          <div id="clinical_deviation" class="collapse show" aria-labelledby="headingC" data-parent="#clinicalInfo">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover" [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onDeviationReportingPreparing($event)"
+                    [dataSource]="deviationReportData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="Monitors" [allowExportSelectedData]="true"></dxo-export>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <dx-button
+                          text="Edit"
+                          type="success"
+                          icon="fa fa-edit"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcEditDeviationDetails(data)">
+                      </dx-button>
+                       <dx-button
+                          text="Delete"
+                          type="danger"
+                          icon="fa fa-trash"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcDeleteOtherDetails(data, 'tra_clinicaltrial_deviationrprt')">
+                        </dx-button>
+                      </div>
+                  </dxi-column>
+                    <dxi-column dataField="deviation" caption="Deviation"></dxi-column>
+                    <dxi-column dataField="date_of_occurrance"></dxi-column>
+                    <dxi-column dataField="CAPA"></dxi-column>
+                  </dx-data-grid>
+      
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-headerdefined" id="headingD">
+            <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#clinical_audits"
+              aria-expanded="false" aria-controls="clinical_audits">
+            Outline any audits/ inspections by regulatory bodies (e.g. RECs, UNCST) during the reporting period as well as the outcome
+            </button>
+          </div>
+          <div id="clinical_audits" class="collapse show" aria-labelledby="headingD" data-parent="#clinicalInfo">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover" [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onInspectionBodiesPreparing($event)"
+                    [dataSource]="inspectionAuditData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="Monitors" [allowExportSelectedData]="true"></dxo-export>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                      <dx-button
+                          text="Edit"
+                          type="success"
+                          icon="fa fa-edit"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcEditInspectionReportDetails(data)">
+                      </dx-button>
+                       <dx-button
+                          text="Delete"
+                          type="danger"
+                          icon="fa fa-trash"  [disabled]="isReadOnly"
+                          [elementAttr]="{  class: 'pull-left' }"
+                          (onClick)="funcDeleteOtherDetails(data, 'tra_clinicaltrial_inspectionrprt')">
+                        </dx-button>
+                      </div>
+                  </dxi-column>
+                    <dxi-column dataField="regulatory_body" caption="Regulatory Body"></dxi-column>
+                    <dxi-column dataField="date_of_inspection"></dxi-column>
+                    <dxi-column dataField="outcome"></dxi-column>
+                  </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="Summary of amendments during report"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="SummaryAmmendmentDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form"[formGroup]="summaryAmmendmentFrm"
+      (ngSubmit)="onsaveSummaryActivity()">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <label class="col-lg-12">Type of amendment</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="type_of_ammendment" 
+            class="custom-textarea" >
+          </textarea>
+        </div>
+        <div class="col-lg-12">
+          <label class="col-lg-12">Brief summary of amendment</label>
+            <textarea  (input)="adjustTextAreaHeight($event)" formControlName="summary_of_ammendment" class="custom-textarea" >
+          </textarea>
+        </div>
+        <div class="col-lg-4">
+          <label class="control-label">Date of approval by (REC;NDA;)</label>
+            <dx-date-box
+              [type]="'date'"
+              [formControlName]="'date_of_approval_by'"
+            >
+            </dx-date-box>
+        </div>
+        <input type="hidden"  formControlName="id"/>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveSummaryActivity()" [disabled]="!summaryAmmendmentFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="Regulatory lapses during the report period "
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="RegulatoryLapseDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="regulatoryLapseStudyFrm"
+      (ngSubmit)="onsaveRegulatorystudyLapse()">
+
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Regulatory Lapse and Study Conduct</label>
+          <dx-select-box [dataSource]="regulatoryStudyData" valueExpr="id" displayExpr="name" [searchEnabled]="true" formControlName="lapse_study_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Dates of Occurrence</label>
+            <dx-date-box
+              [type]="'date'"
+              [formControlName]="'date_of_occurrance'"
+            >
+            </dx-date-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="col-lg-12">Reason</label>
+            <textarea  (input)="adjustTextAreaHeight($event)" formControlName="reason" class="custom-textarea" >
+          </textarea>
+        </div>
+        <input type="hidden"  formControlName="id"/>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveRegulatorystudyLapse()" [disabled]="!regulatoryLapseStudyFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="outline of deviations during the reporting "
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="DeviationReportingDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="deviationReportingFrm"
+      (ngSubmit)="onsaveDeviationReport()">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <label class="col-lg-12">Deviation</label>
+          <textarea  (input)="adjustTextAreaHeight($event)" formControlName="deviation" 
+            class="custom-textarea" >
+          </textarea>
+        </div>
+        <div class="col-lg-12">
+          <label class="col-lg-12">CAPA</label>
+            <textarea  (input)="adjustTextAreaHeight($event)" formControlName="capa" class="custom-textarea" >
+          </textarea>
+        </div>
+        <div class="col-lg-4">
+          <label class="control-label">Dates of Occurrence</label>
+            <dx-date-box
+              [type]="'date'"
+              [formControlName]="'date_of_occurrance'"
+            >
+            </dx-date-box>
+        </div>
+        <input type="hidden"  formControlName="id"/>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveDeviationReport()" [disabled]="!deviationReportingFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="inspections by regulatory bodies  "
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="InspectionReportingDetailsWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="inspectionRegulatoryReportingFrm"
+      (ngSubmit)="onsaveInspectionReport()">
+
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Regulatory body</label>
+          <dx-text-box formControlName="regulatory_body" placeholder="Regulatory body">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Date of Inspection</label>
+
+          <dx-text-box formControlName="date_of_inspection" placeholder="Date of Inspection">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="col-lg-12">Outcome</label>
+            <textarea  (input)="adjustTextAreaHeight($event)" formControlName="outcome" class="custom-textarea" >
+          </textarea>
+        </div>
+        <input type="hidden"  formControlName="id"/>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveInspectionReport()" [disabled]="!inspectionRegulatoryReportingFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dx-scroll-view>
+</div>
+</dx-popup>

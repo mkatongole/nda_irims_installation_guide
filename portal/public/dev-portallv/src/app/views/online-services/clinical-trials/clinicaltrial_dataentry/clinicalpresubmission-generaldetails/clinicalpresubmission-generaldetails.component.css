@@ -1,0 +1,38 @@
+/* Add styles for the custom-textarea class */
+.custom-textarea {
+  border: 1px solid #ccc; /* Match the border style of dx-text-area */
+  padding: 10px; /* Match the padding of dx-text-area */
+  font-size: 14px; /* Match the font size of dx-text-area */
+  line-height: 1.4; /* Match the line height of dx-text-area */
+  width: 100%; /* Match the width of the parent container */
+  height: auto; /* Allow the textarea to grow in height as needed */
+  resize: none; /* Disable textarea resizing */
+  background-color: #fff; /* Match the background color of dx-text-area */
+  border-radius: 2px; /* Match the border-radius of dx-text-area */
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; /* Match transition effects of dx-text-area */
+}
+
+.custom-textarea:focus {
+  border-color: #4CAF50 !important; /* Change border color to indicate success */
+  outline: 0; /* Remove the outline */
+}
+/* Add the success border color when the field is clicked */
+
+/* Add this to your global or component-specific CSS */
+.dx-validation-message {
+  display: none;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.warning-message {
+  animation: blink 1s infinite; /* Adjust the duration as needed */
+  color: red; /* Set the text color to red for a danger effect */
+  font-weight: bold; /* Optionally, make the text bold */
+
+}
+
+

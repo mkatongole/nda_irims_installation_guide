@@ -1,0 +1,11 @@
+{
+    "name": "GvpApplications",
+    "alias": "gvpapplications",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GvpApplications\\Providers\\GvpApplicationsServiceProvider"
+    ],
+    "files": []
+}
